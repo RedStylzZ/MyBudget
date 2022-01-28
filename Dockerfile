@@ -1,6 +1,6 @@
 FROM openjdk:17
 
-MAINTAINER Tizian tizianappler@yahoo.de
+LABEL Tizian="tizianappler@yahoo.de"
 
 ADD target/MyBudget.jar MyBudget.jar
 
