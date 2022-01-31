@@ -22,7 +22,6 @@ public class JWTService {
     private String secret;
 
     public String createToken(MongoUser user) {
-        LOG.debug("SECRET: " + secret);
         return Jwts.builder()
                 .setClaims(new HashMap<>())
                 .setSubject(user.getUsername())
