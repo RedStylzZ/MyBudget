@@ -25,7 +25,7 @@ public class CategoryController {
         this.userService = userService;
     }
 
-    private MongoUser getUser(Principal principal) {
+    private MongoUser getUser(Principal principal) throws UsernameNotFoundException {
         if (principal != null) {
             return userService.loadUserByUsername(principal.getName());
         }
@@ -51,7 +51,7 @@ public class CategoryController {
         try {
             MongoUser user = getUser(principal);
             return service.addCategory(user, name);
-        } catch (UsernameNotFoundException e) {
+        } catch (Exception e) {
             return List.of();
         }
     }
@@ -65,7 +65,7 @@ public class CategoryController {
         try {
             MongoUser user = getUser(principal);
             return service.renameCategory(user, id, name);
-        } catch (UsernameNotFoundException e) {
+        } catch (Exception e) {
             return List.of();
         }
     }
@@ -78,7 +78,7 @@ public class CategoryController {
         try {
             MongoUser user = getUser(principal);
             return service.deleteCategory(user, id);
-        } catch (UsernameNotFoundException e) {
+        } catch (Exception e) {
             return List.of();
         }
     }
