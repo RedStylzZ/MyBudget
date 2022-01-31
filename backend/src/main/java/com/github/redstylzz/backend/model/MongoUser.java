@@ -1,6 +1,6 @@
-package com.github.redstylzz.backend.models;
+package com.github.redstylzz.backend.model;
 
-import com.github.redstylzz.backend.models.dto.MongoUserDTO;
+import com.github.redstylzz.backend.model.dto.MongoUserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

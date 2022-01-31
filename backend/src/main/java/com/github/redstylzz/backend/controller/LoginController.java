@@ -1,8 +1,8 @@
-package com.github.redstylzz.backend.controllers;
+package com.github.redstylzz.backend.controller;
 
-import com.github.redstylzz.backend.models.MongoUser;
-import com.github.redstylzz.backend.models.dto.MongoUserDTO;
-import com.github.redstylzz.backend.services.LoginService;
+import com.github.redstylzz.backend.model.MongoUser;
+import com.github.redstylzz.backend.model.dto.MongoUserDTO;
+import com.github.redstylzz.backend.service.LoginService;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.web.bind.annotation.PostMapping;

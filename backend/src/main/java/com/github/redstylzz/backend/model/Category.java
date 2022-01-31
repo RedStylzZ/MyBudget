@@ -1,4 +1,4 @@
-package com.github.redstylzz.backend.models;
+package com.github.redstylzz.backend.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

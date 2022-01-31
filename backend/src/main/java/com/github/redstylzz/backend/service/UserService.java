@@ -1,7 +1,7 @@
-package com.github.redstylzz.backend.services;
+package com.github.redstylzz.backend.service;
 
-import com.github.redstylzz.backend.models.MongoUser;
-import com.github.redstylzz.backend.repositories.IMongoUserRepository;
+import com.github.redstylzz.backend.model.MongoUser;
+import com.github.redstylzz.backend.repository.IMongoUserRepository;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.http.HttpStatus;

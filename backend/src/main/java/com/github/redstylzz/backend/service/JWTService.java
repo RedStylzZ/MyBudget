@@ -1,6 +1,6 @@
-package com.github.redstylzz.backend.services;
+package com.github.redstylzz.backend.service;
 
-import com.github.redstylzz.backend.models.MongoUser;
+import com.github.redstylzz.backend.model.MongoUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

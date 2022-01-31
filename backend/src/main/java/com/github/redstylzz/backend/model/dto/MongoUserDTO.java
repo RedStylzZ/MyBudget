@@ -1,4 +1,4 @@
-package com.github.redstylzz.backend.models.dto;
+package com.github.redstylzz.backend.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

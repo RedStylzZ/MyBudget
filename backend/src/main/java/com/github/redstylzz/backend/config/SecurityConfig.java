@@ -1,4 +1,4 @@
-package com.github.redstylzz.backend.configs;
+package com.github.redstylzz.backend.config;
 
 import com.github.redstylzz.backend.filter.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;

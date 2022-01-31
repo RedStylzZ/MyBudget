@@ -1,7 +1,7 @@
 package com.github.redstylzz.backend.filter;
 
-import com.github.redstylzz.backend.services.JWTService;
-import com.github.redstylzz.backend.services.MongoUserService;
+import com.github.redstylzz.backend.service.JWTService;
+import com.github.redstylzz.backend.service.MongoUserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
