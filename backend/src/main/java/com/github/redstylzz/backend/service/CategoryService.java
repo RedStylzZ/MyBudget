@@ -32,7 +32,7 @@ public class CategoryService {
         return repository.findAllByUserID(user.getId());
     }
 
-    public List<Category> addCategory(MongoUser user, String categoryName) {
+    public List<Category> addCategory(MongoUser user, String categoryName) throws CategoryAlreadyExistException {
         LOG.debug("Adding category " + categoryName + " for user: " + user.getUsername());
         categories = repository.findAllByUserID(user.getId());
 
@@ -53,7 +53,7 @@ public class CategoryService {
         return categories;
     }
 
-    public List<Category> renameCategory(MongoUser user, String categoryID, String name) {
+    public List<Category> renameCategory(MongoUser user, String categoryID, String name) throws CategoryAlreadyExistException, CategoryDoesNotExistException {
         LOG.debug("Renaming category: " + categoryID + " from user: " + user.getUsername());
         LOG.debug("Loading category with ID: " + categoryID);
         Category category = repository.findByUserIDAndId(user.getId(), categoryID);
