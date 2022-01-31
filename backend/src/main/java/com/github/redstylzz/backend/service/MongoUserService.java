@@ -20,7 +20,7 @@ public class MongoUserService implements UserDetailsService {
         this.repository = repository;
     }
 
-    public UserDetails loadUserByID(String id) {
+    public MongoUser loadUserByID(String id) {
         MongoUser user = repository.findMongoUserById(id);
         LOG.debug("Fetching user from id: " + id);
         if (user == null) {
@@ -32,7 +32,7 @@ public class MongoUserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public MongoUser loadUserByUsername(String username) throws UsernameNotFoundException {
         MongoUser user = repository.findMongoUserByUsername(username);
         LOG.debug("Fetching user: " + username);
         if (user == null) {
