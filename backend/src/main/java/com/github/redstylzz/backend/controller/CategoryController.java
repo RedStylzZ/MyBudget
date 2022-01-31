@@ -6,9 +6,8 @@ import com.github.redstylzz.backend.service.CategoryService;
 import com.github.redstylzz.backend.service.MongoUserService;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -26,16 +25,28 @@ public class CategoryController {
     }
 
     private MongoUser getUser(Principal principal) {
-        return userService.loadUserByUsername(principal.getName());
+        if (principal != null) {
+            return userService.loadUserByUsername(principal.getName());
+        }
+        LOG.debug("Principal is null");
+        throw new UsernameNotFoundException("Principal is null");
     }
 
     @GetMapping
     public List<Category> getCategories(Principal principal) {
-        if (principal != null) {
+        try {
             MongoUser user = getUser(principal);
             return service.getCategories(user);
+        } catch (UsernameNotFoundException e) {
+            return null;
         }
-        LOG.debug("Principal is null");
-        return null;
+    }
+
+    @PutMapping
+    public List<Category> addCategory(Principal principal, @RequestBody String name) {
+        if (name == null || name.isBlank()) return null;
+
+        MongoUser user = getUser(principal);
+        return service.addCategory(user, name);
     }
 }
