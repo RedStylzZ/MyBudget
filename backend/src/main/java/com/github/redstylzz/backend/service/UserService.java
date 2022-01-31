@@ -50,7 +50,7 @@ public class UserService {
                             .build();
 
                     repository.save(newUser);
-                    LOG.info("Added new User: " + newUser);
+                    LOG.debug("Added new User: " + newUser);
                     return jwtService.createToken(newUser);
                 }
             } else {
