@@ -1,5 +1,7 @@
 package com.github.redstylzz.backend.service;
 
+import com.github.redstylzz.backend.exception.CategoryAlreadyExistException;
+import com.github.redstylzz.backend.exception.CategoryDoesNotExistException;
 import com.github.redstylzz.backend.model.Category;
 import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.repository.ICategoryRepository;
@@ -21,17 +23,17 @@ public class CategoryService {
     }
 
 
+    private boolean categoryExistent(String name) {
+        return categories.stream().anyMatch(category -> category.getName().equals(name));
+    }
+
     public List<Category> getCategories(MongoUser user) {
         LOG.debug("Loading user categories from: " + user.getUsername());
         return repository.findAllByUserID(user.getId());
     }
 
-    private boolean categoryExistent(String name) {
-        return categories.stream().anyMatch(category -> category.getName().equals(name));
-    }
-
     public List<Category> addCategory(MongoUser user, String categoryName) {
-        LOG.debug("Adding Category " + categoryName + " for user: " + user.getUsername());
+        LOG.debug("Adding category " + categoryName + " for user: " + user.getUsername());
         categories = repository.findAllByUserID(user.getId());
 
         if (!categoryExistent(categoryName)) {
@@ -43,12 +45,41 @@ public class CategoryService {
                     .build();
             repository.save(category);
             categories.add(category);
+            LOG.debug("Added category: " + categoryName);
         } else {
             LOG.debug("Category already existent");
+            throw new CategoryAlreadyExistException("A category with this name already exists: " + categoryName);
         }
         return categories;
     }
 
+    public List<Category> renameCategory(MongoUser user, String categoryID, String name) {
+        LOG.debug("Renaming category: " + categoryID + " from user: " + user.getUsername());
+        LOG.debug("Loading category with ID: " + categoryID);
+        Category category = repository.findByUserIDAndId(user.getId(), categoryID);
+
+        if (category != null) {
+            if (!repository.existsByUserIDAndName(user.getId(), name)){
+                category.setName(name);
+                repository.save(category);
+                LOG.debug("Renamed category with ID: " + categoryID);
+            } else {
+                LOG.debug("A repository with this name already exists");
+                throw new CategoryAlreadyExistException("A category with this name already exists: " + name);
+            }
+        } else {
+            LOG.debug("Category does not exist");
+            throw new CategoryDoesNotExistException("No category with ID: " + categoryID);
+        }
+        return repository.findAllByUserID(user.getId());
+    }
+
+    // TODO Remove associated payments
+    public List<Category> deleteCategory(MongoUser user, String categoryID) {
+        LOG.debug("Deleting category with ID: " + categoryID + " from user: " + user.getUsername());
+        repository.deleteById(categoryID);
+        return repository.findAllByUserID(user.getId());
+    }
 
 
 }
