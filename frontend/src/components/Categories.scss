@@ -1,0 +1,13 @@
+.categories {
+    display: flex;
+    flex-direction: column;
+    background: #1A1A1A;
+    width: 15rem;
+    height: 100vh;
+    margin-top: 0;
+    border-radius: 10px;
+
+    h1, h2 {
+        margin: 0;
+    }
+}
