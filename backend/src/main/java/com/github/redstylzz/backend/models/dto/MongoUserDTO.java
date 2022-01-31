@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MongoUserDTO {
-    String id;
     String username;
     String password;
 }
