@@ -33,7 +33,7 @@ public class UserService {
         return authorities.stream().anyMatch(a -> a.getAuthority().equals(MongoUserService.ROLE_ADMIN));
     }
 
-    public String addUser(Principal principal, UserDetails user) {
+    public String addUser(Principal principal, UserDetails user) throws ResponseStatusException{
         try {
             if (principal != null) {
                 final UserDetails mongoUser = mongoUserService.loadUserByUsername(principal.getName());
