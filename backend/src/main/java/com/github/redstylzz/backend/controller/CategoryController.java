@@ -2,6 +2,7 @@ package com.github.redstylzz.backend.controller;
 
 import com.github.redstylzz.backend.model.Category;
 import com.github.redstylzz.backend.model.MongoUser;
+import com.github.redstylzz.backend.model.dto.InputDTO;
 import com.github.redstylzz.backend.service.CategoryService;
 import com.github.redstylzz.backend.service.MongoUserService;
 import org.apache.juli.logging.Log;
@@ -38,15 +39,49 @@ public class CategoryController {
             MongoUser user = getUser(principal);
             return service.getCategories(user);
         } catch (UsernameNotFoundException e) {
-            return null;
+            return List.of();
         }
     }
 
     @PutMapping
-    public List<Category> addCategory(Principal principal, @RequestBody String name) {
-        if (name == null || name.isBlank()) return null;
+    public List<Category> addCategory(Principal principal, @RequestBody InputDTO dto) {
+        String name = dto.getName();
+        if (name == null || name.isBlank()) return List.of();
 
-        MongoUser user = getUser(principal);
-        return service.addCategory(user, name);
+        try {
+            MongoUser user = getUser(principal);
+            return service.addCategory(user, name);
+        } catch (UsernameNotFoundException e) {
+            return List.of();
+        }
     }
+
+    @PostMapping
+    public List<Category> renameCategory(Principal principal, @RequestBody InputDTO dto) {
+        String id = dto.getId();
+        String name = dto.getName();
+        if ((id == null || id.isBlank()) || (name == null || name.isBlank())) return List.of();
+
+        try {
+            MongoUser user = getUser(principal);
+            return service.renameCategory(user, id, name);
+        } catch (UsernameNotFoundException e) {
+            return List.of();
+        }
+    }
+
+    @DeleteMapping
+    List<Category> deleteCategory(Principal principal, @RequestBody InputDTO dto) {
+        String id = dto.getId();
+        if (id == null || id.isBlank()) return List.of();
+
+        try {
+            MongoUser user = getUser(principal);
+            return service.deleteCategory(user, id);
+        } catch (UsernameNotFoundException e) {
+            return List.of();
+        }
+    }
+
+
 }
