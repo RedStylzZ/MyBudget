@@ -12,6 +12,7 @@ import org.mockito.MockedStatic;
 import java.util.List;
 import java.util.UUID;
 
+import static com.github.redstylzz.backend.model.TestDataProvider.mockUUID;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -93,12 +94,5 @@ class CategoryServiceTest {
 
         verify(repository).deleteById(anyString());
         verify(repository).findAllByUserID(anyString());
-    }
-
-    UUID mockUUID() {
-        UUID randUUID = UUID.randomUUID();
-        MockedStatic<UUID> uuidMock = mockStatic(UUID.class);
-        uuidMock.when(UUID::randomUUID).thenReturn(randUUID);
-        return randUUID;
     }
 }

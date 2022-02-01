@@ -1,6 +1,11 @@
 package com.github.redstylzz.backend.model;
 
+import org.mockito.MockedStatic;
+
 import java.util.List;
+import java.util.UUID;
+
+import static org.mockito.Mockito.mockStatic;
 
 public class TestDataProvider {
     public static MongoUser testUser(String id,
@@ -47,5 +52,12 @@ public class TestDataProvider {
 
     public static Category testCategory() {
         return testCategory("44", "24", "Tizian", 0.0);
+    }
+
+    public static UUID mockUUID() {
+        UUID randUUID = UUID.randomUUID();
+        MockedStatic<UUID> uuidMock = mockStatic(UUID.class);
+        uuidMock.when(UUID::randomUUID).thenReturn(randUUID);
+        return randUUID;
     }
 }
