@@ -4,7 +4,6 @@ import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.repository.IMongoUserRepository;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -18,17 +17,6 @@ public class MongoUserService implements UserDetailsService {
 
     public MongoUserService(IMongoUserRepository repository) {
         this.repository = repository;
-    }
-
-    public MongoUser loadUserByID(String id) {
-        MongoUser user = repository.findMongoUserById(id);
-        LOG.debug("Fetching user from id: " + id);
-        if (user == null) {
-            LOG.warn("Could not find user: " + id);
-            throw new UsernameNotFoundException("User not found");
-        }
-        LOG.debug("Found user: " + user);
-        return user;
     }
 
     @Override
