@@ -6,11 +6,9 @@ import com.github.redstylzz.backend.model.Category;
 import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.model.TestDataProvider;
 import com.github.redstylzz.backend.repository.ICategoryRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,11 +20,6 @@ class CategoryServiceTest {
 
     private final ICategoryRepository repository = mock(ICategoryRepository.class);
     private final CategoryService underTest = new CategoryService(repository);
-
-    @BeforeEach
-    void beforeEach() {
-        when(repository.findAllByUserID(anyString())).thenReturn(new ArrayList<>());
-    }
 
     @Test
     void shouldFetchCategories() {
