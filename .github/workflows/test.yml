@@ -20,4 +20,4 @@ jobs:
         distribution: 'adopt'
         cache: maven
     - name: Test Maven Project
-      run: mvn test
+      run: cd backend/ && mvn test
