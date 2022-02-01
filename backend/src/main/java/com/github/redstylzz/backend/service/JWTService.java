@@ -33,7 +33,7 @@ public class JWTService {
 
     public Boolean validateToken(String token, String username) {
         LOG.trace("Validating Token for user: " + username);
-        return (!token.isBlank() && extractUsername(token).equals(username) && !isTokenExpired(token));
+        return (!token.isBlank() && extractUsername(token).equals(username));
     }
 
     public String extractUsername(String token) {
@@ -45,12 +45,6 @@ public class JWTService {
                 .setSigningKey(secret)
                 .parseClaimsJws(token)
                 .getBody();
-    }
-
-    public Boolean isTokenExpired(String token) {
-        return extractAllClaims(token)
-                .getExpiration()
-                .before(new Date());
     }
 
 }
