@@ -44,6 +44,7 @@ class JWTServiceTest {
     @Test
     void shouldReturnTrueIfTokenIsValid() {
         String name = user.getUsername();
+
         assertTrue(underTest.validateToken(actualToken, name));
     }
 
