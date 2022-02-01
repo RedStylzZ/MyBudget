@@ -2,6 +2,7 @@ package com.github.redstylzz.backend.service;
 
 import com.github.redstylzz.backend.exception.CategoryAlreadyExistException;
 import com.github.redstylzz.backend.model.Category;
+import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.model.TestDataProvider;
 import com.github.redstylzz.backend.repository.ICategoryRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,12 +34,13 @@ class CategoryServiceTest {
 
     @Test
     void shouldThrowExceptionIfCategoryExists() {
-        when(repository.findAllByUserID(anyString()))
-                .thenReturn(List.of(TestDataProvider.testCategory()));
+        MongoUser user = TestDataProvider.testUser();
+        Category category = TestDataProvider.testCategory();
+        String categoryName = category.getName();
+        when(repository.findAllByUserID(anyString())).thenReturn(List.of(category));
 
-        assertThrows(CategoryAlreadyExistException.class, () -> {
-            underTest.addCategory(TestDataProvider.testUser(), TestDataProvider.testCategory().getName());
-        });
+        assertThrows(CategoryAlreadyExistException.class, () ->
+                underTest.addCategory(user, categoryName));
     }
 
     @Test
@@ -52,6 +54,7 @@ class CategoryServiceTest {
 
     @Test
     void renameCategory() {
+
     }
 
     @Test
