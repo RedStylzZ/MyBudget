@@ -32,29 +32,25 @@ public class UserService {
         return authorities.stream().anyMatch(a -> a.getAuthority().equals(MongoUserService.ROLE_ADMIN));
     }
 
-    public String addUser(String name, UserDetails user) throws ResponseStatusException {
-        try {
-            final UserDetails mongoUser = mongoUserService.loadUserByUsername(name);
-            if (isAdmin(mongoUser.getAuthorities())) {
-                MongoUser newUser = MongoUser.builder()
-                        .id(UUID.randomUUID().toString())
-                        .username(user.getUsername())
-                        .password(new Argon2PasswordEncoder().encode(user.getPassword()))
-                        .rights(List.of("USER"))
-                        .accountNonLocked(true)
-                        .accountNonExpired(true)
-                        .credentialsNonExpired(true)
-                        .enabled(true)
-                        .build();
+    public String addUser(String adminName, UserDetails user) throws ResponseStatusException {
+        final UserDetails mongoUser = mongoUserService.loadUserByUsername(adminName);
+        if (isAdmin(mongoUser.getAuthorities())) {
+            MongoUser newUser = MongoUser.builder()
+                    .id(UUID.randomUUID().toString())
+                    .username(user.getUsername())
+                    .password(new Argon2PasswordEncoder().encode(user.getPassword()))
+                    .rights(List.of("USER"))
+                    .accountNonLocked(true)
+                    .accountNonExpired(true)
+                    .credentialsNonExpired(true)
+                    .enabled(true)
+                    .build();
 
-                repository.save(newUser);
-                LOG.debug("Added new User: " + newUser);
-                return jwtService.createToken(newUser);
-            }
-        } catch (Exception e) {
-            LOG.warn("Add Account Exception:", e);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Wrong Input");
+            repository.save(newUser);
+            LOG.debug("Added new User: " + newUser);
+            return jwtService.createToken(newUser);
         }
-        return null;
+        LOG.warn("User does not have admin role");
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not admin");
     }
 }
