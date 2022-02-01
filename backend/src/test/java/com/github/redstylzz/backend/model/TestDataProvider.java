@@ -46,6 +46,6 @@ public class TestDataProvider {
     }
 
     public static Category testCategory() {
-        return testCategory("44", "24", "Tizian", 58.5);
+        return testCategory("44", "24", "Tizian", 0.0);
     }
 }
