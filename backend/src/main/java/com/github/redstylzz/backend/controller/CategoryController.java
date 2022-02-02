@@ -7,8 +7,10 @@ import com.github.redstylzz.backend.service.CategoryService;
 import com.github.redstylzz.backend.service.MongoUserService;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.List;
@@ -25,14 +27,19 @@ public class CategoryController {
         this.userService = userService;
     }
 
+    private MongoUser getUser(Principal principal) throws ResponseStatusException {
+        try {
+            return userService.getUserByPrincipal(principal);
+        } catch (UsernameNotFoundException e) {
+            LOG.warn("No user found");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No user found");
+        }
+    }
+
     @GetMapping
     public List<Category> getCategories(Principal principal) {
-        try {
-            MongoUser user = userService.getUserByPrincipal(principal);
-            return service.getCategories(user);
-        } catch (UsernameNotFoundException e) {
-            return List.of();
-        }
+        MongoUser user = getUser(principal);
+        return service.getCategories(user);
     }
 
     @PutMapping
@@ -40,12 +47,8 @@ public class CategoryController {
         String name = dto.getCategoryName();
         if (name == null || name.isBlank()) return List.of();
 
-        try {
-            MongoUser user = userService.getUserByPrincipal(principal);
-            return service.addCategory(user, name);
-        } catch (Exception e) {
-            return List.of();
-        }
+        MongoUser user = getUser(principal);
+        return service.addCategory(user, name);
     }
 
     @PostMapping
@@ -54,12 +57,8 @@ public class CategoryController {
         String name = dto.getCategoryName();
         if ((id == null || id.isBlank()) || (name == null || name.isBlank())) return List.of();
 
-        try {
-            MongoUser user = userService.getUserByPrincipal(principal);
-            return service.renameCategory(user, id, name);
-        } catch (Exception e) {
-            return List.of();
-        }
+        MongoUser user = userService.getUserByPrincipal(principal);
+        return service.renameCategory(user, id, name);
     }
 
     @DeleteMapping
@@ -67,12 +66,8 @@ public class CategoryController {
         String id = dto.getCategoryID();
         if (id == null || id.isBlank()) return List.of();
 
-        try {
-            MongoUser user = userService.getUserByPrincipal(principal);
-            return service.deleteCategory(user, id);
-        } catch (Exception e) {
-            return List.of();
-        }
+        MongoUser user = userService.getUserByPrincipal(principal);
+        return service.deleteCategory(user, id);
     }
 
 
