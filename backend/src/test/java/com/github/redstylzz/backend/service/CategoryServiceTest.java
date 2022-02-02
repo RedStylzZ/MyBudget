@@ -65,8 +65,8 @@ class CategoryServiceTest {
     @Test
     void shouldThrowExceptionIfCategoryExistsWithNameOnRename() {
         MongoUser user = TestDataProvider.testUser();
-        when(repository.findByUserIDAndId(anyString(), anyString())).thenReturn(TestDataProvider.testCategory());
-        when(repository.existsByUserIDAndName(anyString(), anyString())).thenReturn(true);
+        when(repository.findByUserIDAndCategoryID(anyString(), anyString())).thenReturn(TestDataProvider.testCategory());
+        when(repository.existsByUserIDAndCategoryName(anyString(), anyString())).thenReturn(true);
 
         assertThrows(CategoryAlreadyExistException.class, () ->
                 underTest.renameCategory(user, "", ""));
@@ -75,8 +75,8 @@ class CategoryServiceTest {
     @Test
     void shouldReturnListOnSuccessfulRename() {
         MongoUser user = TestDataProvider.testUser();
-        when(repository.findByUserIDAndId(anyString(), anyString())).thenReturn(TestDataProvider.testCategory());
-        when(repository.existsByUserIDAndName(anyString(), anyString())).thenReturn(false);
+        when(repository.findByUserIDAndCategoryID(anyString(), anyString())).thenReturn(TestDataProvider.testCategory());
+        when(repository.existsByUserIDAndCategoryName(anyString(), anyString())).thenReturn(false);
 
         underTest.renameCategory(user, "", "");
 
@@ -91,7 +91,7 @@ class CategoryServiceTest {
 
         underTest.deleteCategory(user, "");
 
-        verify(repository).deleteById(anyString());
+        verify(repository).deleteByCategoryID(anyString());
         verify(repository).findAllByUserID(anyString());
     }
 }

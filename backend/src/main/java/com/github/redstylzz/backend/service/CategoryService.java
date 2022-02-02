@@ -56,10 +56,10 @@ public class CategoryService {
     public List<Category> renameCategory(MongoUser user, String categoryID, String name) throws CategoryAlreadyExistException, CategoryDoesNotExistException {
         LOG.debug("Renaming category: " + categoryID + " from user: " + user.getUsername());
         LOG.debug("Loading category with ID: " + categoryID);
-        Category category = repository.findByUserIDAndId(user.getId(), categoryID);
+        Category category = repository.findByUserIDAndCategoryID(user.getId(), categoryID);
 
         if (category != null) {
-            if (!repository.existsByUserIDAndName(user.getId(), name)){
+            if (!repository.existsByUserIDAndCategoryName(user.getId(), name)){
                 category.setCategoryName(name);
                 repository.save(category);
                 LOG.debug("Renamed category with ID: " + categoryID);
@@ -77,7 +77,7 @@ public class CategoryService {
     // TODO Remove associated payments
     public List<Category> deleteCategory(MongoUser user, String categoryID) {
         LOG.debug("Deleting category with ID: " + categoryID + " from user: " + user.getUsername());
-        repository.deleteById(categoryID);
+        repository.deleteByCategoryID(categoryID);
         return repository.findAllByUserID(user.getId());
     }
 
