@@ -41,10 +41,12 @@ public class MongoUser implements UserDetails {
                 .toList();
     }
 
+    @Transient
     public static MongoUser dtoToUser(MongoUserDTO dto) {
         return MongoUser.builder()
                 .username(dto.getUsername())
                 .password(dto.getPassword())
                 .build();
     }
+
 }
