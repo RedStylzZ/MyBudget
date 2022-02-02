@@ -59,6 +59,7 @@ public class PaymentService {
     public List<Payment> changePayment(String userID, Payment payment) throws PaymentDoesNotExistException, CategoryDoesNotExistException {
         if (categoryExistent(userID, payment.getCategoryID())) {
             if (paymentExists(payment.getPaymentID())) {
+                payment.setUserID(userID);
                 payment.setSaveDate(new Date());
                 paymentRepo.save(payment);
             } else {
