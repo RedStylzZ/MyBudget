@@ -9,6 +9,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class PaymentDTO {
 
+    String paymentID;
     String categoryID;
     String description;
     double amount;

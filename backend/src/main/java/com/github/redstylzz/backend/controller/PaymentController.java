@@ -46,21 +46,23 @@ public class PaymentController {
 
     @PutMapping
     public List<Payment> addPayment(Principal principal, @RequestBody PaymentDTO dto) {
-        MongoUser user = getUser(principal);
+        String userID = getUser(principal).getId();
         Payment payment = Payment.convertDTOtoPayment(dto);
-        if (payment == null)
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No payment given");
-        return service.addPayment(user.getId(), payment);
+        return service.addPayment(userID, payment);
     }
 
     @DeleteMapping
     public List<Payment> deletePayment(Principal principal, @RequestBody PaymentDTO dto) {
-        MongoUser user = getUser(principal);
+        String userID = getUser(principal).getId();
         Payment payment = Payment.convertDTOtoPayment(dto);
-        if (payment == null)
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No payment given");
-        return service.deletePayment(user.getId(), payment);
+        return service.deletePayment(userID, payment);
     }
 
+    @PostMapping
+    public List<Payment> changePayment(Principal principal, @RequestBody PaymentDTO dto) {
+        String userID = getUser(principal).getId();
+        Payment payment = Payment.convertDTOtoPayment(dto);
+        return service.changePayment(userID, payment);
+    }
 
 }

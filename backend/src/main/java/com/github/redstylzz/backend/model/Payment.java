@@ -26,14 +26,12 @@ public class Payment {
     Date payDate;
 
     public static Payment convertDTOtoPayment(PaymentDTO dto) {
-        if (dto.getCategoryID() == null) return null;
-
         return Payment.builder()
+                .paymentID(dto.getPaymentID())
                 .categoryID(dto.getCategoryID())
                 .description(dto.getDescription())
                 .amount(dto.getAmount())
                 .payDate(dto.getPayDate())
                 .build();
-
     }
 }
