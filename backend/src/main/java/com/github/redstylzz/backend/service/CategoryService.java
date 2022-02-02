@@ -9,6 +9,7 @@ import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,7 +42,7 @@ public class CategoryService {
                     .categoryID(UUID.randomUUID().toString())
                     .userID(user.getId())
                     .categoryName(categoryName)
-                    .paymentSum(0)
+                    .paymentSum(new BigDecimal("0"))
                     .build();
             repository.save(category);
             categories.add(category);
