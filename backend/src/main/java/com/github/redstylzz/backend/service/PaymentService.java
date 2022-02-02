@@ -30,6 +30,7 @@ public class PaymentService {
         return paymentRepo.existsByPaymentID(paymentID);
     }
 
+
     public List<Payment> getPayments(String userID, String categoryID) {
         return paymentRepo.getAllByUserIDAndCategoryID(userID, categoryID);
     }
@@ -46,7 +47,7 @@ public class PaymentService {
         return paymentRepo.getAllByUserIDAndCategoryID(userID, payment.getCategoryID());
     }
 
-    public List<Payment> deletePayment(String userID, Payment payment)throws PaymentDoesNotExistException, CategoryDoesNotExistException {
+    public List<Payment> deletePayment(String userID, Payment payment) throws PaymentDoesNotExistException, CategoryDoesNotExistException {
         if (categoryExistent(userID, payment.getCategoryID())) {
             paymentRepo.deleteByPaymentID(payment.getPaymentID());
         } else {
@@ -55,7 +56,7 @@ public class PaymentService {
         return paymentRepo.getAllByUserIDAndCategoryID(userID, payment.getCategoryID());
     }
 
-    public List<Payment> changePayment(String userID, Payment payment) {
+    public List<Payment> changePayment(String userID, Payment payment) throws PaymentDoesNotExistException, CategoryDoesNotExistException {
         if (categoryExistent(userID, payment.getCategoryID())) {
             if (paymentExists(payment.getPaymentID())) {
                 payment.setSaveDate(new Date());

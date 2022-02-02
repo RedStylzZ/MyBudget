@@ -29,7 +29,7 @@ public class PaymentController {
         this.userService = userService;
     }
 
-    private MongoUser getUser(Principal principal) {
+    private MongoUser getUser(Principal principal) throws ResponseStatusException {
         try {
             return userService.getUserByPrincipal(principal);
         } catch (UsernameNotFoundException e) {
