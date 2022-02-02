@@ -2,6 +2,7 @@ package com.github.redstylzz.backend.service;
 
 import com.github.redstylzz.backend.exception.CategoryDoesNotExistException;
 import com.github.redstylzz.backend.exception.PaymentDoesNotExistException;
+import com.github.redstylzz.backend.model.Category;
 import com.github.redstylzz.backend.model.Payment;
 import com.github.redstylzz.backend.model.TestDataProvider;
 import com.github.redstylzz.backend.repository.ICategoryRepository;
@@ -10,7 +11,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -23,9 +25,14 @@ class PaymentServiceTest {
 
     @Test
     void shouldReturnList_OnGet() {
-        underTest.getPayments(TestDataProvider.testUser().getId(), TestDataProvider.testCategory().getCategoryID());
+        Category category = TestDataProvider.testCategory();
+        Payment actualPayment = TestDataProvider.testPayment();
+        when(paymentRepo.getAllByUserIDAndCategoryID(anyString(), anyString())).thenReturn(List.of(actualPayment));
+
+        List<Payment> payments = underTest.getPayments(category.getUserID(), category.getCategoryID());
 
         verify(paymentRepo).getAllByUserIDAndCategoryID(anyString(), anyString());
+        assertEquals(List.of(actualPayment), payments);
     }
 
     @Test
