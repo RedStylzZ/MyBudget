@@ -43,9 +43,9 @@ public class TestDataProvider {
 
     public static Category testCategory(String id, String userID, String name, double paymentSum) {
         return Category.builder()
-                .id(id)
+                .categoryID(id)
                 .userID(userID)
-                .name(name)
+                .categoryName(name)
                 .paymentSum(paymentSum)
                 .build();
     }

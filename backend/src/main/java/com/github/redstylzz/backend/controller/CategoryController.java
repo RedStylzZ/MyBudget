@@ -2,7 +2,7 @@ package com.github.redstylzz.backend.controller;
 
 import com.github.redstylzz.backend.model.Category;
 import com.github.redstylzz.backend.model.MongoUser;
-import com.github.redstylzz.backend.model.dto.InputDTO;
+import com.github.redstylzz.backend.model.dto.CategoryDTO;
 import com.github.redstylzz.backend.service.CategoryService;
 import com.github.redstylzz.backend.service.MongoUserService;
 import org.apache.juli.logging.Log;
@@ -44,8 +44,8 @@ public class CategoryController {
     }
 
     @PutMapping
-    public List<Category> addCategory(Principal principal, @RequestBody InputDTO dto) {
-        String name = dto.getName();
+    public List<Category> addCategory(Principal principal, @RequestBody CategoryDTO dto) {
+        String name = dto.getCategoryName();
         if (name == null || name.isBlank()) return List.of();
 
         try {
@@ -57,9 +57,9 @@ public class CategoryController {
     }
 
     @PostMapping
-    public List<Category> renameCategory(Principal principal, @RequestBody InputDTO dto) {
-        String id = dto.getId();
-        String name = dto.getName();
+    public List<Category> renameCategory(Principal principal, @RequestBody CategoryDTO dto) {
+        String id = dto.getCategoryID();
+        String name = dto.getCategoryName();
         if ((id == null || id.isBlank()) || (name == null || name.isBlank())) return List.of();
 
         try {
@@ -71,8 +71,8 @@ public class CategoryController {
     }
 
     @DeleteMapping
-    List<Category> deleteCategory(Principal principal, @RequestBody InputDTO dto) {
-        String id = dto.getId();
+    List<Category> deleteCategory(Principal principal, @RequestBody CategoryDTO dto) {
+        String id = dto.getCategoryID();
         if (id == null || id.isBlank()) return List.of();
 
         try {

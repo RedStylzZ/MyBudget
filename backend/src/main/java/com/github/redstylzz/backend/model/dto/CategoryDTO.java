@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class InputDTO {
-    String name;
-    String id;
+public class CategoryDTO {
+    String categoryName;
+    String categoryID;
 }

@@ -7,7 +7,6 @@ import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.model.TestDataProvider;
 import com.github.redstylzz.backend.repository.ICategoryRepository;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
 
 import java.util.List;
 import java.util.UUID;
@@ -33,7 +32,7 @@ class CategoryServiceTest {
     void shouldThrowExceptionIfCategoryExists() {
         MongoUser user = TestDataProvider.testUser();
         Category category = TestDataProvider.testCategory();
-        String categoryName = category.getName();
+        String categoryName = category.getCategoryName();
         when(repository.findAllByUserID(anyString())).thenReturn(List.of(category));
 
         assertThrows(CategoryAlreadyExistException.class, () ->
@@ -45,8 +44,8 @@ class CategoryServiceTest {
         MongoUser user = TestDataProvider.testUser();
         UUID randUUID = mockUUID();
         Category category = TestDataProvider.testCategory();
-        category.setId(randUUID.toString());
-        String categoryName = category.getName();
+        category.setCategoryID(randUUID.toString());
+        String categoryName = category.getCategoryName();
         when(repository.save(any(Category.class))).thenReturn(null);
 
         List<Category> wantedList = underTest.addCategory(user, categoryName);

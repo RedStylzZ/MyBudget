@@ -15,10 +15,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Category {
 
     @Id
-    String id;
+    String categoryID;
 
     String userID;
-    String name;
+    String categoryName;
     double paymentSum;
 
 }

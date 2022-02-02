@@ -24,7 +24,7 @@ public class CategoryService {
 
 
     private boolean categoryExistent(String name) {
-        return categories.stream().anyMatch(category -> category.getName().equals(name));
+        return categories.stream().anyMatch(category -> category.getCategoryName().equals(name));
     }
 
     public List<Category> getCategories(MongoUser user) {
@@ -38,9 +38,9 @@ public class CategoryService {
 
         if (!categoryExistent(categoryName)) {
             Category category = Category.builder()
-                    .id(UUID.randomUUID().toString())
+                    .categoryID(UUID.randomUUID().toString())
                     .userID(user.getId())
-                    .name(categoryName)
+                    .categoryName(categoryName)
                     .paymentSum(0)
                     .build();
             repository.save(category);
@@ -60,7 +60,7 @@ public class CategoryService {
 
         if (category != null) {
             if (!repository.existsByUserIDAndName(user.getId(), name)){
-                category.setName(name);
+                category.setCategoryName(name);
                 repository.save(category);
                 LOG.debug("Renamed category with ID: " + categoryID);
             } else {
