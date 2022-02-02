@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
+
 @Service
 public class MongoUserService implements UserDetailsService {
     private static final Log LOG = LogFactory.getLog(MongoUserService.class);
@@ -29,5 +31,13 @@ public class MongoUserService implements UserDetailsService {
         }
         LOG.debug("Found user: " + user);
         return user;
+    }
+
+    public MongoUser getUserByPrincipal(Principal principal) throws UsernameNotFoundException {
+        if (principal != null) {
+            return loadUserByUsername(principal.getName());
+        }
+        LOG.debug("Principal is null");
+        throw new UsernameNotFoundException("Principal is null");
     }
 }

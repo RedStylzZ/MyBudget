@@ -2,6 +2,7 @@ package com.github.redstylzz.backend.model;
 
 import org.mockito.MockedStatic;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,15 +44,37 @@ public class TestDataProvider {
 
     public static Category testCategory(String id, String userID, String name, double paymentSum) {
         return Category.builder()
-                .id(id)
+                .categoryID(id)
                 .userID(userID)
-                .name(name)
+                .categoryName(name)
                 .paymentSum(paymentSum)
                 .build();
     }
 
     public static Category testCategory() {
         return testCategory("44", "24", "Tizian", 0.0);
+    }
+
+    public static Payment testPayment() {
+        return testPayment("36", "24", "44", "PayPal", 10.0, new Date(), new Date());
+    }
+
+    public static Payment testPayment(String paymentID,
+                              String userID,
+                              String categoryID,
+                              String description,
+                              double amount,
+                              Date saveDate,
+                              Date payDate) {
+        return Payment.builder()
+                .paymentID(paymentID)
+                .userID(userID)
+                .categoryID(categoryID)
+                .description(description)
+                .amount(amount)
+                .saveDate(saveDate)
+                .payDate(payDate)
+                .build();
     }
 
     public static UUID mockUUID() {

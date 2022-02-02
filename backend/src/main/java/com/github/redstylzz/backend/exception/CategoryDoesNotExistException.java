@@ -7,4 +7,8 @@ public class CategoryDoesNotExistException extends NoSuchElementException {
     public CategoryDoesNotExistException(String s) {
         super(s);
     }
+
+    public CategoryDoesNotExistException() {
+        super();
+    }
 }

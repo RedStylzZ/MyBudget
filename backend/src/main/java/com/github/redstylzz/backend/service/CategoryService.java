@@ -24,7 +24,7 @@ public class CategoryService {
 
 
     private boolean categoryExistent(String name) {
-        return categories.stream().anyMatch(category -> category.getName().equals(name));
+        return categories.stream().anyMatch(category -> category.getCategoryName().equals(name));
     }
 
     public List<Category> getCategories(MongoUser user) {
@@ -38,9 +38,9 @@ public class CategoryService {
 
         if (!categoryExistent(categoryName)) {
             Category category = Category.builder()
-                    .id(UUID.randomUUID().toString())
+                    .categoryID(UUID.randomUUID().toString())
                     .userID(user.getId())
-                    .name(categoryName)
+                    .categoryName(categoryName)
                     .paymentSum(0)
                     .build();
             repository.save(category);
@@ -56,11 +56,11 @@ public class CategoryService {
     public List<Category> renameCategory(MongoUser user, String categoryID, String name) throws CategoryAlreadyExistException, CategoryDoesNotExistException {
         LOG.debug("Renaming category: " + categoryID + " from user: " + user.getUsername());
         LOG.debug("Loading category with ID: " + categoryID);
-        Category category = repository.findByUserIDAndId(user.getId(), categoryID);
+        Category category = repository.findByUserIDAndCategoryID(user.getId(), categoryID);
 
         if (category != null) {
-            if (!repository.existsByUserIDAndName(user.getId(), name)){
-                category.setName(name);
+            if (!repository.existsByUserIDAndCategoryName(user.getId(), name)){
+                category.setCategoryName(name);
                 repository.save(category);
                 LOG.debug("Renamed category with ID: " + categoryID);
             } else {
@@ -77,7 +77,7 @@ public class CategoryService {
     // TODO Remove associated payments
     public List<Category> deleteCategory(MongoUser user, String categoryID) {
         LOG.debug("Deleting category with ID: " + categoryID + " from user: " + user.getUsername());
-        repository.deleteById(categoryID);
+        repository.deleteByCategoryID(categoryID);
         return repository.findAllByUserID(user.getId());
     }
 
