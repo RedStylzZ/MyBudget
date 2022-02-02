@@ -31,6 +31,8 @@ public class Payment {
         return Payment.builder()
                 .categoryID(dto.getCategoryID())
                 .description(dto.getDescription())
+                .amount(dto.getAmount())
+                .payDate(dto.getPayDate())
                 .build();
 
     }
