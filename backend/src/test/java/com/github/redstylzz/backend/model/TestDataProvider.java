@@ -53,7 +53,7 @@ public class TestDataProvider {
     }
 
     public static Category testCategory() {
-        return testCategory("44", "24", "Tizian", new BigDecimal("0.0"));
+        return testCategory("44", "24", "Tizian", new BigDecimal("0"));
     }
 
     public static Payment testPayment() {
