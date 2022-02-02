@@ -43,28 +43,36 @@ public class CategoryController {
     }
 
     @PutMapping
-    public List<Category> addCategory(Principal principal, @RequestBody CategoryDTO dto) {
+    public List<Category> addCategory(Principal principal, @RequestBody CategoryDTO dto) throws ResponseStatusException {
         String name = dto.getCategoryName();
-        if (name == null || name.isBlank()) return List.of();
+        if (name == null || name.isBlank()) {
+            LOG.warn("ID is null or blank");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
 
         MongoUser user = getUser(principal);
         return service.addCategory(user, name);
     }
 
     @PostMapping
-    public List<Category> renameCategory(Principal principal, @RequestBody CategoryDTO dto) {
+    public List<Category> renameCategory(Principal principal, @RequestBody CategoryDTO dto) throws ResponseStatusException {
         String id = dto.getCategoryID();
         String name = dto.getCategoryName();
-        if ((id == null || id.isBlank()) || (name == null || name.isBlank())) return List.of();
-
+        if ((id == null || id.isBlank()) || (name == null || name.isBlank())) {
+            LOG.warn("ID or name is null or blank");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
         MongoUser user = userService.getUserByPrincipal(principal);
         return service.renameCategory(user, id, name);
     }
 
     @DeleteMapping
-    List<Category> deleteCategory(Principal principal, @RequestBody CategoryDTO dto) {
+    List<Category> deleteCategory(Principal principal, @RequestBody CategoryDTO dto) throws ResponseStatusException {
         String id = dto.getCategoryID();
-        if (id == null || id.isBlank()) return List.of();
+        if (id == null || id.isBlank()) {
+            LOG.warn("ID is null or blank");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
 
         MongoUser user = userService.getUserByPrincipal(principal);
         return service.deleteCategory(user, id);
