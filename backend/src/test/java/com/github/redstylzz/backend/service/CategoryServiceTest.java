@@ -10,10 +10,10 @@ import com.github.redstylzz.backend.repository.IPaymentRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.UUID;
 
-import static com.github.redstylzz.backend.model.TestDataProvider.mockUUID;
-import static org.junit.jupiter.api.Assertions.*;
+import static com.github.redstylzz.backend.model.TestDataProvider.UUID_STRING;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -44,9 +44,9 @@ class CategoryServiceTest {
     @Test
     void shouldAddCategoryIfNotExistentAndReturnCategories() {
         MongoUser user = TestDataProvider.testUser();
-        UUID randUUID = mockUUID();
+        String randUUID = UUID_STRING;
         Category category = TestDataProvider.testCategory();
-        category.setCategoryID(randUUID.toString());
+        category.setCategoryID(randUUID);
         String categoryName = category.getCategoryName();
         when(repository.save(any(Category.class))).thenReturn(null);
 

@@ -3,6 +3,7 @@ package com.github.redstylzz.backend.service;
 import com.github.redstylzz.backend.exception.CategoryDoesNotExistException;
 import com.github.redstylzz.backend.exception.PaymentDoesNotExistException;
 import com.github.redstylzz.backend.model.Payment;
+import com.github.redstylzz.backend.model.dto.PaymentDTO;
 import com.github.redstylzz.backend.repository.ICategoryRepository;
 import com.github.redstylzz.backend.repository.IPaymentRepository;
 import org.springframework.stereotype.Service;
@@ -39,11 +40,19 @@ public class PaymentService {
         categoryService.setCategorySum(userID, categoryID, sum);
     }
 
-    public List<Payment> getPayments(String userID, String categoryID) {
-        return paymentRepo.getAllByUserIDAndCategoryID(userID, categoryID);
+    private List<PaymentDTO> getPaymentAsDTO(String userID, String categoryID) {
+        return paymentRepo
+                .getAllByUserIDAndCategoryID(userID, categoryID)
+                .stream()
+                .map(Payment::convertPaymentToDTO)
+                .toList();
     }
 
-    public List<Payment> addPayment(String userID, Payment payment) throws CategoryDoesNotExistException {
+    public List<PaymentDTO> getPayments(String userID, String categoryID) {
+        return getPaymentAsDTO(userID, categoryID);
+    }
+
+    public List<PaymentDTO> addPayment(String userID, Payment payment) throws CategoryDoesNotExistException {
         if (categoryExistent(userID, payment.getCategoryID())) {
             payment.setPaymentID(UUID.randomUUID().toString());
             payment.setUserID(userID);
@@ -53,20 +62,20 @@ public class PaymentService {
         } else {
             throw new CategoryDoesNotExistException();
         }
-        return paymentRepo.getAllByUserIDAndCategoryID(userID, payment.getCategoryID());
+        return getPaymentAsDTO(userID, payment.getCategoryID());
     }
 
-    public List<Payment> deletePayment(String userID, Payment payment) throws PaymentDoesNotExistException, CategoryDoesNotExistException {
-        if (categoryExistent(userID, payment.getCategoryID())) {
-            paymentRepo.deleteByPaymentID(payment.getPaymentID());
-            calculatePaymentSum(userID, payment.getCategoryID());
+    public List<PaymentDTO> deletePayment(String userID, String categoryID, String paymentID) throws PaymentDoesNotExistException, CategoryDoesNotExistException {
+        if (categoryExistent(userID, categoryID)) {
+            paymentRepo.deleteByPaymentID(paymentID);
+            calculatePaymentSum(userID, categoryID);
         } else {
             throw new CategoryDoesNotExistException();
         }
-        return paymentRepo.getAllByUserIDAndCategoryID(userID, payment.getCategoryID());
+        return getPaymentAsDTO(userID, categoryID);
     }
 
-    public List<Payment> changePayment(String userID, Payment payment) throws PaymentDoesNotExistException, CategoryDoesNotExistException {
+    public List<PaymentDTO> changePayment(String userID, Payment payment) throws PaymentDoesNotExistException, CategoryDoesNotExistException {
         if (categoryExistent(userID, payment.getCategoryID())) {
             if (paymentExists(payment.getPaymentID())) {
                 payment.setUserID(userID);
@@ -79,6 +88,6 @@ public class PaymentService {
         } else {
             throw new CategoryDoesNotExistException();
         }
-        return paymentRepo.getAllByUserIDAndCategoryID(userID, payment.getCategoryID());
+        return getPaymentAsDTO(userID, payment.getCategoryID());
     }
 }
