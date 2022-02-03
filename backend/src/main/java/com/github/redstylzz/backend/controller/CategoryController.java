@@ -1,8 +1,11 @@
 package com.github.redstylzz.backend.controller;
 
+import com.github.redstylzz.backend.exception.CategoryAlreadyExistException;
 import com.github.redstylzz.backend.model.Category;
 import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.model.dto.CategoryDTO;
+import com.github.redstylzz.backend.model.dto.CategoryIDDTO;
+import com.github.redstylzz.backend.model.dto.CategoryNameDTO;
 import com.github.redstylzz.backend.service.CategoryService;
 import com.github.redstylzz.backend.service.MongoUserService;
 import org.apache.juli.logging.Log;
@@ -43,15 +46,19 @@ public class CategoryController {
     }
 
     @PutMapping
-    public List<Category> addCategory(Principal principal, @RequestBody CategoryDTO dto) throws ResponseStatusException {
+    public List<Category> addCategory(Principal principal, @RequestBody CategoryNameDTO dto) throws ResponseStatusException {
         String name = dto.getCategoryName();
         if (name == null || name.isBlank()) {
-            LOG.warn("ID is null or blank");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            LOG.warn("Name is null or blank");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No name given");
         }
 
         MongoUser user = getUser(principal);
-        return service.addCategory(user, name);
+        try {
+            return service.addCategory(user, name);
+        } catch (CategoryAlreadyExistException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     @PostMapping
@@ -67,7 +74,7 @@ public class CategoryController {
     }
 
     @DeleteMapping
-    List<Category> deleteCategory(Principal principal, @RequestBody CategoryDTO dto) throws ResponseStatusException {
+    public List<Category> deleteCategory(Principal principal, @RequestBody CategoryIDDTO dto) throws ResponseStatusException {
         String id = dto.getCategoryID();
         if (id == null || id.isBlank()) {
             LOG.warn("ID is null or blank");

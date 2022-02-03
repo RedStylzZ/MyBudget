@@ -20,7 +20,8 @@ class PaymentServiceTest {
 
     private final IPaymentRepository paymentRepo = mock(IPaymentRepository.class);
     private final ICategoryRepository categoryRepository = mock(ICategoryRepository.class);
-    private final PaymentService underTest = new PaymentService(paymentRepo, categoryRepository);
+    private final CategoryService categoryService = mock(CategoryService.class);
+    private final PaymentService underTest = new PaymentService(paymentRepo, categoryRepository, categoryService);
 
 
     @Test

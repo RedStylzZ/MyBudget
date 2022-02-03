@@ -7,6 +7,7 @@ import com.github.redstylzz.backend.repository.ICategoryRepository;
 import com.github.redstylzz.backend.repository.IPaymentRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -16,10 +17,12 @@ public class PaymentService {
 
     private final IPaymentRepository paymentRepo;
     private final ICategoryRepository categoryRepository;
+    private final CategoryService categoryService;
 
-    public PaymentService(IPaymentRepository paymentRepo, ICategoryRepository categoryRepository) {
+    public PaymentService(IPaymentRepository paymentRepo, ICategoryRepository categoryRepository, CategoryService categoryService) {
         this.paymentRepo = paymentRepo;
         this.categoryRepository = categoryRepository;
+        this.categoryService = categoryService;
     }
 
     private boolean categoryExistent(String userID, String categoryID) {
@@ -30,6 +33,11 @@ public class PaymentService {
         return paymentRepo.existsByPaymentID(paymentID);
     }
 
+    private void calculatePaymentSum(String userID, String categoryID) {
+        List<Payment> payments = paymentRepo.getAllByUserIDAndCategoryID(userID, categoryID);
+        BigDecimal sum = payments.stream().map(Payment::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
+        categoryService.setCategorySum(userID, categoryID, sum);
+    }
 
     public List<Payment> getPayments(String userID, String categoryID) {
         return paymentRepo.getAllByUserIDAndCategoryID(userID, categoryID);
@@ -41,6 +49,7 @@ public class PaymentService {
             payment.setUserID(userID);
             payment.setSaveDate(new Date());
             paymentRepo.save(payment);
+            calculatePaymentSum(userID, payment.getCategoryID());
         } else {
             throw new CategoryDoesNotExistException();
         }
@@ -50,6 +59,7 @@ public class PaymentService {
     public List<Payment> deletePayment(String userID, Payment payment) throws PaymentDoesNotExistException, CategoryDoesNotExistException {
         if (categoryExistent(userID, payment.getCategoryID())) {
             paymentRepo.deleteByPaymentID(payment.getPaymentID());
+            calculatePaymentSum(userID, payment.getCategoryID());
         } else {
             throw new CategoryDoesNotExistException();
         }
@@ -62,6 +72,7 @@ public class PaymentService {
                 payment.setUserID(userID);
                 payment.setSaveDate(new Date());
                 paymentRepo.save(payment);
+                calculatePaymentSum(userID, payment.getCategoryID());
             } else {
                 throw new PaymentDoesNotExistException();
             }

@@ -6,6 +6,7 @@ import com.github.redstylzz.backend.model.Category;
 import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.model.TestDataProvider;
 import com.github.redstylzz.backend.repository.ICategoryRepository;
+import com.github.redstylzz.backend.repository.IPaymentRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -19,7 +20,8 @@ import static org.mockito.Mockito.*;
 class CategoryServiceTest {
 
     private final ICategoryRepository repository = mock(ICategoryRepository.class);
-    private final CategoryService underTest = new CategoryService(repository);
+    private final IPaymentRepository paymentRepo = mock(IPaymentRepository.class);
+    private final CategoryService underTest = new CategoryService(repository, paymentRepo);
 
     @Test
     void shouldFetchCategories() {
@@ -78,20 +80,22 @@ class CategoryServiceTest {
         when(repository.findByUserIDAndCategoryID(anyString(), anyString())).thenReturn(TestDataProvider.testCategory());
         when(repository.existsByUserIDAndCategoryName(anyString(), anyString())).thenReturn(false);
 
-        underTest.renameCategory(user, "", "");
+        List<Category> wantedList = underTest.renameCategory(user, "", "");
 
         verify(repository).save(any(Category.class));
         verify(repository).findAllByUserID(anyString());
-
+        assertEquals(List.of(), wantedList);
     }
 
     @Test
     void shouldReturnListOnSuccessfulDelete() {
         MongoUser user = TestDataProvider.testUser();
 
-        underTest.deleteCategory(user, "");
+        List<Category> wantedList = underTest.deleteCategory(user, "");
 
         verify(repository).deleteByCategoryID(anyString());
+        verify(paymentRepo).deleteAllByUserIDAndCategoryID(anyString(), anyString());
         verify(repository).findAllByUserID(anyString());
+        assertEquals(List.of(), wantedList);
     }
 }
