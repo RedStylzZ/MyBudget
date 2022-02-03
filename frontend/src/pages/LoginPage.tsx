@@ -33,7 +33,7 @@ export default function LoginPage() {
             controller.login(formUsername, formPassword)
                 .then(newToken => {
                     setJwt(newToken)
-                    navigate(-1)
+                    navigate("/")
                 })
                 .catch(console.error)
         }

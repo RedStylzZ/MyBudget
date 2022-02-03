@@ -6,19 +6,26 @@ import NavBar from "./components/NavBar";
 import AuthProvider from "./context/AuthProvider";
 import LoginPage from "./pages/LoginPage";
 import RequireAuth from "./components/RequireAuth";
+import CategoryPage from "./pages/CategoryPage";
 
 function App() {
     return (
         <div className="App">
             <BrowserRouter>
-                <NavBar/>
+                {/*<NavBar/>*/}
                 <AuthProvider>
                     <Routes>
                         <Route path={"/login"} element={<LoginPage/>}/>
                         <Route path={"*"} element={
                             <RequireAuth>
                                 <HomePage/>
-                            </RequireAuth>}/>
+                            </RequireAuth>}
+                        />
+                        <Route path={"/categories"} element={
+                            <RequireAuth>
+                                <CategoryPage/>
+                            </RequireAuth>}
+                        />
                     </Routes>
                 </AuthProvider>
             </BrowserRouter>

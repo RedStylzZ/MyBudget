@@ -18,7 +18,7 @@ export default function HomePage() {
                 <Recent />
             </div>
             <div className={"homeCategories"}>
-                <Categories />
+                {/*<Categories />*/}
             </div>
         </div>
     )
