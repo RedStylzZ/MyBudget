@@ -2,6 +2,7 @@ package com.github.redstylzz.backend.model;
 
 import org.mockito.MockedStatic;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -42,7 +43,7 @@ public class TestDataProvider {
     }
 
 
-    public static Category testCategory(String id, String userID, String name, double paymentSum) {
+    public static Category testCategory(String id, String userID, String name, BigDecimal paymentSum) {
         return Category.builder()
                 .categoryID(id)
                 .userID(userID)
@@ -52,18 +53,18 @@ public class TestDataProvider {
     }
 
     public static Category testCategory() {
-        return testCategory("44", "24", "Tizian", 0.0);
+        return testCategory("44", "24", "Tizian", new BigDecimal("0"));
     }
 
     public static Payment testPayment() {
-        return testPayment("36", "24", "44", "PayPal", 10.0, new Date(), new Date());
+        return testPayment("36", "24", "44", "PayPal", new BigDecimal("10.0"), new Date(), new Date());
     }
 
     public static Payment testPayment(String paymentID,
                               String userID,
                               String categoryID,
                               String description,
-                              double amount,
+                              BigDecimal amount,
                               Date saveDate,
                               Date payDate) {
         return Payment.builder()
