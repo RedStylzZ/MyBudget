@@ -37,4 +37,14 @@ public class Payment {
                 .payDate(dto.getPayDate())
                 .build();
     }
+
+    public static PaymentDTO convertPaymentToDTO(Payment payment) {
+        return PaymentDTO.builder()
+                .paymentID(payment.paymentID)
+                .categoryID(payment.categoryID)
+                .description(payment.description)
+                .amount(payment.amount)
+                .payDate(payment.payDate)
+                .build();
+    }
 }

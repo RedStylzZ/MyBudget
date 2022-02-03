@@ -5,6 +5,7 @@ import com.github.redstylzz.backend.exception.CategoryDoesNotExistException;
 import com.github.redstylzz.backend.model.Category;
 import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.repository.ICategoryRepository;
+import com.github.redstylzz.backend.repository.IPaymentRepository;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.stereotype.Service;
@@ -17,10 +18,13 @@ import java.util.UUID;
 public class CategoryService {
     private static final Log LOG = LogFactory.getLog(CategoryService.class);
 
-    final ICategoryRepository repository;
+    private final ICategoryRepository categoryRepository;
+    private final IPaymentRepository paymentRepo;
     List<Category> categories;
-    public CategoryService(ICategoryRepository repository) {
-        this.repository = repository;
+
+    public CategoryService(ICategoryRepository categoryRepository, IPaymentRepository paymentRepo) {
+        this.categoryRepository = categoryRepository;
+        this.paymentRepo = paymentRepo;
     }
 
 
@@ -30,12 +34,12 @@ public class CategoryService {
 
     public List<Category> getCategories(MongoUser user) {
         LOG.debug("Loading user categories from: " + user.getUsername());
-        return repository.findAllByUserID(user.getId());
+        return categoryRepository.findAllByUserID(user.getId());
     }
 
     public List<Category> addCategory(MongoUser user, String categoryName) throws CategoryAlreadyExistException {
         LOG.debug("Adding category " + categoryName + " for user: " + user.getUsername());
-        categories = repository.findAllByUserID(user.getId());
+        categories = categoryRepository.findAllByUserID(user.getId());
 
         if (!categoryExistent(categoryName)) {
             Category category = Category.builder()
@@ -44,7 +48,7 @@ public class CategoryService {
                     .categoryName(categoryName)
                     .paymentSum(new BigDecimal("0"))
                     .build();
-            repository.save(category);
+            categoryRepository.save(category);
             categories.add(category);
             LOG.debug("Added category: " + categoryName);
         } else {
@@ -57,12 +61,12 @@ public class CategoryService {
     public List<Category> renameCategory(MongoUser user, String categoryID, String name) throws CategoryAlreadyExistException, CategoryDoesNotExistException {
         LOG.debug("Renaming category: " + categoryID + " from user: " + user.getUsername());
         LOG.debug("Loading category with ID: " + categoryID);
-        Category category = repository.findByUserIDAndCategoryID(user.getId(), categoryID);
+        Category category = categoryRepository.findByUserIDAndCategoryID(user.getId(), categoryID);
 
         if (category != null) {
-            if (!repository.existsByUserIDAndCategoryName(user.getId(), name)){
+            if (!categoryRepository.existsByUserIDAndCategoryName(user.getId(), name)){
                 category.setCategoryName(name);
-                repository.save(category);
+                categoryRepository.save(category);
                 LOG.debug("Renamed category with ID: " + categoryID);
             } else {
                 LOG.debug("A repository with this name already exists");
@@ -72,14 +76,23 @@ public class CategoryService {
             LOG.debug("Category does not exist");
             throw new CategoryDoesNotExistException("No category with ID: " + categoryID);
         }
-        return repository.findAllByUserID(user.getId());
+        return categoryRepository.findAllByUserID(user.getId());
     }
 
-    // TODO Remove associated payments
     public List<Category> deleteCategory(MongoUser user, String categoryID) {
         LOG.debug("Deleting category with ID: " + categoryID + " from user: " + user.getUsername());
-        repository.deleteByCategoryID(categoryID);
-        return repository.findAllByUserID(user.getId());
+        categoryRepository.deleteByCategoryID(categoryID);
+        paymentRepo.deleteAllByUserIDAndCategoryID(user.getId(), categoryID);
+        return categoryRepository.findAllByUserID(user.getId());
+    }
+
+    public void setCategorySum(String userID, String categoryID, BigDecimal paymentSum) {
+        LOG.debug("Calculating payment sum for category: " + categoryID);
+        if (paymentSum != null) {
+            Category category = categoryRepository.findByUserIDAndCategoryID(userID, categoryID);
+            category.setPaymentSum(paymentSum);
+            categoryRepository.save(category);
+        }
     }
 
 

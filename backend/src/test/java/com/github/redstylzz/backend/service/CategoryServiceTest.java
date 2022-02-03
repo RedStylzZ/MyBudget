@@ -6,20 +6,23 @@ import com.github.redstylzz.backend.model.Category;
 import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.model.TestDataProvider;
 import com.github.redstylzz.backend.repository.ICategoryRepository;
+import com.github.redstylzz.backend.repository.IPaymentRepository;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 
-import static com.github.redstylzz.backend.model.TestDataProvider.mockUUID;
-import static org.junit.jupiter.api.Assertions.*;
+import static com.github.redstylzz.backend.model.TestDataProvider.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 class CategoryServiceTest {
 
     private final ICategoryRepository repository = mock(ICategoryRepository.class);
-    private final CategoryService underTest = new CategoryService(repository);
+    private final IPaymentRepository paymentRepo = mock(IPaymentRepository.class);
+    private final CategoryService underTest = new CategoryService(repository, paymentRepo);
 
     @Test
     void shouldFetchCategories() {
@@ -42,9 +45,9 @@ class CategoryServiceTest {
     @Test
     void shouldAddCategoryIfNotExistentAndReturnCategories() {
         MongoUser user = TestDataProvider.testUser();
-        UUID randUUID = mockUUID();
+        String randUUID = UUID_STRING;
         Category category = TestDataProvider.testCategory();
-        category.setCategoryID(randUUID.toString());
+        category.setCategoryID(randUUID);
         String categoryName = category.getCategoryName();
         when(repository.save(any(Category.class))).thenReturn(null);
 
@@ -78,20 +81,44 @@ class CategoryServiceTest {
         when(repository.findByUserIDAndCategoryID(anyString(), anyString())).thenReturn(TestDataProvider.testCategory());
         when(repository.existsByUserIDAndCategoryName(anyString(), anyString())).thenReturn(false);
 
-        underTest.renameCategory(user, "", "");
+        List<Category> wantedList = underTest.renameCategory(user, "", "");
 
         verify(repository).save(any(Category.class));
         verify(repository).findAllByUserID(anyString());
-
+        assertEquals(List.of(), wantedList);
     }
 
     @Test
     void shouldReturnListOnSuccessfulDelete() {
         MongoUser user = TestDataProvider.testUser();
 
-        underTest.deleteCategory(user, "");
+        List<Category> wantedList = underTest.deleteCategory(user, "");
 
         verify(repository).deleteByCategoryID(anyString());
+        verify(paymentRepo).deleteAllByUserIDAndCategoryID(anyString(), anyString());
         verify(repository).findAllByUserID(anyString());
+        assertEquals(List.of(), wantedList);
+    }
+
+    @Test
+    void shouldSaveCategory() {
+        String userID = testUser().getId();
+        String categoryID = testCategory().getCategoryID();
+        BigDecimal paymentSum = BigDecimal.ZERO;
+        when(repository.findByUserIDAndCategoryID(anyString(), anyString())).thenReturn(testCategory());
+
+        underTest.setCategorySum(userID, categoryID, paymentSum);
+
+        verify(repository).save(any(Category.class));
+    }
+
+    @Test
+    void shouldNotSaveCategory() {
+        String userID = testUser().getId();
+        String categoryID = testCategory().getCategoryID();
+
+        underTest.setCategorySum(userID, categoryID, null);
+
+        verifyNoInteractions(repository);
     }
 }

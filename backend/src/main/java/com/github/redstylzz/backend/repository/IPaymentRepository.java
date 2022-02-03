@@ -10,5 +10,6 @@ public interface IPaymentRepository extends MongoRepository<Payment, String> {
     List<Payment> getAllByUserIDAndCategoryID(String userID, String categoryID);
     boolean existsByPaymentID(String paymentID);
     void deleteByPaymentID(String paymentID);
+    void deleteAllByUserIDAndCategoryID(String userID, String categoryID);
 
 }

@@ -5,12 +5,15 @@ import com.github.redstylzz.backend.exception.PaymentDoesNotExistException;
 import com.github.redstylzz.backend.model.Category;
 import com.github.redstylzz.backend.model.Payment;
 import com.github.redstylzz.backend.model.TestDataProvider;
+import com.github.redstylzz.backend.model.dto.PaymentDTO;
 import com.github.redstylzz.backend.repository.ICategoryRepository;
 import com.github.redstylzz.backend.repository.IPaymentRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static com.github.redstylzz.backend.model.TestDataProvider.UUID_STRING;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -20,8 +23,13 @@ class PaymentServiceTest {
 
     private final IPaymentRepository paymentRepo = mock(IPaymentRepository.class);
     private final ICategoryRepository categoryRepository = mock(ICategoryRepository.class);
-    private final PaymentService underTest = new PaymentService(paymentRepo, categoryRepository);
+    private final CategoryService categoryService = mock(CategoryService.class);
+    private final PaymentService underTest = new PaymentService(paymentRepo, categoryRepository, categoryService);
 
+    @BeforeAll
+    static void init() {
+        TestDataProvider.mockUUID();
+    }
 
     @Test
     void shouldReturnList_OnGet() {
@@ -29,10 +37,10 @@ class PaymentServiceTest {
         Payment actualPayment = TestDataProvider.testPayment();
         when(paymentRepo.getAllByUserIDAndCategoryID(anyString(), anyString())).thenReturn(List.of(actualPayment));
 
-        List<Payment> payments = underTest.getPayments(category.getUserID(), category.getCategoryID());
+        List<PaymentDTO> payments = underTest.getPayments(category.getUserID(), category.getCategoryID());
 
         verify(paymentRepo).getAllByUserIDAndCategoryID(anyString(), anyString());
-        assertEquals(List.of(actualPayment), payments);
+        assertEquals(List.of(Payment.convertPaymentToDTO(actualPayment)), payments);
     }
 
     @Test
@@ -46,32 +54,38 @@ class PaymentServiceTest {
 
     @Test
     void shouldReturnListAfterAddingPayment_OnAdd() {
-        Payment payment = TestDataProvider.testPayment();
-        String userID = payment.getUserID();
+        String randomUUID = UUID_STRING;
+        Payment actualPayment = TestDataProvider.testPayment();
+        actualPayment.setPaymentID(randomUUID);
+        String userID = actualPayment.getUserID();
         when(categoryRepository.existsByUserIDAndCategoryID(anyString(), anyString())).thenReturn(true);
-        when(paymentRepo.getAllByUserIDAndCategoryID(anyString(), anyString())).thenReturn(List.of(payment));
+        when(paymentRepo.getAllByUserIDAndCategoryID(anyString(), anyString())).thenReturn(List.of(actualPayment));
 
-        assertEquals(List.of(payment), underTest.addPayment(userID, payment));
+        assertEquals(List.of(Payment.convertPaymentToDTO(actualPayment)), underTest.addPayment(userID, actualPayment));
         verify(paymentRepo).save(any(Payment.class));
     }
 
     @Test
     void shouldThrowExceptionIfCategoryDoesNotExist_OnDelete() {
-        Payment payment = TestDataProvider.testPayment();
-        String userID = payment.getUserID();
+        Payment actualPayment = TestDataProvider.testPayment();
+        String userID = actualPayment.getUserID();
+        String categoryID = actualPayment.getCategoryID();
+        String paymentID = actualPayment.getPaymentID();
         when(categoryRepository.existsByUserIDAndCategoryID(anyString(), anyString())).thenReturn(false);
 
-        assertThrows(CategoryDoesNotExistException.class, () -> underTest.deletePayment(userID, payment));
+        assertThrows(CategoryDoesNotExistException.class, () -> underTest.deletePayment(userID, categoryID, paymentID));
     }
 
     @Test
     void shouldReturnListAfterDeletingPayment_OnDelete() {
-        Payment payment = TestDataProvider.testPayment();
-        String userID = payment.getUserID();
+        Payment actualPayment = TestDataProvider.testPayment();
+        String userID = actualPayment.getUserID();
+        String categoryID = actualPayment.getCategoryID();
+        String paymentID = actualPayment.getPaymentID();
         when(categoryRepository.existsByUserIDAndCategoryID(anyString(), anyString())).thenReturn(true);
-        when(paymentRepo.getAllByUserIDAndCategoryID(anyString(), anyString())).thenReturn(List.of(payment));
+        when(paymentRepo.getAllByUserIDAndCategoryID(anyString(), anyString())).thenReturn(List.of(actualPayment));
 
-        assertEquals(List.of(payment), underTest.deletePayment(userID, payment));
+        assertEquals(List.of(Payment.convertPaymentToDTO(actualPayment)), underTest.deletePayment(userID, categoryID, paymentID));
         verify(paymentRepo).deleteByPaymentID(anyString());
     }
 
@@ -96,13 +110,13 @@ class PaymentServiceTest {
 
     @Test
     void shouldReturnListAfterSuccessfulChangingPayment_OnChange() {
-        Payment payment = TestDataProvider.testPayment();
-        String userID = payment.getUserID();
+        Payment actualPayment = TestDataProvider.testPayment();
+        String userID = actualPayment.getUserID();
         when(categoryRepository.existsByUserIDAndCategoryID(anyString(), anyString())).thenReturn(true);
-        when(paymentRepo.getAllByUserIDAndCategoryID(anyString(), anyString())).thenReturn(List.of(payment));
+        when(paymentRepo.getAllByUserIDAndCategoryID(anyString(), anyString())).thenReturn(List.of(actualPayment));
         when(paymentRepo.existsByPaymentID(anyString())).thenReturn(true);
 
-        assertEquals(List.of(payment), underTest.changePayment(userID, payment));
+        assertEquals(List.of(Payment.convertPaymentToDTO(actualPayment)), underTest.changePayment(userID, actualPayment));
         verify(paymentRepo).save(any(Payment.class));
     }
 

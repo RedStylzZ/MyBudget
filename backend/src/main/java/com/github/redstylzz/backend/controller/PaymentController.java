@@ -2,6 +2,7 @@ package com.github.redstylzz.backend.controller;
 
 import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.model.Payment;
+import com.github.redstylzz.backend.model.dto.CategoryPaymentInputDTO;
 import com.github.redstylzz.backend.model.dto.PaymentDTO;
 import com.github.redstylzz.backend.service.MongoUserService;
 import com.github.redstylzz.backend.service.PaymentService;
@@ -39,27 +40,26 @@ public class PaymentController {
     }
 
     @GetMapping
-    public List<Payment> getPayments(Principal principal, @RequestParam String categoryID) {
+    public List<PaymentDTO> getPayments(Principal principal, @RequestParam String categoryID) {
         MongoUser user = getUser(principal);
         return service.getPayments(user.getId(), categoryID);
     }
 
     @PutMapping
-    public List<Payment> addPayment(Principal principal, @RequestBody PaymentDTO dto) {
+    public List<PaymentDTO> addPayment(Principal principal, @RequestBody PaymentDTO dto) {
         String userID = getUser(principal).getId();
         Payment payment = Payment.convertDTOtoPayment(dto);
         return service.addPayment(userID, payment);
     }
 
     @DeleteMapping
-    public List<Payment> deletePayment(Principal principal, @RequestBody PaymentDTO dto) {
+    public List<PaymentDTO> deletePayment(Principal principal, @RequestBody CategoryPaymentInputDTO dto) {
         String userID = getUser(principal).getId();
-        Payment payment = Payment.convertDTOtoPayment(dto);
-        return service.deletePayment(userID, payment);
+        return service.deletePayment(userID, dto.getCategoryID(), dto.getPaymentID());
     }
 
     @PostMapping
-    public List<Payment> changePayment(Principal principal, @RequestBody PaymentDTO dto) {
+    public List<PaymentDTO> changePayment(Principal principal, @RequestBody PaymentDTO dto) {
         String userID = getUser(principal).getId();
         Payment payment = Payment.convertDTOtoPayment(dto);
         return service.changePayment(userID, payment);

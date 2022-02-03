@@ -1,6 +1,8 @@
 package com.github.redstylzz.backend.model;
 
 import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.mockito.internal.util.MockUtil;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -78,10 +80,12 @@ public class TestDataProvider {
                 .build();
     }
 
-    public static UUID mockUUID() {
-        UUID randUUID = UUID.randomUUID();
+    public static String UUID_STRING = "06f1eb01-cdaf-46e4-a3c8-eff2e4b300dd";
+
+    public static void mockUUID() {
+        UUID uuid = UUID.fromString(UUID_STRING);
         MockedStatic<UUID> uuidMock = mockStatic(UUID.class);
-        uuidMock.when(UUID::randomUUID).thenReturn(randUUID);
-        return randUUID;
+        uuidMock.when(UUID::randomUUID).thenReturn(uuid);
     }
+
 }
