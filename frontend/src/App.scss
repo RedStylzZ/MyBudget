@@ -2,3 +2,10 @@ body {
     background-color: #282c34;
     color: white;
 }
+
+.App:after {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-left: 9rem;
+}
