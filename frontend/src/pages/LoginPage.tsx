@@ -3,6 +3,7 @@ import {ChangeEvent, FormEvent, useContext, useState} from "react";
 import LoginController from "../controllers/LoginController";
 import {ILoginController} from "../models/ControllerTypes";
 import {AuthContext} from "../context/AuthProvider";
+import './LoginPage.scss'
 
 interface ITextInput {
     username: { value: string }
@@ -30,8 +31,8 @@ export default function LoginPage() {
 
         if ((formUsername && formUsername.length > 0) && (formPassword && formPassword.length > 0)) {
             controller.login(formUsername, formPassword)
-                .then(token => {
-                    setJwt(token)
+                .then(newToken => {
+                    setJwt(newToken)
                     navigate(-1)
                 })
                 .catch(console.error)
@@ -49,8 +50,9 @@ export default function LoginPage() {
         <div className={"loginPage"}>
             <h1>{"Login"}</h1>
             <form onSubmit={login}>
-                <input type="text" id={"username"} onChange={onNameChange} value={name}/>
-                <input type="password" id={"password"} onChange={onPasswordChange} value={password}/>
+                <h2>Username</h2>
+                <input type="text" id={"username"} onChange={onNameChange} value={name}/><br/>
+                <input type="password" id={"password"} onChange={onPasswordChange} value={password}/><br/>
                 <input type="submit" value={"Submit"}/>
             </form>
         </div>

@@ -4,8 +4,8 @@ import './Recent.scss'
 export default function Recent() {
 
     return (
-        <div className={"recentOut"}>
-            <h1>Resents</h1>
+        <div className={"payments"}>
+            <h1>Recents</h1>
             <RecentItem />
         </div>
     )
