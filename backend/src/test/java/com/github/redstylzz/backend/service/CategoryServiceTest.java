@@ -9,9 +9,10 @@ import com.github.redstylzz.backend.repository.ICategoryRepository;
 import com.github.redstylzz.backend.repository.IPaymentRepository;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.util.List;
 
-import static com.github.redstylzz.backend.model.TestDataProvider.UUID_STRING;
+import static com.github.redstylzz.backend.model.TestDataProvider.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -97,5 +98,27 @@ class CategoryServiceTest {
         verify(paymentRepo).deleteAllByUserIDAndCategoryID(anyString(), anyString());
         verify(repository).findAllByUserID(anyString());
         assertEquals(List.of(), wantedList);
+    }
+
+    @Test
+    void shouldSaveCategory() {
+        String userID = testUser().getId();
+        String categoryID = testCategory().getCategoryID();
+        BigDecimal paymentSum = BigDecimal.ZERO;
+        when(repository.findByUserIDAndCategoryID(anyString(), anyString())).thenReturn(testCategory());
+
+        underTest.setCategorySum(userID, categoryID, paymentSum);
+
+        verify(repository).save(any(Category.class));
+    }
+
+    @Test
+    void shouldNotSaveCategory() {
+        String userID = testUser().getId();
+        String categoryID = testCategory().getCategoryID();
+
+        underTest.setCategorySum(userID, categoryID, null);
+
+        verifyNoInteractions(repository);
     }
 }
