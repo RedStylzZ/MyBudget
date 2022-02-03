@@ -6,19 +6,22 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
-import org.mockito.Spy;
-import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.Instant;
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.mockStatic;
 
+@SpringBootTest
 class JWTServiceTest {
 
-    @Spy
-    private final JWTService underTest = spy(JWTService.class);
+    @Autowired
+    private JWTService underTest;
     private static final MockedStatic<Date> staticDate = mockStatic(Date.class);
     private final String actualToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUaXppYW4iLCJleHAiOjAsImlhdCI6MH0.9z7Q2p6ZlLAuABX-2fE_ouij1YjhsIAWnewZ4D2blks";
     private MongoUser user;
@@ -30,7 +33,6 @@ class JWTServiceTest {
 
     @BeforeEach
     void init() {
-        ReflectionTestUtils.setField(underTest, "secret", "SuperSecret");
         user = TestDataProvider.testUser();
     }
 
