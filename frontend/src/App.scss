@@ -1,10 +1,7 @@
-body {
-    background-color: #282c34;
-    color: white;
+.App {
+    display: flex;
+    align-content: stretch;
+    align-items: stretch;
+    height: 100vh;
     overflow: hidden;
-}
-
-#scroller {
-    overflow: auto;
-    height: 100px;
 }
