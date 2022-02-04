@@ -4,25 +4,3 @@
     align-items: center;
     height: 100vh;
 }
-
-.categories {
-    display: flex;
-    flex-flow: row wrap;
-    height: 100vh;
-    width: 100%;
-    gap: 1rem
-}
-
-.categoryItem {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: #1A1A1A;
-    width: 18%;
-    height: 100%;
-    border-radius: 50px;
-
-    h1, h2 {
-        margin: 0;
-    }
-}

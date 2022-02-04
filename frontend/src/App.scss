@@ -1,4 +1,10 @@
 body {
     background-color: #282c34;
     color: white;
+    overflow: hidden;
+}
+
+#scroller {
+    overflow: auto;
+    height: 100px;
 }
