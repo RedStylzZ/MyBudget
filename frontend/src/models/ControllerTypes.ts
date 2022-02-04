@@ -6,7 +6,7 @@ export interface ILoginController {
 }
 
 export interface IPaymentController {
-    getPayments: () => Promise<Payment>
+    getPayments: (categoryId: string) => Promise<Payment[]>
 }
 
 export interface ICategoryController {

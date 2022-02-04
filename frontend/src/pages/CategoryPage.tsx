@@ -10,14 +10,16 @@ interface ITextInput {
 }
 
 export default function CategoryPage() {
-    const token: string = useContext(AuthContext).token!
-    const config = {headers: {Authorization: `Bearer ${token}`}}
+    const config = useContext(AuthContext).config!
+    console.log(config)
     const controller: ICategoryController = CategoryController(config);
     const [categories, setCategories] = useState<Category[]>([])
 
     useEffect(() => {
+        if (!config) return
         controller.getCategories().then(setCategories)
-    }, [])
+        //eslint-disable-next-line
+    }, [config])
 
     const addCategory: FormEventHandler<HTMLFormElement> = (event) => {
         event.preventDefault()
@@ -40,7 +42,7 @@ export default function CategoryPage() {
                     <input type="text" id="categoryInput"/>
                     <input type="submit" value={"Add category"}/>
                 </form>
-                <Categories categories={categories}/>
+                <Categories categories={categories} config={config}/>
             </div>
         </div>
     )
