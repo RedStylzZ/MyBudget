@@ -19,7 +19,7 @@ export default function CategoryItem(props: { category: Category, config: IToken
         <div className={"categoryItemCard"} id={category.categoryID}>
             <div className={"categoryItem"}>
                 <h1>{category.categoryName}</h1>
-                <h2>{category.paymentSum}</h2>
+                <h2>{category.paymentSum + "€"}</h2>
             </div>
             <h1>Payments</h1>
             <div className={"payments"}>
