@@ -7,6 +7,9 @@ export default function NavBar() {
             <Link to={"/"}>
                 <input type={"button"} value={"Home"}/>
             </Link>
+            <Link to={"/categories"}>
+                <input type={"button"} value={"Categories"}/>
+            </Link>
             <input type={"button"} value={"Login"}/>
         </div>
     )
