@@ -24,13 +24,13 @@ const mapPayments = (payments: Payment[]) => {
     )
 }
 
-export default function CategoryItem(props: { category: Category, config: ITokenConfig, deleteCategory: IDeleteCategory, getPayments: boolean }) {
-    const {category, config, deleteCategory, getPayments} = props
+export default function CategoryItem(props: { category: Category, config: ITokenConfig, deleteCategory: IDeleteCategory }) {
+    const {category, config, deleteCategory} = props
     const controller = PaymentController(config)
-    const [payments, setPayments] = useState<Payment[]>()
+    const [payments, setPayments] = useState<Payment[]>([])
 
     useEffect(() => {
-        getPayments && controller.getPayments(category.categoryID).then(setPayments)
+        controller.getPayments(category.categoryID).then(setPayments)
         //eslint-disable-next-line
     }, [])
 
@@ -38,7 +38,7 @@ export default function CategoryItem(props: { category: Category, config: IToken
     return (
         <div className={"categoryItemCard"} id={category.categoryID}>
             {mapToCategoryItem(category, deleteCategory)}
-            {getPayments && mapPayments(payments!)}
+            {mapPayments(payments)}
         </div>
     )
 }

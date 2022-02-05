@@ -48,7 +48,7 @@ export default function CategoryPage() {
                     <input type="text" id="categoryInput"/>
                     <input type="submit" value={"Add category"}/>
                 </form>
-                <Categories categories={categories} config={config} deleteCategory={deleteCategory} getPayments={true}/>
+                <Categories categories={categories} config={config} deleteCategory={deleteCategory} />
             </div>
         </div>
     )
