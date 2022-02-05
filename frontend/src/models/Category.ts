@@ -1,8 +1,8 @@
 export interface Category {
-    categoryID:   string;
-    userID:       string;
+    categoryID: string;
+    userID: string;
     categoryName: string;
-    paymentSum:   number;
+    paymentSum: number;
 }
 
 export type  IDeleteCategory = (categoryID: string) => void

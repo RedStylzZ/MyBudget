@@ -12,8 +12,12 @@ export interface IAuthContext {
 }
 
 export const AuthContext = createContext<IAuthContext>({
-    logout: () => {throw new Error("Login not initialized")},
-    setJwt: () => {throw new Error("Login not initialized")}
+    logout: () => {
+        throw new Error("Login not initialized")
+    },
+    setJwt: () => {
+        throw new Error("Login not initialized")
+    }
 })
 
 export default function AuthProvider({children}: { children: ReactElement<any, any> }) {

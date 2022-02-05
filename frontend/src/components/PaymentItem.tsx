@@ -1,6 +1,6 @@
 import {Payment} from "../models/IPayment";
 
-export default function PaymentItem(props: {payment: Payment}) {
+export default function PaymentItem(props: { payment: Payment }) {
     const {payment} = props
 
     return (

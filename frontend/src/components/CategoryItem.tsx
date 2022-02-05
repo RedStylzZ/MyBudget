@@ -10,7 +10,7 @@ const mapToCategoryItem = (category: Category, deleteCategory: IDeleteCategory) 
         <div className={"categoryItem"}>
             <h1>{category.categoryName}</h1>
             <h2>{category.paymentSum + "€"}</h2>
-            <input type="button" value={"Remove"} onClick={() => deleteCategory(category.categoryID)} />
+            <input type="button" value={"Remove"} onClick={() => deleteCategory(category.categoryID)}/>
         </div>
     )
 }
