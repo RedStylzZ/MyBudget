@@ -4,6 +4,7 @@ import {ICategoryController} from "../models/ControllerTypes";
 import CategoryController from "../controllers/CategoryController";
 import {Category} from "../models/Category";
 import {AuthContext} from "../context/AuthProvider";
+import './CategoryPage.scss'
 
 interface ITextInput {
     categoryInput: { value: string }
