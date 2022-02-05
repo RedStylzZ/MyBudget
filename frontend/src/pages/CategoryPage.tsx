@@ -12,7 +12,6 @@ interface ITextInput {
 
 export default function CategoryPage() {
     const config = useContext(AuthContext).config!
-    console.log(config)
     const controller: ICategoryController = CategoryController(config);
     const [categories, setCategories] = useState<Category[]>([])
 
@@ -26,11 +25,12 @@ export default function CategoryPage() {
         event.preventDefault()
         const form = event.currentTarget
         const formElements = form.elements as typeof form.elements & ITextInput
-        const category = formElements.categoryInput.value.trim()
+        const categoryName = formElements.categoryInput.value.trim()
 
-        if (category && category.length > 0) {
-            controller.getCategories().then(setCategories)
+        if (categoryName && categoryName.length > 0) {
+            controller.addCategory(categoryName).then(setCategories)
         }
+        formElements.categoryInput.value = "";
     }
 
     return (
@@ -43,7 +43,7 @@ export default function CategoryPage() {
                     <input type="text" id="categoryInput"/>
                     <input type="submit" value={"Add category"}/>
                 </form>
-                <Categories categories={categories} config={config}/>
+                <Categories categories={categories} config={config} getPayments={true}/>
             </div>
         </div>
     )

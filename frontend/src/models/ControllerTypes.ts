@@ -11,4 +11,5 @@ export interface IPaymentController {
 
 export interface ICategoryController {
     getCategories: () => Promise<Category[]>
+    addCategory: (categoryName: string) => Promise<Category[]>
 }

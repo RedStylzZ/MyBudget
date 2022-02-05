@@ -24,7 +24,7 @@ export default function HomePage() {
             </div>
             <div className={"homeCategories"}>
                 <h1>Categories</h1>
-                <Categories categories={categories} config={config}/>
+                <Categories categories={categories} config={config} getPayments={false}/>
             </div>
         </div>
     )

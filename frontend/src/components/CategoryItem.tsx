@@ -5,26 +5,39 @@ import {useEffect, useState} from "react";
 import {Payment} from "../models/IPayment";
 import Payments from "./Payments";
 
-export default function CategoryItem(props: { category: Category, config: ITokenConfig }) {
-    const {category, config} = props
+const mapToCategoryItem = (category: Category) => {
+    return (
+        <div className={"categoryItem"}>
+            <h1>{category.categoryName}</h1>
+            <h2>{category.paymentSum + "€"}</h2>
+        </div>
+    )
+}
+
+const mapPayments = (payments: Payment[]) => {
+    return (
+        <div className={"payments"}>
+            <h1>Payments</h1>
+            <Payments payments={payments}/>
+        </div>
+    )
+}
+
+export default function CategoryItem(props: { category: Category, config: ITokenConfig, getPayments: boolean }) {
+    const {category, config, getPayments} = props
     const controller = PaymentController(config)
-    const [payments, setPayments] = useState<Payment[]>([])
+    const [payments, setPayments] = useState<Payment[]>()
 
     useEffect(() => {
-        controller.getPayments(category.categoryID).then(setPayments)
+        getPayments && controller.getPayments(category.categoryID).then(setPayments)
         //eslint-disable-next-line
     }, [])
 
+
     return (
         <div className={"categoryItemCard"} id={category.categoryID}>
-            <div className={"categoryItem"}>
-                <h1>{category.categoryName}</h1>
-                <h2>{category.paymentSum + "€"}</h2>
-            </div>
-            <h1>Payments</h1>
-            <div className={"payments"}>
-                <Payments payments={payments}/>
-            </div>
+            {mapToCategoryItem(category)}
+            {getPayments && mapPayments(payments!)}
         </div>
     )
 }
