@@ -9,7 +9,7 @@ export default function Categories(props: { categories: Category[], config: ITok
         <>
             {
                 categories.map((category, index) =>
-                    <CategoryItem category={category} config={config} deleteCategory={deleteCategory!} key={index}/>
+                    <CategoryItem category={category} config={config} deleteCategory={deleteCategory} key={index}/>
                 )
             }
         </>
