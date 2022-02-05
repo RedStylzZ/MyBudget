@@ -33,6 +33,11 @@ export default function CategoryPage() {
         formElements.categoryInput.value = "";
     }
 
+    const deleteCategory = (categoryID: string) => {
+        if (!categoryID && categoryID.length <= 1) return
+        controller.deleteCategory(categoryID).then(setCategories)
+    }
+
     return (
         <div className={"categoryPage"}>
             <div className={"categoryHeader"}>
@@ -43,7 +48,7 @@ export default function CategoryPage() {
                     <input type="text" id="categoryInput"/>
                     <input type="submit" value={"Add category"}/>
                 </form>
-                <Categories categories={categories} config={config} getPayments={true}/>
+                <Categories categories={categories} config={config} deleteCategory={deleteCategory} getPayments={true}/>
             </div>
         </div>
     )

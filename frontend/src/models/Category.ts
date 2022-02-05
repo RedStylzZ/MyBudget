@@ -4,3 +4,5 @@ export interface Category {
     categoryName: string;
     paymentSum:   number;
 }
+
+export type  IDeleteCategory = (categoryID: string) => void
