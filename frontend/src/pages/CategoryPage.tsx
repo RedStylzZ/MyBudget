@@ -4,6 +4,7 @@ import {ICategoryController} from "../models/ControllerTypes";
 import CategoryController from "../controllers/CategoryController";
 import {Category} from "../models/Category";
 import {AuthContext} from "../context/AuthProvider";
+import './CategoryPage.scss'
 
 interface ITextInput {
     categoryInput: { value: string }
@@ -11,7 +12,6 @@ interface ITextInput {
 
 export default function CategoryPage() {
     const config = useContext(AuthContext).config!
-    console.log(config)
     const controller: ICategoryController = CategoryController(config);
     const [categories, setCategories] = useState<Category[]>([])
 
@@ -25,11 +25,17 @@ export default function CategoryPage() {
         event.preventDefault()
         const form = event.currentTarget
         const formElements = form.elements as typeof form.elements & ITextInput
-        const category = formElements.categoryInput.value.trim()
+        const categoryName = formElements.categoryInput.value.trim()
 
-        if (category && category.length > 0) {
-            controller.getCategories().then(setCategories)
+        if (categoryName && categoryName.length > 0) {
+            controller.addCategory(categoryName).then(setCategories)
         }
+        formElements.categoryInput.value = "";
+    }
+
+    const deleteCategory = (categoryID: string) => {
+        if (!categoryID && categoryID.length <= 1) return
+        controller.deleteCategory(categoryID).then(setCategories)
     }
 
     return (
@@ -42,7 +48,7 @@ export default function CategoryPage() {
                     <input type="text" id="categoryInput"/>
                     <input type="submit" value={"Add category"}/>
                 </form>
-                <Categories categories={categories} config={config}/>
+                <Categories categories={categories} config={config} deleteCategory={deleteCategory}/>
             </div>
         </div>
     )

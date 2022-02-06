@@ -1,7 +1,7 @@
 export interface Payment {
-    paymentID:   string;
-    categoryID:  string;
+    paymentID: string;
+    categoryID: string;
     description: string;
-    amount:      number;
-    payDate:     string;
+    amount: number;
+    payDate: string;
 }
