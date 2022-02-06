@@ -39,16 +39,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String token = getToken(request);
 
         LOG.debug("JWTAuthFilter Token: " + token);
-        String username = null;
-
-        if ((token != null) && !(token.equals("undefined")) && (!token.isBlank())) {
-            try {
-                username = jwtService.extractUsername(token);
-            } catch (ExpiredJwtException e) {
-                LOG.warn("Token expired: " + token);
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Token expired");
-            }
-        }
+        String username = getUser(token);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) try {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -65,9 +56,21 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private String getToken(HttpServletRequest request) {
+    public String getToken(HttpServletRequest request) {
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (authHeader == null) return null;
         return authHeader.replace("Bearer", "").trim();
+    }
+
+    public String getUser(String token) {
+        if ((token != null) && !(token.equals("undefined")) && (!token.isBlank())) {
+            try {
+                return jwtService.extractUsername(token);
+            } catch (ExpiredJwtException e) {
+                LOG.warn("Token expired: " + token);
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Token expired");
+            }
+        }
+        return null;
     }
 }
