@@ -1,7 +1,10 @@
 import './NavBar.scss'
 import {Link} from "react-router-dom";
+import {useContext} from "react";
+import {AuthContext} from "../context/AuthProvider";
 
 export default function NavBar() {
+    const {logout} = useContext(AuthContext)
     return (
         <div className={"navBar"}>
             <Link to={"/"}>
@@ -11,7 +14,7 @@ export default function NavBar() {
                 <input type={"button"} value={"Categories"}/>
             </Link>
             <Link to={"/login"}>
-                <input type={"button"} value={"Logout"}/>
+                <input type={"button"} value={"Logout"} onClick={() => logout()}/>
             </Link>
         </div>
     )
