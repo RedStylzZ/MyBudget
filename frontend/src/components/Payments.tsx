@@ -1,9 +1,12 @@
 import {Payment} from "../models/IPayment";
 import PaymentItem from "./PaymentItem";
 
-export default function Payments(props: { payments: Payment[] }) {
-    const {payments} = props
-    if (!payments || !Array.isArray(payments)) return null;
+interface PaymentsProps {
+    payments: Payment[]
+}
+
+export default function Payments({ payments }: PaymentsProps) {
+    if (!Array.isArray(payments)) return null;
     return (
         <>
             {
