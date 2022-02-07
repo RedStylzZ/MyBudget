@@ -6,7 +6,7 @@ export default function CategoryService(config: ITokenConfig | undefined): ICate
     const URL: string = "/api/category"
     return {
         getCategories: () => {
-            return axios.get(URL, config).then(response => response.data);
+            return axios.get(URL, config).then(response => response.data)
         },
         addCategory: categoryName => {
             return axios.put(URL, {categoryName}, config).then(response => response.data)

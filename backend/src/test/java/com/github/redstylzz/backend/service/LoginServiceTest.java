@@ -1,5 +1,6 @@
 package com.github.redstylzz.backend.service;
 
+import com.github.redstylzz.backend.filter.JwtAuthFilter;
 import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.model.TestDataProvider;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,8 @@ class LoginServiceTest {
 
     private final AuthenticationManager authManager = mock(AuthenticationManager.class);
     private final JWTService jwtService = mock(JWTService.class);
-    private final LoginService underTest = new LoginService(authManager, jwtService);
+    private final JwtAuthFilter authFilter = mock(JwtAuthFilter.class);
+    private final LoginService underTest = new LoginService(authManager, jwtService, authFilter);
 
     @Test
     void shouldThrowErrorIfLoginFails() {

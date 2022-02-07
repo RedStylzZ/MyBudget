@@ -12,21 +12,23 @@ function App() {
     return (
         <div className="App">
             <BrowserRouter>
-                <NavBar/>
                 <AuthProvider>
-                    <Routes>
-                        <Route path={"/login"} element={<LoginPage/>}/>
-                        <Route path={"*"} element={
-                            <RequireAuth>
-                                <HomePage/>
-                            </RequireAuth>}
-                        />
-                        <Route path={"/categories"} element={
-                            <RequireAuth>
-                                <CategoryPage/>
-                            </RequireAuth>}
-                        />
-                    </Routes>
+                    <div className={"authDiv"}>
+                        <NavBar/>
+                        <Routes>
+                            <Route path={"/login"} element={<LoginPage/>}/>
+                            <Route path={"*"} element={
+                                <RequireAuth>
+                                    <HomePage/>
+                                </RequireAuth>}
+                            />
+                            <Route path={"/categories"} element={
+                                <RequireAuth>
+                                    <CategoryPage/>
+                                </RequireAuth>}
+                            />
+                        </Routes>
+                    </div>
                 </AuthProvider>
             </BrowserRouter>
         </div>

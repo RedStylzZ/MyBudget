@@ -1,6 +1,9 @@
 package com.github.redstylzz.backend.service;
 
+import com.github.redstylzz.backend.filter.JwtAuthFilter;
 import com.github.redstylzz.backend.model.MongoUser;
+import io.jsonwebtoken.ExpiredJwtException;
+import lombok.RequiredArgsConstructor;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.http.HttpStatus;
@@ -10,15 +13,19 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Service
+@RequiredArgsConstructor
 public class LoginService {
     private static final Log LOG = LogFactory.getLog(LoginService.class);
     private final AuthenticationManager authManager;
     private final JWTService jwtService;
+    private final JwtAuthFilter authFilter;
 
-    public LoginService(AuthenticationManager authManager, JWTService jwtService) {
-        this.authManager = authManager;
-        this.jwtService = jwtService;
+    public boolean checkLogin(HttpServletRequest request) {
+        String token = authFilter.getToken(request);
+        return authFilter.getUser(token) != null;
     }
 
     public String login(MongoUser user) {

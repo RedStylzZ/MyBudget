@@ -3,11 +3,14 @@ import {ILoginController} from "../models/ControllerTypes";
 
 export default function LoginController(): ILoginController {
 
-    const apiController = LoginService();
+    const service = LoginService();
 
     return {
         login: (username: string, password: string) => {
-            return apiController.login(username, password).then(token => token);
+            return service.login(username, password);
+        },
+        checkLoggedIn: () => {
+            return service.checkLoggedIn().then(response => response)
         }
     }
 }
