@@ -8,12 +8,14 @@ import com.github.redstylzz.backend.model.TestDataProvider;
 import com.github.redstylzz.backend.model.dto.PaymentDTO;
 import com.github.redstylzz.backend.repository.ICategoryRepository;
 import com.github.redstylzz.backend.repository.IPaymentRepository;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
 
 import java.util.List;
+import java.util.UUID;
 
-import static com.github.redstylzz.backend.model.TestDataProvider.UUID_STRING;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -25,10 +27,20 @@ class PaymentServiceTest {
     private final ICategoryRepository categoryRepository = mock(ICategoryRepository.class);
     private final CategoryService categoryService = mock(CategoryService.class);
     private final PaymentService underTest = new PaymentService(paymentRepo, categoryRepository, categoryService);
+    private static final String UUID_STRING = "06f1eb01-cdaf-46e4-a3c8-eff2e4b300dd";
+    private static final UUID uuid = UUID.fromString(UUID_STRING);
+    private static MockedStatic<UUID> uuidMock;
+
 
     @BeforeAll
     static void init() {
-        TestDataProvider.mockUUID();
+        uuidMock = mockStatic(UUID.class);
+        uuidMock.when(UUID::randomUUID).thenReturn(uuid);
+    }
+
+    @AfterAll
+    static void end() {
+        uuidMock.close();
     }
 
     @Test
@@ -54,9 +66,8 @@ class PaymentServiceTest {
 
     @Test
     void shouldReturnListAfterAddingPayment_OnAdd() {
-        String randomUUID = UUID_STRING;
         Payment actualPayment = TestDataProvider.testPayment();
-        actualPayment.setPaymentID(randomUUID);
+        actualPayment.setPaymentID(UUID_STRING);
         String userID = actualPayment.getUserID();
         when(categoryRepository.existsByUserIDAndCategoryID(anyString(), anyString())).thenReturn(true);
         when(paymentRepo.getAllByUserIDAndCategoryID(anyString(), anyString())).thenReturn(List.of(actualPayment));

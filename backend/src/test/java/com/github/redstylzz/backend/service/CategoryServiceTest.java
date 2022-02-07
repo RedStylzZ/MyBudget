@@ -7,12 +7,17 @@ import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.model.TestDataProvider;
 import com.github.redstylzz.backend.repository.ICategoryRepository;
 import com.github.redstylzz.backend.repository.IPaymentRepository;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
-import static com.github.redstylzz.backend.model.TestDataProvider.*;
+import static com.github.redstylzz.backend.model.TestDataProvider.testCategory;
+import static com.github.redstylzz.backend.model.TestDataProvider.testUser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -23,6 +28,21 @@ class CategoryServiceTest {
     private final ICategoryRepository repository = mock(ICategoryRepository.class);
     private final IPaymentRepository paymentRepo = mock(IPaymentRepository.class);
     private final CategoryService underTest = new CategoryService(repository, paymentRepo);
+    private static final String UUID_STRING = "06f1eb01-cdaf-46e4-a3c8-eff2e4b300dd";
+    private static final UUID uuid = UUID.fromString(UUID_STRING);
+    private static MockedStatic<UUID> uuidMock;
+
+
+    @BeforeAll
+    static void init() {
+        uuidMock = mockStatic(UUID.class);
+        uuidMock.when(UUID::randomUUID).thenReturn(uuid);
+    }
+
+    @AfterAll
+    static void end() {
+        uuidMock.close();
+    }
 
     @Test
     void shouldFetchCategories() {
@@ -45,9 +65,8 @@ class CategoryServiceTest {
     @Test
     void shouldAddCategoryIfNotExistentAndReturnCategories() {
         MongoUser user = TestDataProvider.testUser();
-        String randUUID = UUID_STRING;
         Category category = TestDataProvider.testCategory();
-        category.setCategoryID(randUUID);
+        category.setCategoryID(UUID_STRING);
         String categoryName = category.getCategoryName();
         when(repository.save(any(Category.class))).thenReturn(null);
 
