@@ -24,8 +24,13 @@ const mapPayments = (payments: Payment[]) => {
     )
 }
 
-export default function CategoryItem(props: { category: Category, config: ITokenConfig, deleteCategory: IDeleteCategory }) {
-    const {category, config, deleteCategory} = props
+interface CategoryItemProps {
+    category: Category,
+    config: ITokenConfig,
+    deleteCategory: IDeleteCategory
+}
+
+export default function CategoryItem({ category, config, deleteCategory }: CategoryItemProps) {
     const controller = PaymentController(config)
     const [payments, setPayments] = useState<Payment[]>([])
 
