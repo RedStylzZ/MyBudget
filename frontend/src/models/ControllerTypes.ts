@@ -3,7 +3,11 @@ import {Category} from "./Category";
 
 export interface ILoginController {
     login: (username: string, password: string) => Promise<string>
-    checkLoggedIn: () => Promise<boolean>
+    checkLoggedIn: () => boolean
+}
+
+export interface ILoginService {
+    login: (username: string, password: string) => Promise<string>
 }
 
 export interface IPaymentController {

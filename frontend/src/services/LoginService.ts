@@ -1,18 +1,12 @@
 import axios from "axios";
-import {ILoginController} from "../models/ControllerTypes";
-import {useContext} from "react";
-import {AuthContext} from "../context/AuthProvider";
+import {ILoginService} from "../models/ControllerTypes";
 
-export default function LoginService(): ILoginController {
-    const config = useContext(AuthContext).config
+export default function LoginService(): ILoginService {
     return {
         login: (username: string, password: string) => {
             return axios.post("/auth/login",
                 {username: username, password: password})
                 .then(response => response.data);
-        },
-        checkLoggedIn: () => {
-            return axios.get("/auth/login", config).then(response => response.data)
         }
     }
 }

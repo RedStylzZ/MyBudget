@@ -6,7 +6,7 @@ import {ITokenConfig} from "../models/Connection";
 export interface IAuthContext {
     token?: string,
     config?: ITokenConfig,
-    jwtDecoded?: { sub?: string },
+    jwtDecoded?: { sub?: string, exp?: number },
     setJwt: (jwt: string) => void,
     logout: () => void,
 }
