@@ -25,9 +25,7 @@ export default function CategoryPage() {
         if (categoryName && categoryName.length > 0) {
             controller.addCategory(categoryName).then(setCategories)
         }
-
-        // @ts-ignore
-        event.currentTarget.elements[0].value = ""
+        setCategoryInput("")
     }
 
     const deleteCategory = (categoryID: string) => {
@@ -45,7 +43,7 @@ export default function CategoryPage() {
             </div>
             <div className={"categories"}>
                 <form onSubmit={addCategory} className={"addCategory"}>
-                    <input type="text" id="categoryInput" onChange={onCategoryInputChange}/>
+                    <input type="text" id="categoryInput" onChange={onCategoryInputChange} value={categoryInput}/>
                     <input type="submit" value={"Add category"}/>
                 </form>
                 <Categories categories={categories} config={config} deleteCategory={deleteCategory}/>
