@@ -58,6 +58,21 @@
                 border-radius: 10px;
                 margin: 0 1rem;
             }
+
+            .payDate {
+                display: flex;
+                justify-content: center;
+                gap: 1rem;
+                margin: 1rem;
+
+                #payDate, #payDate-label {
+                    color: white;
+                }
+            }
+
+            svg {
+                color: white;
+            }
         }
 
         h1 {

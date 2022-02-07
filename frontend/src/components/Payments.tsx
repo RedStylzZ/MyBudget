@@ -1,19 +1,77 @@
-import {Payment} from "../models/IPayment";
+import {IPayment} from "../models/IPayment";
 import PaymentItem from "./PaymentItem";
+import React, {FormEvent, useState} from "react";
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import {DatePicker, LocalizationProvider} from "@mui/lab";
+import {TextField} from "@mui/material";
+import {IPaymentController} from "../models/ControllerTypes";
 
 interface PaymentsProps {
-    payments: Payment[]
+    payments: IPayment[]
+    categoryID: string
+    setPayments: React.Dispatch<React.SetStateAction<IPayment[]>>
+    controller: IPaymentController
 }
 
-export default function Payments({ payments }: PaymentsProps) {
+interface IPaymentInput {
+    description: {value: string }
+    amount: {value: number }
+    payDate: {value: string }
+}
+
+export default function Payments({payments, categoryID, setPayments, controller}: PaymentsProps) {
+    const [date, setDate] = useState<Date | null>(new Date(Date.now()))
     if (!Array.isArray(payments)) return null;
+
+
+    const addPayment = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        console.log(event)
+        const form = event.currentTarget
+        const formElements = form.elements as typeof form.elements & IPaymentInput
+        const paymentID: string = "";
+        const description: string = formElements.description.value
+        const amount: number = formElements.amount.value
+        const payDate: string = Date.parse(formElements.payDate.value).toString()
+        const payment: IPayment = {
+            paymentID, categoryID, description, amount, payDate
+        }
+        controller.addPayment(payment).then(setPayments)
+    }
+
     return (
-        <>
+        <div className={"payments"}>
+            <form onSubmit={addPayment} className={"addCategoryForm"}>
+                <input type="text" id={"description"} placeholder={"Description"}/>
+                <input type="number" id={"amount"} placeholder={"Amount"} step={0.01}/>
+                <div className={"payDate"}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <DatePicker
+                            label="Pick your date"
+                            value={date}
+                            inputFormat={"dd/MM/yyyy"}
+                            onChange={(newValue) => {
+                                setDate(newValue);
+                            }}
+                            renderInput={(params) => <TextField {...params} sx={{
+                                color: 'white',
+                                backgroundColor: '#1A1A1A',
+                                '&:hover': {
+                                    backgroundColor: '#1B1B1B',
+                                    opacity: [0.9, 0.8, 0.7],
+                                },
+                            }} id={"payDate"}/>}
+                        />
+                    </LocalizationProvider>
+                </div>
+
+                <input type="submit" value={"Submit"}/>
+            </form>
             {
                 payments.map((payment, index) =>
                     <PaymentItem payment={payment} key={index}/>
                 )
             }
-        </>
+        </div>
     )
 }
