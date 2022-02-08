@@ -4,6 +4,9 @@ import {ITokenConfig} from "../models/Connection";
 
 export default function PaymentService(config: ITokenConfig | undefined): IPaymentController {
     return {
+        getPayment: ((categoryID, paymentID) => {
+            return axios.get(`/api/payment/?categoryID=${categoryID}&paymentID=${paymentID}`, config).then(response => response.data)
+        }),
         getPayments: (categoryID) => {
             return axios.get(`/api/payment/${categoryID}`, config).then(response => response.data)
         },
