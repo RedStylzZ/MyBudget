@@ -20,8 +20,6 @@ export default function PaymentController(config: ITokenConfig | undefined): IPa
             return service.deletePayment(categoryID, paymentID)
         },
         changePayment: (payment) => {
-            console.log("Payment", payment)
-            console.log("Config", config)
             return service.changePayment(payment)
         }
     }

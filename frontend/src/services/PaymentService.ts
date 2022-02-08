@@ -14,8 +14,7 @@ export default function PaymentService(config: ITokenConfig | undefined): IPayme
             return axios.put("/api/payment", payment, config).then(response => response.data)
         },
         deletePayment: (categoryID, paymentID) => {
-            config!["data"] = {categoryID, paymentID}
-            return axios.delete(`/api/payment`, config).then(response => response.data)
+            return axios.delete(`/api/payment/?categoryID=${categoryID}&paymentID=${paymentID}`, config).then(response => response.data)
         },
         changePayment: (payment) => {
             return axios.post(`/api/payment`, payment, config).then(response => response.data)

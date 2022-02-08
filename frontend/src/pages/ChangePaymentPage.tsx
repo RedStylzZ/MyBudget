@@ -10,12 +10,12 @@ import {Payment} from "../models/Payment";
 import './ChangePaymentPage.scss'
 
 export default function ChangePaymentPage() {
-    const params = useParams()
-    const categoryID = params.categoryID
-    const paymentID = params.paymentID
+    const urlParams = useParams()
+    const categoryID = urlParams.categoryID
+    const paymentID = urlParams.paymentID
     const [description, setDescription] = useState<string>("")
     const [amount, setAmount] = useState<number>(0)
-    const [date, setDate] = useState<Date | null>(new Date(Date.now()))
+    const [date, setDate] = useState<Date>(new Date(Date.now()))
     const config = useContext(AuthContext).config
     const controller: IPaymentController = useMemo(() => PaymentController(config), [config])
     const navigate = useNavigate()
@@ -24,7 +24,6 @@ export default function ChangePaymentPage() {
 
     const changePayment = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        console.log("Config:", config)
         if ((amount) && (description && description.length) && (date)) {
             const payment: Payment = {
                 paymentID,
@@ -34,7 +33,6 @@ export default function ChangePaymentPage() {
                 payDate: date
             }
             controller.changePayment(payment).then((response) => {
-                console.log("Payments:", response)
                 navigate("/categories")
             })
         }

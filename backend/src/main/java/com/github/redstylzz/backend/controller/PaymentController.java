@@ -2,7 +2,6 @@ package com.github.redstylzz.backend.controller;
 
 import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.model.Payment;
-import com.github.redstylzz.backend.model.dto.CategoryPaymentInputDTO;
 import com.github.redstylzz.backend.model.dto.PaymentDTO;
 import com.github.redstylzz.backend.model.dto.RequestPaymentDTO;
 import com.github.redstylzz.backend.service.MongoUserService;
@@ -60,9 +59,9 @@ public class PaymentController {
     }
 
     @DeleteMapping
-    public List<PaymentDTO> deletePayment(Principal principal, @RequestBody CategoryPaymentInputDTO dto) {
+    public List<PaymentDTO> deletePayment(Principal principal, @RequestParam String categoryID, @RequestParam String paymentID) {
         String userID = getUser(principal).getId();
-        return service.deletePayment(userID, dto.getCategoryID(), dto.getPaymentID());
+        return service.deletePayment(userID, categoryID, paymentID);
     }
 
     @PostMapping
