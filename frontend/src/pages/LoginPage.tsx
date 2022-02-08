@@ -40,6 +40,7 @@ export default function LoginPage() {
             <form onSubmit={login}>
                 <h2>Username</h2>
                 <input type="text" id={"username"} onChange={onNameChange} value={name}/><br/>
+                <h2>Password</h2>
                 <input type="password" id={"password"} onChange={onPasswordChange} value={password}/><br/>
                 <input type="submit" value={"Submit"}/>
             </form>
