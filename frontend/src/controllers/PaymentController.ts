@@ -7,6 +7,9 @@ export default function PaymentController(config: ITokenConfig | undefined): IPa
     const service: IPaymentController = PaymentService(config);
 
     return {
+        getPayment: ((categoryID, paymentID) => {
+           return service.getPayment(categoryID, paymentID)
+        }),
         getPayments: categoryId => {
             return service.getPayments(categoryId)
         },

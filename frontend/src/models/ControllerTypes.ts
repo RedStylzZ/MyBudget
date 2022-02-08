@@ -11,7 +11,8 @@ export interface ILoginService {
 }
 
 export interface IPaymentController {
-    getPayments: (categoryId: string) => Promise<Payment[]>
+    getPayment: (categoryID: string, paymentID: string) => Promise<Payment>
+    getPayments: (categoryID: string) => Promise<Payment[]>
     getLastPayments: () => Promise<Payment[]>
     addPayment: (payment: Payment) => Promise<Payment[]>
     deletePayment: (categoryID: string, paymentID: string) => Promise<Payment[]>

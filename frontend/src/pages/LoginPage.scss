@@ -3,6 +3,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
-    margin-left: 9rem;
+    width: 100%;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 }
+

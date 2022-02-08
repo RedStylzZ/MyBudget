@@ -18,4 +18,6 @@ public interface IPaymentRepository extends MongoRepository<Payment, String> {
 
     List<Payment> getAllByUserIDAndPayDateAfter(String userID, Date date);
 
+    Payment getByUserIDAndCategoryIDAndPaymentID(String userID, String categoryID, String paymentID);
+
 }

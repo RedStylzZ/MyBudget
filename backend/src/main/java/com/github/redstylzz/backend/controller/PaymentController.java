@@ -39,6 +39,14 @@ public class PaymentController {
         }
     }
 
+    @GetMapping("/")
+    public PaymentDTO getPayment(Principal principal,
+                                 @RequestParam String categoryID,
+                                 @RequestParam String paymentID) {
+        MongoUser user = getUser(principal);
+        return service.getPayment(user.getId(), categoryID, paymentID);
+    }
+
     @GetMapping("{categoryID}")
     public List<PaymentDTO> getPayments(Principal principal, @PathVariable String categoryID) {
         MongoUser user = getUser(principal);

@@ -1,5 +1,5 @@
 import {Navigate, useNavigate, useParams} from "react-router-dom";
-import React, {ChangeEvent, FormEvent, useContext, useMemo, useState} from "react";
+import React, {ChangeEvent, FormEvent, useContext, useEffect, useMemo, useState} from "react";
 import {DatePicker, LocalizationProvider} from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import {TextField} from "@mui/material";
@@ -19,6 +19,14 @@ export default function ChangePaymentPage() {
     const config = useContext(AuthContext).config
     const controller: IPaymentController = useMemo(() => PaymentController(config), [config])
     const navigate = useNavigate()
+
+    useEffect(() => {
+        controller.getPayment(categoryID!, paymentID!).then((response) => {
+            setDescription(response.description)
+            setAmount(response.amount)
+            setDate(response.payDate)
+        })
+    }, [controller, categoryID, paymentID])
 
     if (!categoryID || !paymentID) return <Navigate to="/categories"/>
 
@@ -46,9 +54,9 @@ export default function ChangePaymentPage() {
             <h1>Change Payment</h1>
             <form onSubmit={changePayment}>
                 <h2>Description</h2>
-                <input type="text" id={"description"} onChange={onDescriptionChange}/>
+                <input type="text" id={"description"} onChange={onDescriptionChange} value={description}/>
                 <h2>Amount</h2>
-                <input type="number" id={"amount"} onChange={onAmountChange}/>
+                <input type="number" id={"amount"} onChange={onAmountChange} value={amount}/>
                 <h2>PayDate</h2>
                 <div className={"payDate"}>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>

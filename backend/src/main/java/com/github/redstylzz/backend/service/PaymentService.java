@@ -19,7 +19,6 @@ import java.util.UUID;
 
 @Service
 public class PaymentService {
-    private static final Log LOG = LogFactory.getLog(PaymentService.class);
 
     private final IPaymentRepository paymentRepository;
     private final ICategoryRepository categoryRepository;
@@ -53,13 +52,16 @@ public class PaymentService {
                 .toList();
     }
 
+    public PaymentDTO getPayment(String userID, String categoryID, String paymentID) {
+        return Payment.convertPaymentToDTO(paymentRepository
+                .getByUserIDAndCategoryIDAndPaymentID(userID, categoryID, paymentID));
+    }
+
     public List<PaymentDTO> getPayments(String userID, String categoryID) {
-        LOG.debug("All");
         return getPaymentAsDTO(userID, categoryID);
     }
 
     public List<PaymentDTO> getLastPayments(String userID) {
-        LOG.debug(Date.from(Instant.now().minus(Duration.ofDays(7))));
         return paymentRepository
                 .getAllByUserIDAndPayDateAfter(userID, Date.from(Instant.now().minus(Duration.ofDays(7))))
                 .stream().map(Payment::convertPaymentToDTO)
