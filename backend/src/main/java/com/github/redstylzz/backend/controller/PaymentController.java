@@ -4,6 +4,7 @@ import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.model.Payment;
 import com.github.redstylzz.backend.model.dto.CategoryPaymentInputDTO;
 import com.github.redstylzz.backend.model.dto.PaymentDTO;
+import com.github.redstylzz.backend.model.dto.RequestPaymentDTO;
 import com.github.redstylzz.backend.service.MongoUserService;
 import com.github.redstylzz.backend.service.PaymentService;
 import org.apache.juli.logging.Log;
@@ -46,7 +47,7 @@ public class PaymentController {
     }
 
     @PutMapping
-    public List<PaymentDTO> addPayment(Principal principal, @RequestBody PaymentDTO dto) {
+    public List<PaymentDTO> addPayment(Principal principal, @RequestBody RequestPaymentDTO dto) {
         String userID = getUser(principal).getId();
         Payment payment = Payment.convertDTOtoPayment(dto);
         return service.addPayment(userID, payment);

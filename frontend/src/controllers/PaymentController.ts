@@ -7,8 +7,12 @@ export default function PaymentController(config: ITokenConfig): IPaymentControl
     const service: IPaymentController = PaymentService(config);
 
     return {
-        getPayments: (categoryId) => {
-            return service.getPayments(categoryId).then(response => response)
-        }
+        getPayments: categoryId => {
+            return service.getPayments(categoryId)
+        },
+        addPayment: payment => {
+            return service.addPayment(payment)
+        },
+        deletePayment: (categoryID, paymentID) => service.deletePayment(categoryID, paymentID)
     }
 }

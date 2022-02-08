@@ -1,15 +1,10 @@
-import {ReactElement, useContext} from "react";
-import {AuthContext} from "../context/AuthProvider";
+import {ReactElement} from "react";
 import {Navigate} from "react-router-dom";
 import {ILoginController} from "../models/ControllerTypes";
 import LoginController from "../controllers/LoginController";
 
 export default function RequireAuth({children}: { children: ReactElement<any, any> }) {
-    const {token, logout} = useContext(AuthContext)
     const controller: ILoginController = LoginController()
-    if (!controller.checkLoggedIn()) {
-        logout()
-    }
 
-    return token ? children : <Navigate to="/login"/>
+    return controller.checkLoggedIn() ? children : <Navigate to="/login"/>
 }

@@ -6,7 +6,7 @@ import {AuthContext} from "../context/AuthProvider";
 import './LoginPage.scss'
 
 export default function LoginPage() {
-    const {token, setJwt} = useContext(AuthContext)
+    const {setJwt} = useContext(AuthContext)
     const controller: ILoginController = LoginController()
     const navigate = useNavigate()
     const [name, setName] = useState<string>("")
@@ -30,7 +30,7 @@ export default function LoginPage() {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => setName(event.target.value)
     const onPasswordChange = (event: ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)
 
-    if (token) {
+    if (controller.checkLoggedIn()) {
         return <Navigate to="/"/>
     }
 
