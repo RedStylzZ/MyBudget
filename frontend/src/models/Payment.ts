@@ -1,4 +1,4 @@
-export interface IPayment {
+export interface Payment {
     paymentID: string;
     categoryID: string;
     description: string;

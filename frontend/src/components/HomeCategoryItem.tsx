@@ -1,10 +1,11 @@
 import {Category} from "../models/Category";
+import MonetaryValue from "./MonetaryValue";
 
 const mapToCategoryItem = (category: Category) => {
     return (
         <div className={"categoryItem"}>
             <h1>{category.categoryName}</h1>
-            <h2>{category.paymentSum + "€"}</h2>
+            <h2>{<MonetaryValue amount={category.paymentSum}/>}</h2>
         </div>
     )
 }

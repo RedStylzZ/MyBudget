@@ -12,8 +12,8 @@ import java.security.Principal;
 
 @Service
 public class MongoUserService implements UserDetailsService {
-    private static final Log LOG = LogFactory.getLog(MongoUserService.class);
     public static final String ROLE_ADMIN = "ADMIN";
+    private static final Log LOG = LogFactory.getLog(MongoUserService.class);
     private final IMongoUserRepository repository;
 
 

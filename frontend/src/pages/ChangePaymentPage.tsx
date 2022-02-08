@@ -6,7 +6,7 @@ import {TextField} from "@mui/material";
 import {IPaymentController} from "../models/ControllerTypes";
 import PaymentController from "../controllers/PaymentController";
 import {AuthContext} from "../context/AuthProvider";
-import {IPayment} from "../models/IPayment";
+import {Payment} from "../models/Payment";
 import './ChangePaymentPage.scss'
 
 export default function ChangePaymentPage() {
@@ -26,7 +26,7 @@ export default function ChangePaymentPage() {
         event.preventDefault()
         console.log("Config:", config)
         if ((amount) && (description && description.length) && (date)) {
-            const payment: IPayment = {
+            const payment: Payment = {
                 paymentID,
                 categoryID,
                 description,

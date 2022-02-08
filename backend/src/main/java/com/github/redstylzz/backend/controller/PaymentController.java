@@ -40,10 +40,16 @@ public class PaymentController {
         }
     }
 
-    @GetMapping
-    public List<PaymentDTO> getPayments(Principal principal, @RequestParam String categoryID) {
+    @GetMapping("{categoryID}")
+    public List<PaymentDTO> getPayments(Principal principal, @PathVariable String categoryID) {
         MongoUser user = getUser(principal);
         return service.getPayments(user.getId(), categoryID);
+    }
+
+    @GetMapping
+    public List<PaymentDTO> getLastPayments(Principal principal) {
+        MongoUser user = getUser(principal);
+        return service.getLastPayments(user.getId());
     }
 
     @PutMapping

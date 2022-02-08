@@ -10,6 +10,9 @@ export default function PaymentController(config: ITokenConfig | undefined): IPa
         getPayments: categoryId => {
             return service.getPayments(categoryId)
         },
+        getLastPayments: () => {
+            return service.getLastPayments()
+        },
         addPayment: payment => {
             return service.addPayment(payment)
         },

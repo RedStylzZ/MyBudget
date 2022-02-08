@@ -6,22 +6,27 @@ import com.github.redstylzz.backend.model.Payment;
 import com.github.redstylzz.backend.model.dto.PaymentDTO;
 import com.github.redstylzz.backend.repository.ICategoryRepository;
 import com.github.redstylzz.backend.repository.IPaymentRepository;
+import org.apache.juli.logging.Log;
+import org.apache.juli.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class PaymentService {
+    private static final Log LOG = LogFactory.getLog(PaymentService.class);
 
-    private final IPaymentRepository paymentRepo;
+    private final IPaymentRepository paymentRepository;
     private final ICategoryRepository categoryRepository;
     private final CategoryService categoryService;
 
     public PaymentService(IPaymentRepository paymentRepo, ICategoryRepository categoryRepository, CategoryService categoryService) {
-        this.paymentRepo = paymentRepo;
+        this.paymentRepository = paymentRepo;
         this.categoryRepository = categoryRepository;
         this.categoryService = categoryService;
     }
@@ -31,17 +36,17 @@ public class PaymentService {
     }
 
     private boolean paymentExists(String paymentID) {
-        return paymentRepo.existsByPaymentID(paymentID);
+        return paymentRepository.existsByPaymentID(paymentID);
     }
 
     private void calculatePaymentSum(String userID, String categoryID) {
-        List<Payment> payments = paymentRepo.getAllByUserIDAndCategoryID(userID, categoryID);
+        List<Payment> payments = paymentRepository.getAllByUserIDAndCategoryID(userID, categoryID);
         BigDecimal sum = payments.stream().map(Payment::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
         categoryService.setCategorySum(userID, categoryID, sum);
     }
 
     private List<PaymentDTO> getPaymentAsDTO(String userID, String categoryID) {
-        return paymentRepo
+        return paymentRepository
                 .getAllByUserIDAndCategoryID(userID, categoryID)
                 .stream()
                 .map(Payment::convertPaymentToDTO)
@@ -49,7 +54,16 @@ public class PaymentService {
     }
 
     public List<PaymentDTO> getPayments(String userID, String categoryID) {
+        LOG.debug("All");
         return getPaymentAsDTO(userID, categoryID);
+    }
+
+    public List<PaymentDTO> getLastPayments(String userID) {
+        LOG.debug(Date.from(Instant.now().minus(Duration.ofDays(7))));
+        return paymentRepository
+                .getAllByUserIDAndPayDateAfter(userID, Date.from(Instant.now().minus(Duration.ofDays(7))))
+                .stream().map(Payment::convertPaymentToDTO)
+                .toList();
     }
 
     public List<PaymentDTO> addPayment(String userID, Payment payment) throws CategoryDoesNotExistException {
@@ -57,7 +71,7 @@ public class PaymentService {
             payment.setPaymentID(UUID.randomUUID().toString());
             payment.setUserID(userID);
             payment.setSaveDate(new Date());
-            paymentRepo.save(payment);
+            paymentRepository.save(payment);
             calculatePaymentSum(userID, payment.getCategoryID());
         } else {
             throw new CategoryDoesNotExistException();
@@ -67,7 +81,7 @@ public class PaymentService {
 
     public List<PaymentDTO> deletePayment(String userID, String categoryID, String paymentID) throws PaymentDoesNotExistException, CategoryDoesNotExistException {
         if (categoryExistent(userID, categoryID)) {
-            paymentRepo.deleteByPaymentID(paymentID);
+            paymentRepository.deleteByPaymentID(paymentID);
             calculatePaymentSum(userID, categoryID);
         } else {
             throw new CategoryDoesNotExistException();
@@ -80,7 +94,7 @@ public class PaymentService {
             if (paymentExists(payment.getPaymentID())) {
                 payment.setUserID(userID);
                 payment.setSaveDate(new Date());
-                paymentRepo.save(payment);
+                paymentRepository.save(payment);
                 calculatePaymentSum(userID, payment.getCategoryID());
             } else {
                 throw new PaymentDoesNotExistException();

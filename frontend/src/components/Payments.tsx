@@ -1,4 +1,4 @@
-import {IPayment} from "../models/IPayment";
+import {Payment} from "../models/Payment";
 import PaymentItem from "./PaymentItem";
 import React, {FormEvent, useState} from "react";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
@@ -7,9 +7,9 @@ import {TextField} from "@mui/material";
 import {IPaymentController} from "../models/ControllerTypes";
 
 interface PaymentsProps {
-    payments: IPayment[]
+    payments: Payment[]
     categoryID: string
-    setPayments: React.Dispatch<React.SetStateAction<IPayment[]>>
+    setPayments: React.Dispatch<React.SetStateAction<Payment[]>>
     controller: IPaymentController
 }
 
@@ -32,7 +32,7 @@ export default function Payments({payments, categoryID, setPayments, controller}
         const description: string = formElements.description.value
         const amount: number = formElements.amount.value
         const payDate: Date = date
-        const payment: IPayment = {
+        const payment: Payment = {
             paymentID, categoryID, description, amount, payDate
         }
         controller.addPayment(payment).then(setPayments)

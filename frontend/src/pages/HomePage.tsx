@@ -1,30 +1,35 @@
 import './HomePage.scss'
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useMemo, useState} from "react";
 import {AuthContext} from "../context/AuthProvider";
-import {ICategoryController} from "../models/ControllerTypes";
+import {ICategoryController, IPaymentController} from "../models/ControllerTypes";
 import CategoryController from "../controllers/CategoryController";
 import {Category} from "../models/Category";
 import HomeCategories from "../components/HomeCategories";
+import PaymentController from "../controllers/PaymentController";
+import {Payment} from "../models/Payment";
+import RecentPayments from "../components/RecentPayments";
 
 export default function HomePage() {
     const config = useContext(AuthContext).config!
-    const categoryController: ICategoryController = CategoryController(config)
+    const categoryController: ICategoryController = useMemo(() => CategoryController(config), [config])
+    const paymentController: IPaymentController = useMemo(() => PaymentController(config), [config])
     const [categories, setCategories] = useState<Category[]>([])
+    const [payments, setPayments] = useState<Payment[]>([])
 
     useEffect(() => {
-        if (!config) return
         categoryController.getCategories().then(setCategories)
-        //eslint-disable-next-line
-    }, [config])
+        paymentController.getLastPayments().then(setPayments)
+    }, [categoryController, paymentController])
 
     return (
         <div className={"homePage"}>
             <div className={"recentPayments"}>
-
+                <h1>Payments</h1>
+                <RecentPayments payments={payments}/>
             </div>
             <div className={"homeCategories"}>
                 <h1>Categories</h1>
-                <HomeCategories categories={categories} config={config} getPayments={false}/>
+                <HomeCategories categories={categories}/>
             </div>
         </div>
     )
