@@ -22,7 +22,6 @@ export default function ChangePaymentPage() {
 
     useEffect(() => {
         controller.getPayment(categoryID!, paymentID!).then((response) => {
-            console.log(response)
             setDescription(response.description)
             setAmount(response.amount)
             setDate(response.payDate)
