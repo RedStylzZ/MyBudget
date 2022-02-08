@@ -1,6 +1,5 @@
 package com.github.redstylzz.backend.service;
 
-import com.github.redstylzz.backend.filter.JwtAuthFilter;
 import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.model.TestDataProvider;
 import org.junit.jupiter.api.Test;
@@ -9,7 +8,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.server.ResponseStatusException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -18,8 +18,7 @@ class LoginServiceTest {
 
     private final AuthenticationManager authManager = mock(AuthenticationManager.class);
     private final JWTService jwtService = mock(JWTService.class);
-    private final JwtAuthFilter authFilter = mock(JwtAuthFilter.class);
-    private final LoginService underTest = new LoginService(authManager, jwtService, authFilter);
+    private final LoginService underTest = new LoginService(authManager, jwtService);
 
     @Test
     void shouldThrowErrorIfLoginFails() {

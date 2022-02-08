@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {HashRouter, Route, Routes} from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import NavBar from "./components/NavBar";
 import AuthProvider from "./context/AuthProvider";
@@ -11,7 +11,7 @@ import CategoryPage from "./pages/CategoryPage";
 function App() {
     return (
         <div className="App">
-            <BrowserRouter>
+            <HashRouter>
                 <AuthProvider>
                     <div className={"authDiv"}>
                         <NavBar/>
@@ -30,7 +30,7 @@ function App() {
                         </Routes>
                     </div>
                 </AuthProvider>
-            </BrowserRouter>
+            </HashRouter>
         </div>
     );
 }

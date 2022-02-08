@@ -7,7 +7,9 @@ import LoginController from "../controllers/LoginController";
 export default function RequireAuth({children}: { children: ReactElement<any, any> }) {
     const {token, logout} = useContext(AuthContext)
     const controller: ILoginController = LoginController()
-    controller.checkLoggedIn().catch( () => logout());
+    if (!controller.checkLoggedIn()) {
+        logout()
+    }
 
     return token ? children : <Navigate to="/login"/>
 }
