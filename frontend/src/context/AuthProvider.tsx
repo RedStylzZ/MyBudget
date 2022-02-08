@@ -6,7 +6,7 @@ import {ITokenConfig} from "../models/Connection";
 export interface IAuthContext {
     token?: string,
     config?: ITokenConfig,
-    jwtDecoded?: { sub?: string, exp?: number },
+    jwtDecoded?: { sub: string, exp: number },
     setJwt: (jwt: string) => void,
     logout: () => void,
 }
@@ -24,7 +24,7 @@ export default function AuthProvider({children}: { children: ReactElement<any, a
 
     const [token, setToken] = useState<string>(localStorage.getItem(TOKEN_KEY) || "")
     const [config, setConfig] = useState<ITokenConfig>();
-    const [jwtDecoded, setJwtDecoded] = useState({})
+    const [jwtDecoded, setJwtDecoded] = useState({sub: "", exp: 0})
 
     useEffect(() => {
         if (token !== "") {

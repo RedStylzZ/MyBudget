@@ -13,7 +13,7 @@ export default function LoginController(): ILoginController {
             return service.login(username, password);
         },
         checkLoggedIn: () => {
-            const dateInMilliseconds: number = jwtDecoded.exp! * 1000
+            const dateInMilliseconds: number = jwtDecoded.exp * 1000
             if (isNaN(dateInMilliseconds)) return true
             return dateInMilliseconds > Date.now()
         }
