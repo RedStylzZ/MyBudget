@@ -64,7 +64,7 @@ public class CategoryService {
         Category category = categoryRepository.findByUserIDAndCategoryID(user.getId(), categoryID);
 
         if (category != null) {
-            if (!categoryRepository.existsByUserIDAndCategoryName(user.getId(), name)){
+            if (!categoryRepository.existsByUserIDAndCategoryName(user.getId(), name)) {
                 category.setCategoryName(name);
                 categoryRepository.save(category);
                 LOG.debug("Renamed category with ID: " + categoryID);

@@ -1,10 +1,10 @@
-import {IPayment} from "../models/IPayment";
+import {Payment} from "../models/Payment";
 import moment from 'moment';
 import MonetaryValue from "./MonetaryValue";
 import {useNavigate} from "react-router-dom";
 
 interface PaymentItemProps {
-    payment: IPayment
+    payment: Payment
     deletePayment: (paymentID: string) => void
     categoryID: string
 }

@@ -1,4 +1,4 @@
-import {IPayment} from "./IPayment";
+import {Payment} from "./Payment";
 import {Category} from "./Category";
 
 export interface ILoginController {
@@ -11,10 +11,11 @@ export interface ILoginService {
 }
 
 export interface IPaymentController {
-    getPayments: (categoryId: string) => Promise<IPayment[]>
-    addPayment: (payment: IPayment) => Promise<IPayment[]>
-    deletePayment: (categoryID: string, paymentID: string) => Promise<IPayment[]>
-    changePayment: (payment: IPayment) => Promise<IPayment[]>
+    getPayments: (categoryId: string) => Promise<Payment[]>
+    getLastPayments: () => Promise<Payment[]>
+    addPayment: (payment: Payment) => Promise<Payment[]>
+    deletePayment: (categoryID: string, paymentID: string) => Promise<Payment[]>
+    changePayment: (payment: Payment) => Promise<Payment[]>
 }
 
 export interface ICategoryController {

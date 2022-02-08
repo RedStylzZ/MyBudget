@@ -6,16 +6,16 @@ import {TextField} from "@mui/material";
 import {IPaymentController} from "../models/ControllerTypes";
 import PaymentController from "../controllers/PaymentController";
 import {AuthContext} from "../context/AuthProvider";
-import {IPayment} from "../models/IPayment";
+import {Payment} from "../models/Payment";
 import './ChangePaymentPage.scss'
 
 export default function ChangePaymentPage() {
-    const params = useParams()
-    const categoryID = params.categoryID
-    const paymentID = params.paymentID
+    const urlParams = useParams()
+    const categoryID = urlParams.categoryID
+    const paymentID = urlParams.paymentID
     const [description, setDescription] = useState<string>("")
     const [amount, setAmount] = useState<number>(0)
-    const [date, setDate] = useState<Date | null>(new Date(Date.now()))
+    const [date, setDate] = useState<Date>(new Date(Date.now()))
     const config = useContext(AuthContext).config
     const controller: IPaymentController = useMemo(() => PaymentController(config), [config])
     const navigate = useNavigate()
@@ -24,17 +24,15 @@ export default function ChangePaymentPage() {
 
     const changePayment = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        console.log("Config:", config)
         if ((amount) && (description && description.length) && (date)) {
-            const payment: IPayment = {
+            const payment: Payment = {
                 paymentID,
                 categoryID,
                 description,
                 amount,
                 payDate: date
             }
-            controller.changePayment(payment).then((response) => {
-                console.log("Payments:", response)
+            controller.changePayment(payment).then(() => {
                 navigate("/categories")
             })
         }

@@ -16,16 +16,13 @@
     border-radius: 10px;
     background: #1A1A1A;
     width: 20rem;
-}
-
-.homeCategories {
     overflow-y: auto;
 
-    .categoryItemCard {
+    .categoryItemCard, .recentPaymentItemCard {
         width: 100%;
     }
 
-    .categoryItem {
+    .categoryItem, .recentPaymentItem {
         display: flex;
         flex-direction: row;
         align-items: center;

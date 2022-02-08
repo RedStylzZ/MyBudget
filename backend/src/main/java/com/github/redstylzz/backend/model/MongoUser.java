@@ -26,11 +26,19 @@ public class MongoUser implements UserDetails {
 
     String username;
     String password;
-    private List<String> rights;
     boolean accountNonExpired;
     boolean accountNonLocked;
     boolean credentialsNonExpired;
     boolean enabled;
+    private List<String> rights;
+
+    @Transient
+    public static MongoUser dtoToUser(MongoUserDTO dto) {
+        return MongoUser.builder()
+                .username(dto.getUsername())
+                .password(dto.getPassword())
+                .build();
+    }
 
     @Override
     @Transient
@@ -39,14 +47,6 @@ public class MongoUser implements UserDetails {
         return this.rights.stream()
                 .map(SimpleGrantedAuthority::new)
                 .toList();
-    }
-
-    @Transient
-    public static MongoUser dtoToUser(MongoUserDTO dto) {
-        return MongoUser.builder()
-                .username(dto.getUsername())
-                .password(dto.getPassword())
-                .build();
     }
 
 }

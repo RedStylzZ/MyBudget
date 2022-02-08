@@ -2,7 +2,7 @@ import {Category, IDeleteCategory} from "../models/Category";
 import PaymentController from "../controllers/PaymentController";
 import {ITokenConfig} from "../models/Connection";
 import {useEffect, useMemo, useState} from "react";
-import {IPayment} from "../models/IPayment";
+import {Payment} from "../models/Payment";
 import Payments from "./Payments";
 import {IPaymentController} from "../models/ControllerTypes";
 import MonetaryValue from "./MonetaryValue";
@@ -24,14 +24,14 @@ const mapToCategoryItem = (category: Category, categorySum: number, deleteCatego
     )
 }
 
-const calcCategorySum = (payments: IPayment[]) => {
+const calcCategorySum = (payments: Payment[]) => {
     if (payments.length <= 0) return 0
     return payments.map(payment => payment.amount).reduce((a, b) => a + b)
 }
 
 export default function CategoryItem({category, config, deleteCategory}: CategoryItemProps) {
     const controller: IPaymentController = useMemo(() => PaymentController(config), [config])
-    const [payments, setPayments] = useState<IPayment[]>([])
+    const [payments, setPayments] = useState<Payment[]>([])
     const [categorySum, setCategorySum] = useState<number>(0)
 
     useEffect(() => {

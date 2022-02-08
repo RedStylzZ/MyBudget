@@ -13,7 +13,7 @@ export default function CategoryService(config: ITokenConfig | undefined): ICate
         },
         deleteCategory: categoryID => {
             config!.data = {categoryID}
-            return axios.delete(URL, config).then(response => response.data)
+            return axios.delete(URL + `/?categoryID=${categoryID}`, config).then(response => response.data)
         }
     }
 }

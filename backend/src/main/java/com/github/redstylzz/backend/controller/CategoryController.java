@@ -4,7 +4,6 @@ import com.github.redstylzz.backend.exception.CategoryAlreadyExistException;
 import com.github.redstylzz.backend.model.Category;
 import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.model.dto.CategoryDTO;
-import com.github.redstylzz.backend.model.dto.CategoryIDDTO;
 import com.github.redstylzz.backend.model.dto.CategoryNameDTO;
 import com.github.redstylzz.backend.service.CategoryService;
 import com.github.redstylzz.backend.service.MongoUserService;
@@ -74,15 +73,14 @@ public class CategoryController {
     }
 
     @DeleteMapping
-    public List<Category> deleteCategory(Principal principal, @RequestBody CategoryIDDTO dto) throws ResponseStatusException {
-        String id = dto.getCategoryID();
-        if (id == null || id.isBlank()) {
+    public List<Category> deleteCategory(Principal principal, @RequestParam String categoryID) throws ResponseStatusException {
+        if (categoryID == null || categoryID.isBlank()) {
             LOG.warn("ID is null or blank");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
         MongoUser user = userService.getUserByPrincipal(principal);
-        return service.deleteCategory(user, id);
+        return service.deleteCategory(user, categoryID);
     }
 
 
