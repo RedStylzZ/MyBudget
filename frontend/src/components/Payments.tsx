@@ -14,9 +14,9 @@ interface PaymentsProps {
 }
 
 interface IPaymentInput {
-    description: {value: string }
-    amount: {value: number }
-    payDate: {value: string }
+    description: { value: string }
+    amount: { value: number }
+    payDate: { value: string }
 }
 
 export default function Payments({payments, categoryID, setPayments, controller}: PaymentsProps) {

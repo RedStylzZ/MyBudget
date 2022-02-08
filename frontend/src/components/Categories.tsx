@@ -8,7 +8,7 @@ interface CategoriesProps {
     deleteCategory: IDeleteCategory
 }
 
-export default function Categories({ categories, config, deleteCategory }: CategoriesProps) {
+export default function Categories({categories, config, deleteCategory}: CategoriesProps) {
     if (!Array.isArray(categories)) return null;
     return (
         <>
