@@ -6,16 +6,16 @@ import {AuthContext} from "../context/AuthProvider";
 export default function LoginController(): ILoginController {
 
     const service: ILoginService = LoginService();
-    const jwtDecoded = useContext(AuthContext).jwtDecoded!
+    const {token, jwtDecoded} = useContext(AuthContext)
+
+    const isValidToken = (): boolean => !!jwtDecoded && (jwtDecoded.exp * 1000) > Date.now()
 
     return {
         login: (username: string, password: string) => {
             return service.login(username, password);
         },
         checkLoggedIn: () => {
-            const dateInMilliseconds: number = jwtDecoded.exp * 1000
-            if (isNaN(dateInMilliseconds)) return true
-            return dateInMilliseconds > Date.now()
+            return !!token && isValidToken()
         }
     }
 }
