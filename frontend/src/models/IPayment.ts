@@ -3,5 +3,5 @@ export interface IPayment {
     categoryID: string;
     description: string;
     amount: number;
-    payDate: string;
+    payDate: Date;
 }

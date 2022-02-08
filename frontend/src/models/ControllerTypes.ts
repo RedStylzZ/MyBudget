@@ -14,6 +14,7 @@ export interface IPaymentController {
     getPayments: (categoryId: string) => Promise<IPayment[]>
     addPayment: (payment: IPayment) => Promise<IPayment[]>
     deletePayment: (categoryID: string, paymentID: string) => Promise<IPayment[]>
+    changePayment: (payment: IPayment) => Promise<IPayment[]>
 }
 
 export interface ICategoryController {

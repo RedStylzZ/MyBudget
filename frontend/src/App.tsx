@@ -7,6 +7,7 @@ import AuthProvider from "./context/AuthProvider";
 import LoginPage from "./pages/LoginPage";
 import RequireAuth from "./components/RequireAuth";
 import CategoryPage from "./pages/CategoryPage";
+import ChangePaymentPage from "./pages/ChangePaymentPage";
 
 function App() {
     return (
@@ -25,6 +26,11 @@ function App() {
                             <Route path={"/categories"} element={
                                 <RequireAuth>
                                     <CategoryPage/>
+                                </RequireAuth>}
+                            />
+                            <Route path={"/changePayment/:categoryID/:paymentID"} element={
+                                <RequireAuth>
+                                    <ChangePaymentPage/>
                                 </RequireAuth>}
                             />
                         </Routes>
