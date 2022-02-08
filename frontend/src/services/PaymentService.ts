@@ -9,6 +9,10 @@ export default function PaymentService(config: ITokenConfig): IPaymentController
         },
         addPayment: payment => {
             return axios.put("/api/payment", payment, config).then(response => response.data)
+        },
+        deletePayment: (categoryID, paymentID) => {
+            config["data"] = {categoryID, paymentID}
+            return axios.delete(`/api/payment`, config).then(response => response.data)
         }
     }
 }

@@ -12,6 +12,7 @@ export default function PaymentController(config: ITokenConfig): IPaymentControl
         },
         addPayment: payment => {
             return service.addPayment(payment)
-        }
+        },
+        deletePayment: (categoryID, paymentID) => service.deletePayment(categoryID, paymentID)
     }
 }

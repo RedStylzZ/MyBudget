@@ -26,7 +26,6 @@ export default function Payments({payments, categoryID, setPayments, controller}
 
     const addPayment = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        console.log(event)
         const form = event.currentTarget
         const formElements = form.elements as typeof form.elements & IPaymentInput
         const paymentID: string = "";
@@ -39,8 +38,13 @@ export default function Payments({payments, categoryID, setPayments, controller}
         controller.addPayment(payment).then(setPayments)
     }
 
+    const deletePayment = (_categoryID: string) => (paymentID: string) => {
+        controller.deletePayment(_categoryID, paymentID).then(setPayments)
+    }
+
     return (
         <div className={"payments"}>
+            <h1>Payments</h1>
             <form onSubmit={addPayment} className={"addCategoryForm"}>
                 <input type="text" id={"description"} placeholder={"Description"}/>
                 <input type="number" id={"amount"} placeholder={"Amount"} step={0.01}/>
@@ -69,7 +73,7 @@ export default function Payments({payments, categoryID, setPayments, controller}
             </form>
             {
                 payments.map((payment, index) =>
-                    <PaymentItem payment={payment} key={index}/>
+                    <PaymentItem payment={payment} key={index} deletePayment={deletePayment(categoryID)}/>
                 )
             }
         </div>

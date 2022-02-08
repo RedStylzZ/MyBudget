@@ -5,6 +5,7 @@ import {useEffect, useMemo, useState} from "react";
 import {IPayment} from "../models/IPayment";
 import Payments from "./Payments";
 import {IPaymentController} from "../models/ControllerTypes";
+import MonetaryValue from "./MonetaryValue";
 
 
 interface CategoryItemProps {
@@ -17,7 +18,7 @@ const mapToCategoryItem = (category: Category, categorySum: number, deleteCatego
     return (
         <div className={"categoryItem"}>
             <h1>{category.categoryName}</h1>
-            <h2>{categorySum + "€"}</h2>
+            <h2><MonetaryValue amount={categorySum}/></h2>
             <input type="button" value={"Remove"} onClick={() => deleteCategory(category.categoryID)}/>
         </div>
     )
