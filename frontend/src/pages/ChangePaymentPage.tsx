@@ -32,7 +32,7 @@ export default function ChangePaymentPage() {
                 amount,
                 payDate: date
             }
-            controller.changePayment(payment).then((response) => {
+            controller.changePayment(payment).then(() => {
                 navigate("/categories")
             })
         }
