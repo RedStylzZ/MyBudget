@@ -20,7 +20,7 @@ interface IPaymentInput {
 }
 
 export default function Payments({payments, categoryID, setPayments, controller}: PaymentsProps) {
-    const [date, setDate] = useState<Date | null>(new Date(Date.now()))
+    const [date, setDate] = useState<Date>(new Date(Date.now()))
     if (!Array.isArray(payments)) return null;
 
 
@@ -31,7 +31,7 @@ export default function Payments({payments, categoryID, setPayments, controller}
         const paymentID: string = "";
         const description: string = formElements.description.value
         const amount: number = formElements.amount.value
-        const payDate: string = Date.parse(formElements.payDate.value).toString()
+        const payDate: Date = date
         const payment: IPayment = {
             paymentID, categoryID, description, amount, payDate
         }
@@ -55,7 +55,9 @@ export default function Payments({payments, categoryID, setPayments, controller}
                             value={date}
                             inputFormat={"dd/MM/yyyy"}
                             onChange={(newValue) => {
-                                setDate(newValue);
+                                if (newValue) {
+                                    setDate(newValue);
+                                }
                             }}
                             renderInput={(params) => <TextField {...params} sx={{
                                 color: 'white',
@@ -69,11 +71,12 @@ export default function Payments({payments, categoryID, setPayments, controller}
                     </LocalizationProvider>
                 </div>
 
-                <input type="submit" value={"Submit"}/>
+                <input type="submit" value={"Add Payment"}/>
             </form>
             {
                 payments.map((payment, index) =>
-                    <PaymentItem payment={payment} key={index} deletePayment={deletePayment(categoryID)}/>
+                    <PaymentItem payment={payment} key={index} deletePayment={deletePayment(categoryID)}
+                                 categoryID={categoryID}/>
                 )
             }
         </div>

@@ -23,7 +23,7 @@ export const AuthContext = createContext<IAuthContext>({
 export default function AuthProvider({children}: { children: ReactElement<any, any> }) {
 
     const [token, setToken] = useState<string | undefined>(localStorage.getItem(TOKEN_KEY) || undefined)
-    const [config, setConfig] = useState<ITokenConfig>();
+    const [config, setConfig] = useState<ITokenConfig>({headers: {Authorization: `Bearer ${token}`}});
     const [jwtDecoded, setJwtDecoded] = useState(token ? jwt_decode(token) : undefined)
 
     useEffect(() => {

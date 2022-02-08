@@ -1,0 +1,81 @@
+import {Navigate, useNavigate, useParams} from "react-router-dom";
+import React, {ChangeEvent, FormEvent, useContext, useMemo, useState} from "react";
+import {DatePicker, LocalizationProvider} from "@mui/lab";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import {TextField} from "@mui/material";
+import {IPaymentController} from "../models/ControllerTypes";
+import PaymentController from "../controllers/PaymentController";
+import {AuthContext} from "../context/AuthProvider";
+import {IPayment} from "../models/IPayment";
+import './ChangePaymentPage.scss'
+
+export default function ChangePaymentPage() {
+    const params = useParams()
+    const categoryID = params.categoryID
+    const paymentID = params.paymentID
+    const [description, setDescription] = useState<string>("")
+    const [amount, setAmount] = useState<number>(0)
+    const [date, setDate] = useState<Date | null>(new Date(Date.now()))
+    const config = useContext(AuthContext).config
+    const controller: IPaymentController = useMemo(() => PaymentController(config), [config])
+    const navigate = useNavigate()
+
+    if (!categoryID || !paymentID) return <Navigate to="/categories"/>
+
+    const changePayment = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        console.log("Config:", config)
+        if ((amount) && (description && description.length) && (date)) {
+            const payment: IPayment = {
+                paymentID,
+                categoryID,
+                description,
+                amount,
+                payDate: date
+            }
+            controller.changePayment(payment).then((response) => {
+                console.log("Payments:", response)
+                navigate("/categories")
+            })
+        }
+    }
+
+    const onDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => setDescription(event.target.value.trim())
+    const onAmountChange = (event: ChangeEvent<HTMLInputElement>) => setAmount(parseFloat(event.target.value))
+
+    return (
+        <div className={"changePaymentPage"}>
+            <h1>Change Payment</h1>
+            <form onSubmit={changePayment}>
+                <h2>Description</h2>
+                <input type="text" id={"description"} onChange={onDescriptionChange}/>
+                <h2>Amount</h2>
+                <input type="number" id={"amount"} onChange={onAmountChange}/>
+                <h2>PayDate</h2>
+                <div className={"payDate"}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <DatePicker
+                            label="Pick your date"
+                            value={date}
+                            inputFormat={"dd/MM/yyyy"}
+                            onChange={(newValue) => {
+                                if (newValue) {
+                                    setDate(newValue);
+                                }
+                            }}
+                            renderInput={(params) => <TextField {...params} sx={{
+                                color: 'white',
+                                backgroundColor: '#1A1A1A',
+                                '&:hover': {
+                                    backgroundColor: '#1B1B1B',
+                                    opacity: [0.9, 0.8, 0.7],
+                                },
+                            }} id={"payDate"}/>}
+                        />
+                    </LocalizationProvider>
+                </div>
+                <input type="submit" value={"Change"}/>
+            </form>
+        </div>
+    )
+}

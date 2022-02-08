@@ -43,7 +43,8 @@ export default function CategoryPage() {
             </div>
             <div className={"categories"}>
                 <form onSubmit={addCategory} className={"addCategory"}>
-                    <input type="text" id="categoryInput" onChange={onCategoryInputChange} value={categoryInput}/>
+                    <input type="text" id="categoryInput" onChange={onCategoryInputChange} placeholder={"Category name"}
+                           value={categoryInput}/>
                     <input type="submit" value={"Add category"}/>
                 </form>
                 <Categories categories={categories} config={config} deleteCategory={deleteCategory}/>
