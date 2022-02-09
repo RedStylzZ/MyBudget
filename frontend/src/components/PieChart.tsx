@@ -1,17 +1,9 @@
 import {ResponsivePie} from "@nivo/pie";
-import {Category} from "../models/Category";
 import {toCurrency} from "./MonetaryValue";
-import { animated } from '@react-spring/web'
+import {PieChartData} from "../models/PieChart";
 
 interface PieChartProps {
-    categories: Category[]
-}
-
-interface PieChartData {
-    id: string,
-    label: string,
-    value: number,
-    color?: string
+    data: PieChartData[]
 }
 
 const MyResponsivePie = (data: PieChartData[]) => (
@@ -47,23 +39,6 @@ const MyResponsivePie = (data: PieChartData[]) => (
         arcLinkLabelsStraightLength={24}
         arcLinkLabelsOffset={0}
         arcLinkLabelsTextOffset={6}
-        arcLabelsComponent={({ datum, label, style }) => (
-                        <animated.g transform={style.transform} style={{ pointerEvents: 'none' }}>
-                            <circle fill={style.textColor} cy={6} r={15} />
-                            <circle fill="#ffffff" stroke={datum.color} strokeWidth={2} r={16} />
-                            <text
-                                textAnchor="middle"
-                                dominantBaseline="central"
-                                fill={style.textColor}
-                                style={{
-                                    fontSize: 10,
-                                    fontWeight: 800,
-                                }}
-                            >
-                                {label}
-                            </text>
-                        </animated.g>
-                    )}
         arcLinkLabel={"id"}
         arcLinkLabelsSkipAngle={10}
         arcLinkLabelsTextColor={{ from: 'color', modifiers: [] }}
@@ -75,7 +50,7 @@ const MyResponsivePie = (data: PieChartData[]) => (
             modifiers: [
                 [
                     'darker',
-                    2
+                    3
                 ]
             ]
         }}
@@ -127,18 +102,9 @@ const MyResponsivePie = (data: PieChartData[]) => (
     />
 )
 
-const mapCategoriesToValues = (categories: Category[]) => {
-    const data: PieChartData[] = categories.map(category => {
-        return {
-            id: category.categoryName,
-            label: category.categoryName,
-            value: category.paymentSum,
-        }
-    })
-    return data
-}
+
 
 export default function PieChart(props: PieChartProps) {
-    const {categories} = props
-    return <>{MyResponsivePie(mapCategoriesToValues(categories))}</>
+    const {data} = props
+    return <>{MyResponsivePie(data)}</>
 }

@@ -10,6 +10,16 @@ import {Payment} from "../models/Payment";
 import RecentPayments from "../components/RecentPayments";
 import PieChart from "../components/PieChart";
 
+const mapCategoriesToPieChartData = (categories: Category[]) => {
+    return categories.map(category => {
+        return {
+            id: category.categoryName,
+            label: category.categoryName,
+            value: category.paymentSum,
+        }
+    })
+}
+
 export default function HomePage() {
     const config = useContext(AuthContext).config!
     const categoryController: ICategoryController = useMemo(() => CategoryController(config), [config])
@@ -33,7 +43,7 @@ export default function HomePage() {
                 <HomeCategories categories={categories}/>
             </div>
             <div className={"pieChart"}>
-                <PieChart categories={categories}/>
+                <PieChart data={mapCategoriesToPieChartData(categories)}/>
             </div>
         </div>
     )
