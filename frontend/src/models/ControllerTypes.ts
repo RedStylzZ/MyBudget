@@ -1,13 +1,16 @@
 import {Payment} from "./Payment";
 import {Category} from "./Category";
+import {ITokenConfig} from "./Connection";
 
 export interface ILoginController {
     login: (username: string, password: string) => Promise<string>
     checkLoggedIn: () => boolean
+    isAdmin: (config: ITokenConfig) => Promise<boolean>
 }
 
 export interface ILoginService {
     login: (username: string, password: string) => Promise<string>
+    isAdmin: (config: ITokenConfig) => Promise<boolean>
 }
 
 export interface IPaymentController {

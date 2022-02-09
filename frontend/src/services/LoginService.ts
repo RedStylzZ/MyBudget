@@ -7,6 +7,9 @@ export default function LoginService(): ILoginService {
             return axios.post("/auth/login",
                 {username: username, password: password})
                 .then(response => response.data);
+        },
+        isAdmin: config => {
+            return axios.get("/auth/admin", config).then(response => response.data)
         }
     }
 }
