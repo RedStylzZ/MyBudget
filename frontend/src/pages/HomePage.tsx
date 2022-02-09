@@ -8,6 +8,17 @@ import HomeCategories from "../components/HomeCategories";
 import PaymentController from "../controllers/PaymentController";
 import {Payment} from "../models/Payment";
 import RecentPayments from "../components/RecentPayments";
+import PieChart from "../components/PieChart";
+
+const mapCategoriesToPieChartData = (categories: Category[]) => {
+    return categories.map(category => {
+        return {
+            id: category.categoryName,
+            label: category.categoryName,
+            value: category.paymentSum,
+        }
+    })
+}
 
 export default function HomePage() {
     const config = useContext(AuthContext).config!
@@ -30,6 +41,9 @@ export default function HomePage() {
             <div className={"homeCategories"}>
                 <h1>Categories</h1>
                 <HomeCategories categories={categories}/>
+            </div>
+            <div className={"pieChart"}>
+                <PieChart data={mapCategoriesToPieChartData(categories)}/>
             </div>
         </div>
     )
