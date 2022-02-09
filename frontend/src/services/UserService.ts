@@ -12,7 +12,7 @@ export default function UserService(config: ITokenConfig | undefined): IUserCont
             return axios.get("/api/user/admin", config).then(response => {
                 console.log(response.data)
                 return response.data
-            }).catch((reason => false))
+            })
         }
     }
 }

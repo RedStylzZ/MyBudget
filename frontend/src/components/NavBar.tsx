@@ -1,18 +1,11 @@
 import './NavBar.scss'
 import {Link} from "react-router-dom";
-import {useContext, useEffect, useState} from "react";
+import {useContext} from "react";
 import {AuthContext} from "../context/AuthProvider";
-import {ILoginController} from "../models/ControllerTypes";
-import LoginController from "../controllers/LoginController";
+import RequireAdmin from "./RequireAdmin";
 
 export default function NavBar() {
-    const {config, logout} = useContext(AuthContext)
-    const controller: ILoginController = LoginController()
-    const [isAdmin, setIsAdmin] = useState<boolean>(false)
-
-    useEffect(() => {
-        controller.isAdmin(config!).then(setIsAdmin)
-    }, [controller, config])
+    const {logout} = useContext(AuthContext)
 
     return (
         <div className={"navBar"}>
@@ -23,11 +16,14 @@ export default function NavBar() {
                 <input type={"button"} value={"Categories"}/>
             </Link>
             <input type={"button"} value={"Logout"} onClick={() => logout()}/>
-            {
-                isAdmin ? <Link to={"/admin"}>
+
+            <RequireAdmin>
+                <Link to={"/admin"}>
                     <input type={"button"} value={"Admin Page"}/>
-                </Link> : null
-            }
+                </Link>
+            </RequireAdmin>
+
+
         </div>
     )
 }
