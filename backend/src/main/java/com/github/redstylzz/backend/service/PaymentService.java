@@ -6,8 +6,6 @@ import com.github.redstylzz.backend.model.Payment;
 import com.github.redstylzz.backend.model.dto.PaymentDTO;
 import com.github.redstylzz.backend.repository.ICategoryRepository;
 import com.github.redstylzz.backend.repository.IPaymentRepository;
-import org.apache.juli.logging.Log;
-import org.apache.juli.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

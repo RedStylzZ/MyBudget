@@ -1,16 +1,14 @@
 import {Payment} from "./Payment";
 import {Category} from "./Category";
-import {ITokenConfig} from "./Connection";
+import User from "./User";
 
 export interface ILoginController {
     login: (username: string, password: string) => Promise<string>
     checkLoggedIn: () => boolean
-    isAdmin: (config: ITokenConfig) => Promise<boolean>
 }
 
 export interface ILoginService {
     login: (username: string, password: string) => Promise<string>
-    isAdmin: (config: ITokenConfig) => Promise<boolean>
 }
 
 export interface IPaymentController {
@@ -26,4 +24,9 @@ export interface ICategoryController {
     getCategories: () => Promise<Category[]>
     addCategory: (categoryName: string) => Promise<Category[]>
     deleteCategory: (categoryID: string) => Promise<Category[]>
+}
+
+export interface IUserController {
+    isAdmin: () => Promise<boolean>
+    addUser: (user: User) => Promise<boolean>
 }

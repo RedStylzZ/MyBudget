@@ -2,6 +2,7 @@ import React, {createContext, ReactElement, useEffect, useState} from "react";
 import jwt_decode from 'jwt-decode'
 import {TOKEN_KEY} from "../models/Constants";
 import {ITokenConfig} from "../models/Connection";
+import {isValidToken} from "../controllers/LoginController";
 
 export interface IAuthContext {
     token?: string,
@@ -9,6 +10,7 @@ export interface IAuthContext {
     jwtDecoded?: { sub: string, exp: number },
     setJwt: (jwt: string) => void,
     logout: () => void,
+    isLoggedIn: () => boolean
 }
 
 export const AuthContext = createContext<IAuthContext>({
@@ -17,7 +19,8 @@ export const AuthContext = createContext<IAuthContext>({
     },
     setJwt: () => {
         throw new Error("Login not initialized")
-    }
+    },
+    isLoggedIn: () => false
 })
 
 export default function AuthProvider({children}: { children: ReactElement<any, any> }) {
@@ -38,10 +41,14 @@ export default function AuthProvider({children}: { children: ReactElement<any, a
     }, [token])
 
     const setJwt = (jwt: string) => setToken(jwt)
-    const logout = () => setJwt("")
+    const logout = () => {
+        setJwt("")
+    }
+
+    const isLoggedIn = () => !!token && isValidToken(jwtDecoded)
 
     return (
-        <AuthContext.Provider value={{token, config, jwtDecoded, setJwt, logout}}>
+        <AuthContext.Provider value={{token, config, jwtDecoded, setJwt, logout, isLoggedIn}}>
             {children}
         </AuthContext.Provider>
     )

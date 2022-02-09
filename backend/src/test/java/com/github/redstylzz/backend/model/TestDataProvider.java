@@ -1,5 +1,6 @@
 package com.github.redstylzz.backend.model;
 
+import com.github.redstylzz.backend.model.dto.MongoUserDTO;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.internal.util.MockUtil;
@@ -42,6 +43,18 @@ public class TestDataProvider {
                 true,
                 true,
                 true);
+    }
+
+    public static MongoUserDTO testUserDTO(String username, String password, List<String> rights) {
+        return MongoUserDTO.builder()
+                .username(username)
+                .password(password)
+                .rights(rights)
+                .build();
+    }
+
+    public static MongoUserDTO testUserDTO() {
+        return testUserDTO("Tizian","Turtle", List.of());
     }
 
 
