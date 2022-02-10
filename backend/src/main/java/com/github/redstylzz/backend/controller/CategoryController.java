@@ -1,7 +1,6 @@
 package com.github.redstylzz.backend.controller;
 
 import com.github.redstylzz.backend.exception.CategoryAlreadyExistException;
-import com.github.redstylzz.backend.model.Category;
 import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.model.dto.CategoryDTO;
 import com.github.redstylzz.backend.model.dto.CategoryNameDTO;

@@ -36,10 +36,12 @@ public class PaymentService {
         return paymentRepository.existsByPaymentID(paymentID);
     }
 
-    private void calculatePaymentSum(String userID, String categoryID) {
+    private BigDecimal calculatePaymentSum(String userID, String categoryID) {
         List<Payment> payments = paymentRepository.getAllByUserIDAndCategoryID(userID, categoryID);
-        BigDecimal sum = payments.stream().map(Payment::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
-        categoryService.setCategorySum(userID, categoryID, sum);
+        BigDecimal paymentSum = payments.stream()
+                .map(Payment::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        return paymentSum;
     }
 
     private List<PaymentDTO> getPaymentAsDTO(String userID, String categoryID) {

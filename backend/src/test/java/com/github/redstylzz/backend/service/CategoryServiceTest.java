@@ -54,7 +54,7 @@ class CategoryServiceTest {
         MongoUser user = TestDataProvider.testUser();
         Category category = TestDataProvider.testCategory();
         String categoryName = category.getCategoryName();
-        when(repository.findAllByUserID(anyString())).thenReturn(List.of(category));
+        when(repository.existsByUserIDAndCategoryName(anyString(), anyString())).thenReturn(true);
 
         assertThrows(CategoryAlreadyExistException.class, () ->
                 underTest.addCategory(user, categoryName));
@@ -67,11 +67,11 @@ class CategoryServiceTest {
         category.setCategoryID(UUID_STRING);
         String categoryName = category.getCategoryName();
         when(repository.save(any(Category.class))).thenReturn(null);
-
+        when(repository.findAllByUserID(anyString())).thenReturn(List.of(category));
         List<CategoryDTO> wantedList = underTest.addCategory(user, categoryName);
 
         verify(repository).save(any(Category.class));
-        assertEquals(wantedList, List.of(category));
+        assertEquals(List.of(CategoryDTO.mapCategoryToDTO(category)), wantedList);
     }
 
     @Test
