@@ -46,11 +46,11 @@ class PaymentServiceTest {
     void shouldReturnList_OnGet() {
         Category category = TestDataProvider.testCategory();
         Payment actualPayment = TestDataProvider.testPayment();
-        when(paymentRepo.getAllByUserIDAndCategoryID(anyString(), anyString())).thenReturn(List.of(actualPayment));
+        when(paymentRepo.getAllByUserIDAndCategoryIDOrderByPayDateDesc(anyString(), anyString())).thenReturn(List.of(actualPayment));
 
         List<PaymentDTO> payments = underTest.getPayments(category.getUserID(), category.getCategoryID());
 
-        verify(paymentRepo).getAllByUserIDAndCategoryID(anyString(), anyString());
+        verify(paymentRepo).getAllByUserIDAndCategoryIDOrderByPayDateDesc(anyString(), anyString());
         assertEquals(List.of(Payment.convertPaymentToDTO(actualPayment)), payments);
     }
 
@@ -69,7 +69,7 @@ class PaymentServiceTest {
         actualPayment.setPaymentID(UUID_STRING);
         String userID = actualPayment.getUserID();
         when(categoryRepository.existsByUserIDAndCategoryID(anyString(), anyString())).thenReturn(true);
-        when(paymentRepo.getAllByUserIDAndCategoryID(anyString(), anyString())).thenReturn(List.of(actualPayment));
+        when(paymentRepo.getAllByUserIDAndCategoryIDOrderByPayDateDesc(anyString(), anyString())).thenReturn(List.of(actualPayment));
 
         assertEquals(List.of(Payment.convertPaymentToDTO(actualPayment)), underTest.addPayment(userID, actualPayment));
         verify(paymentRepo).save(any(Payment.class));
@@ -93,7 +93,7 @@ class PaymentServiceTest {
         String categoryID = actualPayment.getCategoryID();
         String paymentID = actualPayment.getPaymentID();
         when(categoryRepository.existsByUserIDAndCategoryID(anyString(), anyString())).thenReturn(true);
-        when(paymentRepo.getAllByUserIDAndCategoryID(anyString(), anyString())).thenReturn(List.of(actualPayment));
+        when(paymentRepo.getAllByUserIDAndCategoryIDOrderByPayDateDesc(anyString(), anyString())).thenReturn(List.of(actualPayment));
 
         assertEquals(List.of(Payment.convertPaymentToDTO(actualPayment)), underTest.deletePayment(userID, categoryID, paymentID));
         verify(paymentRepo).deleteByPaymentID(anyString());
@@ -123,7 +123,7 @@ class PaymentServiceTest {
         Payment actualPayment = TestDataProvider.testPayment();
         String userID = actualPayment.getUserID();
         when(categoryRepository.existsByUserIDAndCategoryID(anyString(), anyString())).thenReturn(true);
-        when(paymentRepo.getAllByUserIDAndCategoryID(anyString(), anyString())).thenReturn(List.of(actualPayment));
+        when(paymentRepo.getAllByUserIDAndCategoryIDOrderByPayDateDesc(anyString(), anyString())).thenReturn(List.of(actualPayment));
         when(paymentRepo.existsByPaymentID(anyString())).thenReturn(true);
 
         assertEquals(List.of(Payment.convertPaymentToDTO(actualPayment)), underTest.changePayment(userID, actualPayment));

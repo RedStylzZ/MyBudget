@@ -24,12 +24,10 @@ public class MongoUserService implements UserDetailsService {
     @Override
     public MongoUser loadUserByUsername(String username) throws UsernameNotFoundException {
         MongoUser user = repository.findMongoUserByUsername(username);
-        LOG.debug("Fetching user: " + username);
         if (user == null) {
             LOG.warn("Could not find user: " + username);
             throw new UsernameNotFoundException("User not found");
         }
-        LOG.debug("Found user: " + user);
         return user;
     }
 
@@ -37,7 +35,7 @@ public class MongoUserService implements UserDetailsService {
         if (principal != null) {
             return loadUserByUsername(principal.getName());
         }
-        LOG.debug("Principal is null");
+        LOG.warn("Principal is null");
         throw new UsernameNotFoundException("Principal is null");
     }
 }

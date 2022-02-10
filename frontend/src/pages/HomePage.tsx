@@ -28,7 +28,9 @@ export default function HomePage() {
     const [payments, setPayments] = useState<Payment[]>([])
 
     useEffect(() => {
-        categoryController.getCategories().then(setCategories)
+        categoryController.getCategories().then((response) => {
+            setCategories(response.filter((category) => !!category.paymentSum))
+        })
         paymentController.getLastPayments().then(setPayments)
     }, [categoryController, paymentController])
 

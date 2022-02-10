@@ -35,12 +35,12 @@ public class CategoryService {
     }
 
     public List<CategoryDTO> getCategories(MongoUser user) {
-        LOG.debug("Loading user categories from: " + user.getUsername());
+        LOG.info("Loading user categories");
         return getAllCategoriesAsDTO(user.getId());
     }
 
     public List<CategoryDTO> addCategory(MongoUser user, String categoryName) throws CategoryAlreadyExistException {
-        LOG.debug("Adding category " + categoryName + " for user: " + user.getUsername());
+        LOG.info("Adding category");
 
         if (!categoryRepository.existsByUserIDAndCategoryName(user.getId(), categoryName)) {
             Category category = Category.builder()
@@ -50,17 +50,16 @@ public class CategoryService {
                     .saveDate(LocalDateTime.now())
                     .build();
             categoryRepository.save(category);
-            LOG.debug("Added category: " + categoryName);
+            LOG.info("Added category");
         } else {
-            LOG.debug("Category already existent");
+            LOG.warn("Category already existent");
             throw new CategoryAlreadyExistException("A category with this name already exists: " + categoryName);
         }
         return getAllCategoriesAsDTO(user.getId());
     }
 
     public List<CategoryDTO> renameCategory(MongoUser user, String categoryID, String name) throws CategoryAlreadyExistException, CategoryDoesNotExistException {
-        LOG.debug("Renaming category: " + categoryID + " from user: " + user.getUsername());
-        LOG.debug("Loading category with ID: " + categoryID);
+        LOG.info("Renaming category");
         Category category = categoryRepository.findByUserIDAndCategoryID(user.getId(), categoryID);
 
         if (category != null) {
@@ -68,20 +67,20 @@ public class CategoryService {
                 category.setCategoryName(name);
                 category.setSaveDate(LocalDateTime.now());
                 categoryRepository.save(category);
-                LOG.debug("Renamed category with ID: " + categoryID);
+                LOG.info("Renamed category with ID");
             } else {
-                LOG.debug("A repository with this name already exists");
-                throw new CategoryAlreadyExistException("A category with this name already exists: " + name);
+                LOG.warn("A category with this name already exists");
+                throw new CategoryAlreadyExistException("A category with this name already exists");
             }
         } else {
-            LOG.debug("Category does not exist");
+            LOG.warn("Category does not exist");
             throw new CategoryDoesNotExistException("No category with ID: " + categoryID);
         }
         return getAllCategoriesAsDTO(user.getId());
     }
 
     public List<CategoryDTO> deleteCategory(MongoUser user, String categoryID) {
-        LOG.debug("Deleting category with ID: " + categoryID + " from user: " + user.getUsername());
+        LOG.debug("Deleting category");
         categoryRepository.deleteByCategoryID(categoryID);
         paymentRepo.deleteAllByUserIDAndCategoryID(user.getId(), categoryID);
         return getAllCategoriesAsDTO(user.getId());

@@ -34,7 +34,8 @@ public class PaymentService {
     }
 
     public BigDecimal calculatePaymentSum(String userID, String categoryID) {
-        List<Payment> payments = paymentRepository.getAllByUserIDAndCategoryIDAndPayDateAfter(userID, categoryID, LocalDateTime.now().withDayOfMonth(1));
+        List<Payment> payments = paymentRepository
+                .getAllByUserIDAndCategoryIDAndPayDateAfterOrderByPayDateDesc(userID, categoryID, LocalDateTime.now().withDayOfMonth(1).minus(Duration.ofDays(1)));
         return payments.stream()
                 .map(Payment::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -42,7 +43,7 @@ public class PaymentService {
 
     private List<PaymentDTO> getPaymentAsDTO(String userID, String categoryID) {
         return paymentRepository
-                .getAllByUserIDAndCategoryID(userID, categoryID)
+                .getAllByUserIDAndCategoryIDOrderByPayDateDesc(userID, categoryID)
                 .stream()
                 .map(Payment::convertPaymentToDTO)
                 .toList();
@@ -59,7 +60,7 @@ public class PaymentService {
 
     public List<PaymentDTO> getLastPayments(String userID) {
         return paymentRepository
-                .getAllByUserIDAndPayDateAfter(userID, LocalDateTime.now().minus(Duration.ofDays(7)))
+                .getAllByUserIDAndPayDateAfterOrderByPayDateDesc(userID, LocalDateTime.now().minus(Duration.ofDays(7)))
                 .stream().map(Payment::convertPaymentToDTO)
                 .toList();
     }
