@@ -1,4 +1,4 @@
-import {Category, IDeleteCategory, IRenameCategory} from "../models/Category";
+import {Category, IDeleteCategory} from "../models/Category";
 import PaymentController from "../controllers/PaymentController";
 import {ITokenConfig} from "../models/Connection";
 import {useEffect, useMemo, useState} from "react";
@@ -21,7 +21,8 @@ const mapToCategoryItem = (category: Category, categorySum: number, deleteCatego
             <h1>{category.categoryName}</h1>
             <h2><MonetaryValue amount={categorySum}/></h2>
             <input type="button" value={"Remove"} onClick={() => deleteCategory(category.categoryID)}/>
-            <input type="button" value={"Rename"} onClick={() => navigate(`/renameCategory/${category.categoryID}/${category.categoryName}`)}/>
+            <input type="button" value={"Rename"}
+                   onClick={() => navigate(`/renameCategory/${category.categoryID}/${category.categoryName}`)}/>
         </div>
     )
 }
