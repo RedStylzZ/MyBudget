@@ -12,6 +12,7 @@ import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -46,6 +47,7 @@ public class CategoryService {
                     .categoryID(UUID.randomUUID().toString())
                     .userID(user.getId())
                     .categoryName(categoryName)
+                    .saveDate(LocalDateTime.now())
                     .build();
             categoryRepository.save(category);
             LOG.debug("Added category: " + categoryName);
@@ -64,6 +66,7 @@ public class CategoryService {
         if (category != null) {
             if (!categoryRepository.existsByUserIDAndCategoryName(user.getId(), name)) {
                 category.setCategoryName(name);
+                category.setSaveDate(LocalDateTime.now());
                 categoryRepository.save(category);
                 LOG.debug("Renamed category with ID: " + categoryID);
             } else {

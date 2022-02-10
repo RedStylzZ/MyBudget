@@ -7,18 +7,20 @@ import com.github.redstylzz.backend.model.dto.PaymentDTO;
 import com.github.redstylzz.backend.repository.ICategoryRepository;
 import com.github.redstylzz.backend.repository.IPaymentRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.juli.logging.Log;
+import org.apache.juli.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.Duration;
-import java.time.Instant;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
+    private static final Log LOG = LogFactory.getLog(CategoryService.class);
 
     private final IPaymentRepository paymentRepository;
     private final ICategoryRepository categoryRepository;
@@ -32,7 +34,7 @@ public class PaymentService {
     }
 
     public BigDecimal calculatePaymentSum(String userID, String categoryID) {
-        List<Payment> payments = paymentRepository.getAllByUserIDAndCategoryID(userID, categoryID);
+        List<Payment> payments = paymentRepository.getAllByUserIDAndCategoryIDAndPayDateAfter(userID, categoryID, LocalDateTime.now().withDayOfMonth(1));
         return payments.stream()
                 .map(Payment::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -57,7 +59,7 @@ public class PaymentService {
 
     public List<PaymentDTO> getLastPayments(String userID) {
         return paymentRepository
-                .getAllByUserIDAndPayDateAfter(userID, Date.from(Instant.now().minus(Duration.ofDays(7))))
+                .getAllByUserIDAndPayDateAfter(userID, LocalDateTime.now().minus(Duration.ofDays(7)))
                 .stream().map(Payment::convertPaymentToDTO)
                 .toList();
     }
@@ -66,7 +68,7 @@ public class PaymentService {
         if (categoryExistent(userID, payment.getCategoryID())) {
             payment.setPaymentID(UUID.randomUUID().toString());
             payment.setUserID(userID);
-            payment.setSaveDate(new Date());
+            payment.setSaveDate(LocalDateTime.now());
             paymentRepository.save(payment);
             calculatePaymentSum(userID, payment.getCategoryID());
         } else {
@@ -89,7 +91,7 @@ public class PaymentService {
         if (categoryExistent(userID, payment.getCategoryID())) {
             if (paymentExists(payment.getPaymentID())) {
                 payment.setUserID(userID);
-                payment.setSaveDate(new Date());
+                payment.setSaveDate(LocalDateTime.now());
                 paymentRepository.save(payment);
                 calculatePaymentSum(userID, payment.getCategoryID());
             } else {
