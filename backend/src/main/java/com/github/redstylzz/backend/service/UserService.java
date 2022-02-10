@@ -21,12 +21,14 @@ public class UserService {
     private static final Log LOG = LogFactory.getLog(UserService.class);
     private final IMongoUserRepository repository;
     private final JWTService jwtService;
+    private final MongoUserService mongoUserService;
 
     public boolean isAdmin(Collection<? extends GrantedAuthority> authorities) {
         return authorities.stream().anyMatch(a -> a.getAuthority().equals(MongoUserService.ROLE_ADMIN));
     }
 
     public String addUser(MongoUser admin, MongoUserDTO user) throws ResponseStatusException {
+        LOG.debug(user);
         if (isAdmin(admin.getAuthorities())) {
             if (repository.findMongoUserByUsername(user.getUsername()) == null) {
                 MongoUser newUser = MongoUser.builder()
@@ -41,7 +43,7 @@ public class UserService {
                         .build();
 
                 repository.save(newUser);
-                LOG.debug("Added new User");
+                LOG.debug("Added new User: " + newUser);
                 return jwtService.createToken(newUser);
             }
             LOG.warn("User already exists");

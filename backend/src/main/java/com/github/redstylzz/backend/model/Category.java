@@ -1,5 +1,6 @@
 package com.github.redstylzz.backend.model;
 
+import com.github.redstylzz.backend.model.dto.CategoryDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
