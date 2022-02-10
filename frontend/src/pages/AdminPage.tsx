@@ -46,15 +46,20 @@ export default function AdminPage() {
             </div>
             <div className={"addUserForm"}>
                 <form onSubmit={addUser} className={"addUser"}>
+                    <h3>Username</h3>
                     <input type="text" id="username" onChange={onUsernameChange} placeholder={"Username"}
                            value={username}/>
+                    <h3>Password</h3>
                     <input type="password" id="password" onChange={onPasswordChange} placeholder={"Password"}
                            value={password}/>
-                    <input type={"radio"} id={"roleUSER"} name={"role"} onChange={onRoleChange} value={"USER"}
-                           defaultChecked={true}/>
-                    <label htmlFor="roleUSER">USER</label>
-                    <input type={"radio"} id={"roleADMIN"} name={"role"} onChange={onRoleChange} value={"ADMIN"}/>
-                    <label htmlFor="roleADMIN">ADMIN</label>
+                    <h3>Role</h3>
+                    <div className={"roleCheck"}>
+                        <input type={"radio"} id={"roleUSER"} name={"role"} onChange={onRoleChange} value={"USER"}
+                               defaultChecked={true}/>
+                        <label htmlFor="roleUSER">USER</label>
+                        <input type={"radio"} id={"roleADMIN"} name={"role"} onChange={onRoleChange} value={"ADMIN"}/>
+                        <label htmlFor="roleADMIN">ADMIN</label>
+                    </div>
                     <input type="submit" value={"Add User"}/>
                 </form>
             </div>
