@@ -10,16 +10,19 @@ interface PaymentItemProps {
 }
 
 export default function PaymentItem({payment, deletePayment, categoryID}: PaymentItemProps) {
-    const date: string = moment(payment.payDate).format('DD.MM.YYYY')
     const navigate = useNavigate()
-    return (
-        <div className={"paymentItem"} id={payment.paymentID}>
-            <h1>{payment.description}</h1>
-            <h2><MonetaryValue amount={payment.amount}/></h2>
-            <h3>{date}</h3>
-            <input type="button" value={"Delete Payment"} onClick={() => deletePayment(payment.paymentID)}/>
-            <input type="button" value={"Change Payment"}
-                   onClick={() => navigate(`/changePayment/${categoryID}/${payment.paymentID}`)}/>
-        </div>
-    )
+    if (typeof payment.payDate) {
+        const date: string = moment(payment.payDate).format('DD.MM.YYYY')
+        return (
+            <div className={"paymentItem"} id={payment.paymentID}>
+                <h1>{payment.description}</h1>
+                <h2><MonetaryValue amount={payment.amount}/></h2>
+                <h3>{date}</h3>
+                <input type="button" value={"Delete Payment"} onClick={() => deletePayment(payment.paymentID)}/>
+                <input type="button" value={"Change Payment"}
+                       onClick={() => navigate(`/changePayment/${categoryID}/${payment.paymentID}`)}/>
+            </div>
+        )
+    }
+    return null
 }
