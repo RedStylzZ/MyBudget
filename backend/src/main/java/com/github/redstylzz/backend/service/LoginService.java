@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -29,6 +30,10 @@ public class LoginService {
             LOG.warn("Login invalid credentials: " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid credentials");
         }
+    }
+
+    public boolean isAdmin(MongoUser user) {
+        return user.getAuthorities().contains(new SimpleGrantedAuthority(MongoUserService.ROLE_ADMIN));
     }
 
 }

@@ -1,6 +1,6 @@
 package com.github.redstylzz.backend.model;
 
-import com.github.redstylzz.backend.model.dto.MongoUserDTO;
+import com.github.redstylzz.backend.model.dto.LoginDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,7 +33,7 @@ public class MongoUser implements UserDetails {
     private List<String> rights;
 
     @Transient
-    public static MongoUser dtoToUser(MongoUserDTO dto) {
+    public static MongoUser dtoToUser(LoginDTO dto) {
         return MongoUser.builder()
                 .username(dto.getUsername())
                 .password(dto.getPassword())

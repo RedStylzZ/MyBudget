@@ -11,16 +11,19 @@ const MyResponsivePie = (data: PieChartData[]) => (
         data={data}
         id={"id"}
         valueFormat={value => toCurrency(value)}
-        margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+        margin={{top: 40, right: 80, bottom: 80, left: 80}}
         innerRadius={0.5}
         startAngle={0}
         endAngle={360}
         fit={true}
         padAngle={0.7}
         cornerRadius={3}
+        theme={{
+            "fontSize": 14
+        }}
         activeInnerRadiusOffset={5}
         activeOuterRadiusOffset={8}
-        colors={{ scheme: 'category10' }}
+        colors={{scheme: 'category10'}}
         borderWidth={1}
         borderColor={{
             from: 'color',
@@ -41,9 +44,9 @@ const MyResponsivePie = (data: PieChartData[]) => (
         arcLinkLabelsTextOffset={6}
         arcLinkLabel={"id"}
         arcLinkLabelsSkipAngle={10}
-        arcLinkLabelsTextColor={{ from: 'color', modifiers: [] }}
+        arcLinkLabelsTextColor={{from: 'color', modifiers: []}}
         arcLinkLabelsThickness={2}
-        arcLinkLabelsColor={{ from: 'color' }}
+        arcLinkLabelsColor={{from: 'color'}}
         arcLabelsSkipAngle={10}
         arcLabelsTextColor={{
             from: 'color',
@@ -101,7 +104,6 @@ const MyResponsivePie = (data: PieChartData[]) => (
         ]}
     />
 )
-
 
 
 export default function PieChart(props: PieChartProps) {

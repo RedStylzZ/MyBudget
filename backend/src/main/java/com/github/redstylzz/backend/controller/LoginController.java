@@ -1,8 +1,10 @@
 package com.github.redstylzz.backend.controller;
 
 import com.github.redstylzz.backend.model.MongoUser;
-import com.github.redstylzz.backend.model.dto.MongoUserDTO;
+import com.github.redstylzz.backend.model.dto.LoginDTO;
 import com.github.redstylzz.backend.service.LoginService;
+import com.github.redstylzz.backend.service.MongoUserService;
+import lombok.RequiredArgsConstructor;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,16 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("auth/login")
+@RequiredArgsConstructor
 public class LoginController {
     private static final Log LOG = LogFactory.getLog(LoginController.class);
     private final LoginService service;
+    private final MongoUserService userService;
 
-    public LoginController(LoginService service) {
-        this.service = service;
-    }
-
-    @PostMapping
-    public String login(@RequestBody MongoUserDTO dto) {
+    @PostMapping()
+    public String login(@RequestBody LoginDTO dto) {
         try {
             MongoUser mongoUser = MongoUser.dtoToUser(dto);
             LOG.info("Logging in user: " + mongoUser.getUsername());
