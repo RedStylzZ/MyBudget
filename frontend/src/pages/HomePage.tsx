@@ -15,6 +15,7 @@ const mapCategoriesToPieChartData = (categories: Category[]) => {
         return {
             id: category.categoryName,
             label: category.categoryName,
+            value: category.paymentSum
         }
     })
 }
@@ -41,9 +42,9 @@ export default function HomePage() {
                 <h1>Categories</h1>
                 <HomeCategories categories={categories}/>
             </div>
-            {/*<div className={"pieChart"}>*/}
-            {/*    <PieChart data={mapCategoriesToPieChartData(categories)}/>*/}
-            {/*</div>*/}
+            <div className={"pieChart"}>
+                <PieChart data={mapCategoriesToPieChartData(categories)}/>
+            </div>
         </div>
     )
 }

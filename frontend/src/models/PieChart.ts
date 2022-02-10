@@ -1,6 +1,6 @@
 export interface PieChartData {
     id: string,
     label: string,
-    value: number,
+    value?: number,
     color?: string
 }
