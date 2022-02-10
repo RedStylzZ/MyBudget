@@ -24,6 +24,7 @@ export interface ICategoryController {
     getCategories: () => Promise<Category[]>
     addCategory: (categoryName: string) => Promise<Category[]>
     deleteCategory: (categoryID: string) => Promise<Category[]>
+    renameCategory: (category: Category) => Promise<Category[]>
 }
 
 export interface IUserController {

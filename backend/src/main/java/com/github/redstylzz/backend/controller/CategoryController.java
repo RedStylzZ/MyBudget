@@ -43,7 +43,7 @@ public class CategoryController {
         return service.getCategories(user);
     }
 
-    @PutMapping
+    @PostMapping
     public List<CategoryDTO> addCategory(Principal principal, @RequestBody CategoryNameDTO dto) throws ResponseStatusException {
         String name = dto.getCategoryName();
         if (name == null || name.isBlank()) {
@@ -59,7 +59,7 @@ public class CategoryController {
         }
     }
 
-    @PostMapping
+    @PatchMapping
     public List<CategoryDTO> renameCategory(Principal principal, @RequestBody CategoryDTO dto) throws ResponseStatusException {
         String id = dto.getCategoryID();
         String name = dto.getCategoryName();

@@ -25,7 +25,8 @@ class CategoryServiceTest {
 
     private final ICategoryRepository repository = mock(ICategoryRepository.class);
     private final IPaymentRepository paymentRepo = mock(IPaymentRepository.class);
-    private final CategoryService underTest = new CategoryService(repository, paymentRepo);
+    private final PaymentService paymentService = mock(PaymentService.class);
+    private final CategoryService underTest = new CategoryService(repository, paymentRepo, paymentService);
     private static final String UUID_STRING = "06f1eb01-cdaf-46e4-a3c8-eff2e4b300dd";
     private static final UUID uuid = UUID.fromString(UUID_STRING);
     private static MockedStatic<UUID> uuidMock;

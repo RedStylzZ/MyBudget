@@ -12,7 +12,6 @@ import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,12 +22,15 @@ public class CategoryService {
 
     private final ICategoryRepository categoryRepository;
     private final IPaymentRepository paymentRepo;
+    private final PaymentService paymentService;
 
     private List<CategoryDTO> getAllCategoriesAsDTO(String userID) {
-        return categoryRepository.findAllByUserID(userID)
+        List<CategoryDTO> dto = categoryRepository.findAllByUserID(userID)
                 .stream()
                 .map(CategoryDTO::mapCategoryToDTO)
                 .toList();
+        dto.forEach(categoryDTO -> categoryDTO.setPaymentSum(paymentService.calculatePaymentSum(userID, categoryDTO.getCategoryID())));
+        return dto;
     }
 
     public List<CategoryDTO> getCategories(MongoUser user) {

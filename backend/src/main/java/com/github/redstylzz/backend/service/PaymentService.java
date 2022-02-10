@@ -6,6 +6,7 @@ import com.github.redstylzz.backend.model.Payment;
 import com.github.redstylzz.backend.model.dto.PaymentDTO;
 import com.github.redstylzz.backend.repository.ICategoryRepository;
 import com.github.redstylzz.backend.repository.IPaymentRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -16,17 +17,11 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class PaymentService {
 
     private final IPaymentRepository paymentRepository;
     private final ICategoryRepository categoryRepository;
-    private final CategoryService categoryService;
-
-    public PaymentService(IPaymentRepository paymentRepo, ICategoryRepository categoryRepository, CategoryService categoryService) {
-        this.paymentRepository = paymentRepo;
-        this.categoryRepository = categoryRepository;
-        this.categoryService = categoryService;
-    }
 
     private boolean categoryExistent(String userID, String categoryID) {
         return categoryRepository.existsByUserIDAndCategoryID(userID, categoryID);
@@ -36,12 +31,11 @@ public class PaymentService {
         return paymentRepository.existsByPaymentID(paymentID);
     }
 
-    private BigDecimal calculatePaymentSum(String userID, String categoryID) {
+    public BigDecimal calculatePaymentSum(String userID, String categoryID) {
         List<Payment> payments = paymentRepository.getAllByUserIDAndCategoryID(userID, categoryID);
-        BigDecimal paymentSum = payments.stream()
+        return payments.stream()
                 .map(Payment::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        return paymentSum;
     }
 
     private List<PaymentDTO> getPaymentAsDTO(String userID, String categoryID) {

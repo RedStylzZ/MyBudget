@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Transient;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,6 +16,7 @@ import org.springframework.data.annotation.Transient;
 public class CategoryDTO {
     String categoryName;
     String categoryID;
+    BigDecimal paymentSum;
 
     @Transient
     public static CategoryDTO mapCategoryToDTO(Category category) {

@@ -58,17 +58,16 @@ public class TestDataProvider {
     }
 
 
-    public static Category testCategory(String id, String userID, String name, BigDecimal paymentSum) {
+    public static Category testCategory(String id, String userID, String name) {
         return Category.builder()
                 .categoryID(id)
                 .userID(userID)
                 .categoryName(name)
-                .paymentSum(paymentSum)
                 .build();
     }
 
     public static Category testCategory() {
-        return testCategory("44", "24", "Tizian", new BigDecimal("0"));
+        return testCategory("44", "24", "Tizian");
     }
 
     public static Payment testPayment() {
