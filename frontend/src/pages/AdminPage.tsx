@@ -3,6 +3,7 @@ import {IUserController} from "../models/ControllerTypes";
 import UserController from "../controllers/UserController";
 import {AuthContext} from "../context/AuthProvider";
 import User from "../models/User";
+import './AdminPage.scss'
 
 export default function AdminPage() {
     const {config} = useContext(AuthContext)
@@ -16,14 +17,13 @@ export default function AdminPage() {
         event.preventDefault()
 
         if ((username && username.length) && (password && password.length) && (role && role.length)) {
-            console.log("Add User:", username, password, role)
             const user: User = {
                 username: username,
                 password: password,
                 rights: [role]
             }
             controller.addUser(user).then(response => {
-                const status: string = response ? "Success" : "Failed"
+                const status: string = response ? "Successfully added user" : "Failed to add user"
                 setWorked(status)
             })
         }
@@ -35,10 +35,8 @@ export default function AdminPage() {
     const onPasswordChange = (event: ChangeEvent<HTMLInputElement>) =>
         setPassword(event.target.value)
 
-    const onRoleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        console.log(event.target.value)
+    const onRoleChange = (event: ChangeEvent<HTMLInputElement>) =>
         setRole(event.target.value)
-    }
 
     return (
         <div className={"adminPage"}>
@@ -48,15 +46,20 @@ export default function AdminPage() {
             </div>
             <div className={"addUserForm"}>
                 <form onSubmit={addUser} className={"addUser"}>
+                    <h3>Username</h3>
                     <input type="text" id="username" onChange={onUsernameChange} placeholder={"Username"}
                            value={username}/>
+                    <h3>Password</h3>
                     <input type="password" id="password" onChange={onPasswordChange} placeholder={"Password"}
                            value={password}/>
-                    <input type={"radio"} id={"roleUSER"} name={"role"} onChange={onRoleChange} value={"USER"}
-                           defaultChecked={true}/>
-                    <label htmlFor="roleUSER">USER</label>
-                    <input type={"radio"} id={"roleADMIN"} name={"role"} onChange={onRoleChange} value={"ADMIN"}/>
-                    <label htmlFor="roleADMIN">ADMIN</label>
+                    <h3>Role</h3>
+                    <div className={"roleCheck"}>
+                        <input type={"radio"} id={"roleUSER"} name={"role"} onChange={onRoleChange} value={"USER"}
+                               defaultChecked={true}/>
+                        <label htmlFor="roleUSER">USER</label>
+                        <input type={"radio"} id={"roleADMIN"} name={"role"} onChange={onRoleChange} value={"ADMIN"}/>
+                        <label htmlFor="roleADMIN">ADMIN</label>
+                    </div>
                     <input type="submit" value={"Add User"}/>
                 </form>
             </div>

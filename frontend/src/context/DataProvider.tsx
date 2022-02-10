@@ -10,15 +10,16 @@ export interface IDataContextProps {
 export const DataContext = createContext<IDataContextProps>({})
 
 export default function DataProvider({children}: { children: ReactElement<any, any> }) {
-    const {config, isLoggedIn} = useContext(AuthContext)
+    const {config, loggedIn, isLoggedIn} = useContext(AuthContext)
     const controller: IUserController = useMemo(() => UserController(config), [config])
     const [isAdmin, setIsAdmin] = useState<boolean | undefined>(undefined)
 
     useEffect(() => {
-        controller.isAdmin().then(setIsAdmin)
-    }, [controller])
+        isLoggedIn()
+        loggedIn && controller.isAdmin().then(setIsAdmin)
+    }, [isLoggedIn, loggedIn, controller])
 
-    if (isAdmin === true && !isLoggedIn()) setIsAdmin(false)
+    if (isAdmin === true && !loggedIn) setIsAdmin(false)
 
     return (
         <DataContext.Provider value={{isAdmin}}>
