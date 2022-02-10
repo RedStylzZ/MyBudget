@@ -10,7 +10,8 @@ export interface IAuthContext {
     jwtDecoded?: { sub: string, exp: number },
     setJwt: (jwt: string) => void,
     logout: () => void,
-    isLoggedIn: () => boolean
+    loggedIn: boolean,
+    isLoggedIn: () => void
 }
 
 export const AuthContext = createContext<IAuthContext>({
@@ -20,6 +21,7 @@ export const AuthContext = createContext<IAuthContext>({
     setJwt: () => {
         throw new Error("Login not initialized")
     },
+    loggedIn: false,
     isLoggedIn: () => false
 })
 
@@ -28,7 +30,7 @@ export default function AuthProvider({children}: { children: ReactElement<any, a
     const [token, setToken] = useState<string | undefined>(localStorage.getItem(TOKEN_KEY) || undefined)
     const [config, setConfig] = useState<ITokenConfig>({headers: {Authorization: `Bearer ${token}`}});
     const [jwtDecoded, setJwtDecoded] = useState(token ? jwt_decode(token) : undefined)
-
+    const [loggedIn, setLoggedIn] = useState<boolean>(false)
 
     useEffect(() => {
         if (token !== undefined) {
@@ -45,10 +47,10 @@ export default function AuthProvider({children}: { children: ReactElement<any, a
         setJwt("")
     }
 
-    const isLoggedIn = () => !!token && isValidToken(jwtDecoded)
+    const isLoggedIn = () => setLoggedIn(!!token && isValidToken(jwtDecoded))
 
     return (
-        <AuthContext.Provider value={{token, config, jwtDecoded, setJwt, logout, isLoggedIn}}>
+        <AuthContext.Provider value={{token, config, jwtDecoded, setJwt, logout, isLoggedIn, loggedIn}}>
             {children}
         </AuthContext.Provider>
     )
