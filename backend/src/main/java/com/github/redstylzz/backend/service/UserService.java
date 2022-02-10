@@ -28,7 +28,6 @@ public class UserService {
     }
 
     public String addUser(MongoUser admin, MongoUserDTO user) throws ResponseStatusException {
-        LOG.debug(user);
         if (isAdmin(admin.getAuthorities())) {
             if (repository.findMongoUserByUsername(user.getUsername()) == null) {
                 MongoUser newUser = MongoUser.builder()
@@ -43,7 +42,7 @@ public class UserService {
                         .build();
 
                 repository.save(newUser);
-                LOG.debug("Added new User: " + newUser);
+                LOG.debug("Added new User");
                 return jwtService.createToken(newUser);
             }
             LOG.warn("User already exists");
