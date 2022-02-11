@@ -22,6 +22,4 @@ export default function PaymentItem({payment, deletePayment, categoryID}: Paymen
                    onClick={() => navigate(`/changePayment/${categoryID}/${payment.paymentID}`)}/>
         </div>
     )
-
-    return null
 }
