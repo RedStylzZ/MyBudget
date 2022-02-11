@@ -5,7 +5,6 @@ import org.mockito.MockedStatic;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -70,7 +69,7 @@ public class TestDataProvider {
     }
 
     public static Payment testPayment() {
-        return testPayment("36", "24", "44", "PayPal", new BigDecimal("10.0"), LocalDateTime.now(), LocalDateTime.now());
+        return testPayment("36", "24", "44", "PayPal", new BigDecimal("10.0"), Instant.now(), Instant.now());
     }
 
     public static Payment testPayment(String paymentID,
@@ -78,8 +77,8 @@ public class TestDataProvider {
                                       String categoryID,
                                       String description,
                                       BigDecimal amount,
-                                      LocalDateTime saveDate,
-                                      LocalDateTime payDate) {
+                                      Instant saveDate,
+                                      Instant payDate) {
         return Payment.builder()
                 .paymentID(paymentID)
                 .userID(userID)

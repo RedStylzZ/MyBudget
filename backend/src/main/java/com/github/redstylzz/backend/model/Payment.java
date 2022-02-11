@@ -10,7 +10,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @NoArgsConstructor
@@ -26,8 +26,8 @@ public class Payment {
     String categoryID;
     String description;
     BigDecimal amount;
-    LocalDateTime saveDate;
-    LocalDateTime payDate;
+    Instant saveDate;
+    Instant payDate;
 
     public static Payment convertDTOtoPayment(PaymentDTO dto) {
         return Payment.builder()

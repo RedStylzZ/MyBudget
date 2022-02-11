@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @NoArgsConstructor
@@ -18,5 +18,5 @@ public class PaymentDTO {
     String categoryID;
     String description;
     BigDecimal amount;
-    LocalDateTime payDate;
+    Instant payDate;
 }

@@ -37,7 +37,7 @@ export default function HomePage() {
     return (
         <div className={"homePage"}>
             <div className={"recentPayments"}>
-                <h1>Payments</h1>
+                <h1>Recent Payments</h1>
                 <RecentPayments payments={payments}/>
             </div>
             <div className={"homeCategories"}>

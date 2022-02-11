@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 
@@ -60,16 +62,17 @@ public class PaymentService {
 
     public List<PaymentDTO> getLastPayments(String userID) {
         return paymentRepository
-                .getAllByUserIDAndPayDateAfterOrderByPayDateDesc(userID, LocalDateTime.now().minus(Duration.ofDays(7)))
+                .getAllByUserIDAndPayDateAfterOrderByPayDateDesc(userID, Instant.now().minus(Duration.ofDays(7)))
                 .stream().map(Payment::convertPaymentToDTO)
                 .toList();
     }
 
     public List<PaymentDTO> addPayment(String userID, Payment payment) throws CategoryDoesNotExistException {
         if (categoryExistent(userID, payment.getCategoryID())) {
+            LOG.debug(payment.getPayDate());
             payment.setPaymentID(UUID.randomUUID().toString());
             payment.setUserID(userID);
-            payment.setSaveDate(LocalDateTime.now());
+            payment.setSaveDate(Instant.now());
             paymentRepository.save(payment);
             calculatePaymentSum(userID, payment.getCategoryID());
         } else {
@@ -92,7 +95,7 @@ public class PaymentService {
         if (categoryExistent(userID, payment.getCategoryID())) {
             if (paymentExists(payment.getPaymentID())) {
                 payment.setUserID(userID);
-                payment.setSaveDate(LocalDateTime.now());
+                payment.setSaveDate(Instant.now());
                 paymentRepository.save(payment);
                 calculatePaymentSum(userID, payment.getCategoryID());
             } else {

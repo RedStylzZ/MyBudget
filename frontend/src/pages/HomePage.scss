@@ -28,6 +28,19 @@
         width: 100%;
     }
 
+    .paymentDateWrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .recentPaymentItems {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+    }
+
     .categoryItem, .recentPaymentItem {
         display: flex;
         flex-direction: row;
