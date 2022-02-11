@@ -49,7 +49,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         } catch (Exception e) {
-            LOG.error("ERROR while parsing token: ", e);
+            LOG.error("Cannot parse token: ", e);
         }
         filterChain.doFilter(request, response);
     }

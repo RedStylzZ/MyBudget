@@ -9,11 +9,13 @@ export default function CategoryService(config: ITokenConfig | undefined): ICate
             return axios.get(URL, config).then(response => response.data)
         },
         addCategory: categoryName => {
-            return axios.put(URL, {categoryName}, config).then(response => response.data)
+            return axios.post(URL, {categoryName}, config).then(response => response.data)
         },
         deleteCategory: categoryID => {
-            config!.data = {categoryID}
             return axios.delete(URL + `/?categoryID=${categoryID}`, config).then(response => response.data)
+        },
+        renameCategory: category => {
+            return axios.patch(URL, category, config).then(response => response.data)
         }
     }
 }

@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -20,20 +19,17 @@ public class LoginService {
     private final JWTService jwtService;
 
     public String login(MongoUser user) {
+        LOG.debug("Logging in user");
         try {
             authManager.authenticate(
                     new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
             );
-            LOG.debug("Successfully logged in user: " + user.getUsername());
+            LOG.info("Successfully logged in user");
             return jwtService.createToken(user);
         } catch (AuthenticationException e) {
             LOG.warn("Login invalid credentials: " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid credentials");
         }
-    }
-
-    public boolean isAdmin(MongoUser user) {
-        return user.getAuthorities().contains(new SimpleGrantedAuthority(MongoUserService.ROLE_ADMIN));
     }
 
 }

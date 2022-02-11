@@ -10,8 +10,8 @@ interface PaymentItemProps {
 }
 
 export default function PaymentItem({payment, deletePayment, categoryID}: PaymentItemProps) {
-    const date: string = moment(payment.payDate).format('DD.MM.YYYY')
     const navigate = useNavigate()
+    const date: string = moment(payment.payDate).format('DD.MM.YYYY')
     return (
         <div className={"paymentItem"} id={payment.paymentID}>
             <h1>{payment.description}</h1>
@@ -22,4 +22,6 @@ export default function PaymentItem({payment, deletePayment, categoryID}: Paymen
                    onClick={() => navigate(`/changePayment/${categoryID}/${payment.paymentID}`)}/>
         </div>
     )
+
+    return null
 }

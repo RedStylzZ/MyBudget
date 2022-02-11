@@ -108,5 +108,6 @@ const MyResponsivePie = (data: PieChartData[]) => (
 
 export default function PieChart(props: PieChartProps) {
     const {data} = props
+
     return <>{MyResponsivePie(data)}</>
 }

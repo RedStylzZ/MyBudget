@@ -6,6 +6,7 @@ import com.github.redstylzz.backend.model.dto.PaymentDTO;
 import com.github.redstylzz.backend.model.dto.RequestPaymentDTO;
 import com.github.redstylzz.backend.service.MongoUserService;
 import com.github.redstylzz.backend.service.PaymentService;
+import lombok.RequiredArgsConstructor;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.http.HttpStatus;
@@ -18,17 +19,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/payment")
+@RequiredArgsConstructor
 public class PaymentController {
     private static final Log LOG = LogFactory.getLog(PaymentController.class);
 
     private final PaymentService service;
     private final MongoUserService userService;
-
-
-    public PaymentController(PaymentService service, MongoUserService userService) {
-        this.service = service;
-        this.userService = userService;
-    }
 
     private MongoUser getUser(Principal principal) throws ResponseStatusException {
         try {

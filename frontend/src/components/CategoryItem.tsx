@@ -6,6 +6,7 @@ import {Payment} from "../models/Payment";
 import Payments from "./Payments";
 import {IPaymentController} from "../models/ControllerTypes";
 import MonetaryValue from "./MonetaryValue";
+import {NavigateFunction, useNavigate} from "react-router-dom";
 
 
 interface CategoryItemProps {
@@ -14,12 +15,14 @@ interface CategoryItemProps {
     deleteCategory: IDeleteCategory
 }
 
-const mapToCategoryItem = (category: Category, categorySum: number, deleteCategory: IDeleteCategory) => {
+const mapToCategoryItem = (category: Category, categorySum: number, deleteCategory: IDeleteCategory, navigate: NavigateFunction) => {
     return (
         <div className={"categoryItem"}>
             <h1>{category.categoryName}</h1>
             <h2><MonetaryValue amount={categorySum}/></h2>
             <input type="button" value={"Remove"} onClick={() => deleteCategory(category.categoryID)}/>
+            <input type="button" value={"Rename"}
+                   onClick={() => navigate(`/renameCategory/${category.categoryID}/${category.categoryName}`)}/>
         </div>
     )
 }
@@ -33,6 +36,7 @@ export default function CategoryItem({category, config, deleteCategory}: Categor
     const controller: IPaymentController = useMemo(() => PaymentController(config), [config])
     const [payments, setPayments] = useState<Payment[]>([])
     const [categorySum, setCategorySum] = useState<number>(0)
+    const navigate = useNavigate()
 
     useEffect(() => {
         controller.getPayments(category.categoryID).then((response) => {
@@ -46,7 +50,7 @@ export default function CategoryItem({category, config, deleteCategory}: Categor
 
     return (
         <div className={"categoryItemCard"} id={category.categoryID}>
-            {mapToCategoryItem(category, categorySum, deleteCategory)}
+            {mapToCategoryItem(category, categorySum, deleteCategory, navigate)}
             <Payments payments={payments} categoryID={category.categoryID} setPayments={setPayments}
                       controller={controller}/>
         </div>

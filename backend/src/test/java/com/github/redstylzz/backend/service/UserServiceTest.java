@@ -19,7 +19,8 @@ class UserServiceTest {
 
     private final IMongoUserRepository repository = mock(IMongoUserRepository.class);
     private final JWTService jwtService = mock(JWTService.class);
-    private final UserService underTest = new UserService(repository, jwtService);
+    private final MongoUserService mongoUserService = mock(MongoUserService.class);
+    private final UserService underTest = new UserService(repository, jwtService, mongoUserService);
     private MongoUser user;
     private MongoUserDTO dto;
 
@@ -31,12 +32,7 @@ class UserServiceTest {
 
     @Test
     void shouldThrowExceptionIfUserIsNotAdmin() {
-        assertThrows(ResponseStatusException.class, () -> underTest.addUser(user, dto));
-    }
-
-    @Test
-    void shouldThrowExceptionIfUserAlreadyExists() {
-        when(repository.findMongoUserByUsername(anyString())).thenReturn(null);
+        when(mongoUserService.loadUserByUsername(anyString())).thenReturn(user);
 
         assertThrows(ResponseStatusException.class, () -> underTest.addUser(user, dto));
     }
@@ -44,6 +40,7 @@ class UserServiceTest {
     @Test
     void shouldReturnTokenForUserWhenCreated() {
         user.setRights(List.of("ADMIN"));
+        when(mongoUserService.loadUserByUsername(anyString())).thenReturn(user);
         when(jwtService.createToken(any(MongoUser.class))).thenReturn(user.getId());
 
         String token = underTest.addUser(user, dto);

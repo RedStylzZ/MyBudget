@@ -25,8 +25,7 @@ class PaymentServiceTest {
 
     private final IPaymentRepository paymentRepo = mock(IPaymentRepository.class);
     private final ICategoryRepository categoryRepository = mock(ICategoryRepository.class);
-    private final CategoryService categoryService = mock(CategoryService.class);
-    private final PaymentService underTest = new PaymentService(paymentRepo, categoryRepository, categoryService);
+    private final PaymentService underTest = new PaymentService(paymentRepo, categoryRepository);
     private static final String UUID_STRING = "06f1eb01-cdaf-46e4-a3c8-eff2e4b300dd";
     private static final UUID uuid = UUID.fromString(UUID_STRING);
     private static MockedStatic<UUID> uuidMock;
@@ -47,11 +46,11 @@ class PaymentServiceTest {
     void shouldReturnList_OnGet() {
         Category category = TestDataProvider.testCategory();
         Payment actualPayment = TestDataProvider.testPayment();
-        when(paymentRepo.getAllByUserIDAndCategoryID(anyString(), anyString())).thenReturn(List.of(actualPayment));
+        when(paymentRepo.getAllByUserIDAndCategoryIDOrderByPayDateDesc(anyString(), anyString())).thenReturn(List.of(actualPayment));
 
         List<PaymentDTO> payments = underTest.getPayments(category.getUserID(), category.getCategoryID());
 
-        verify(paymentRepo).getAllByUserIDAndCategoryID(anyString(), anyString());
+        verify(paymentRepo).getAllByUserIDAndCategoryIDOrderByPayDateDesc(anyString(), anyString());
         assertEquals(List.of(Payment.convertPaymentToDTO(actualPayment)), payments);
     }
 
@@ -70,7 +69,7 @@ class PaymentServiceTest {
         actualPayment.setPaymentID(UUID_STRING);
         String userID = actualPayment.getUserID();
         when(categoryRepository.existsByUserIDAndCategoryID(anyString(), anyString())).thenReturn(true);
-        when(paymentRepo.getAllByUserIDAndCategoryID(anyString(), anyString())).thenReturn(List.of(actualPayment));
+        when(paymentRepo.getAllByUserIDAndCategoryIDOrderByPayDateDesc(anyString(), anyString())).thenReturn(List.of(actualPayment));
 
         assertEquals(List.of(Payment.convertPaymentToDTO(actualPayment)), underTest.addPayment(userID, actualPayment));
         verify(paymentRepo).save(any(Payment.class));
@@ -94,7 +93,7 @@ class PaymentServiceTest {
         String categoryID = actualPayment.getCategoryID();
         String paymentID = actualPayment.getPaymentID();
         when(categoryRepository.existsByUserIDAndCategoryID(anyString(), anyString())).thenReturn(true);
-        when(paymentRepo.getAllByUserIDAndCategoryID(anyString(), anyString())).thenReturn(List.of(actualPayment));
+        when(paymentRepo.getAllByUserIDAndCategoryIDOrderByPayDateDesc(anyString(), anyString())).thenReturn(List.of(actualPayment));
 
         assertEquals(List.of(Payment.convertPaymentToDTO(actualPayment)), underTest.deletePayment(userID, categoryID, paymentID));
         verify(paymentRepo).deleteByPaymentID(anyString());
@@ -124,7 +123,7 @@ class PaymentServiceTest {
         Payment actualPayment = TestDataProvider.testPayment();
         String userID = actualPayment.getUserID();
         when(categoryRepository.existsByUserIDAndCategoryID(anyString(), anyString())).thenReturn(true);
-        when(paymentRepo.getAllByUserIDAndCategoryID(anyString(), anyString())).thenReturn(List.of(actualPayment));
+        when(paymentRepo.getAllByUserIDAndCategoryIDOrderByPayDateDesc(anyString(), anyString())).thenReturn(List.of(actualPayment));
         when(paymentRepo.existsByPaymentID(anyString())).thenReturn(true);
 
         assertEquals(List.of(Payment.convertPaymentToDTO(actualPayment)), underTest.changePayment(userID, actualPayment));

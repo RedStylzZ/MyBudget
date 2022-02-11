@@ -31,7 +31,7 @@ export default function Payments({payments, categoryID, setPayments, controller}
         const paymentID: string = "";
         const description: string = formElements.description.value
         const amount: number = formElements.amount.value
-        const payDate: Date = date
+        const payDate: Date = new Date(date.toDateString())
         const payment: Payment = {
             paymentID, categoryID, description, amount, payDate
         }

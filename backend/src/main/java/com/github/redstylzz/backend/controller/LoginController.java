@@ -24,10 +24,10 @@ public class LoginController {
     public String login(@RequestBody LoginDTO dto) {
         try {
             MongoUser mongoUser = MongoUser.dtoToUser(dto);
-            LOG.info("Logging in user: " + mongoUser.getUsername());
+            LOG.debug("Logging in user");
             return service.login(mongoUser);
         } catch (Exception e) {
-            LOG.error("Failed to create user", e);
+            LOG.error("Failed to login user", e);
         }
         return null;
     }

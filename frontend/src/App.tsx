@@ -11,6 +11,7 @@ import ChangePaymentPage from "./pages/ChangePaymentPage";
 import AdminPage from "./pages/AdminPage";
 import RequireAdmin from "./components/RequireAdmin";
 import DataProvider from "./context/DataProvider";
+import RenameCategoryPage from "./pages/RenameCategoryPage";
 
 function App() {
     return (
@@ -35,6 +36,11 @@ function App() {
                                 <Route path={"/changePayment/:categoryID/:paymentID"} element={
                                     <RequireAuth>
                                         <ChangePaymentPage/>
+                                    </RequireAuth>}
+                                />
+                                <Route path={"/renameCategory/:categoryID/:categoryName"} element={
+                                    <RequireAuth>
+                                        <RenameCategoryPage/>
                                     </RequireAuth>}
                                 />
                                 <Route path={"/admin"} element={

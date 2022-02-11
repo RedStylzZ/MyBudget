@@ -14,6 +14,9 @@ export default function CategoryController(config: ITokenConfig | undefined): IC
         },
         deleteCategory: categoryID => {
             return service.deleteCategory(categoryID)
+        },
+        renameCategory: category => {
+            return service.renameCategory(category)
         }
     }
 

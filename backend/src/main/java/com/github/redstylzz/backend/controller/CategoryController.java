@@ -1,7 +1,6 @@
 package com.github.redstylzz.backend.controller;
 
 import com.github.redstylzz.backend.exception.CategoryAlreadyExistException;
-import com.github.redstylzz.backend.model.Category;
 import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.model.dto.CategoryDTO;
 import com.github.redstylzz.backend.model.dto.CategoryNameDTO;
@@ -39,13 +38,13 @@ public class CategoryController {
     }
 
     @GetMapping
-    public List<Category> getCategories(Principal principal) {
+    public List<CategoryDTO> getCategories(Principal principal) {
         MongoUser user = getUser(principal);
         return service.getCategories(user);
     }
 
-    @PutMapping
-    public List<Category> addCategory(Principal principal, @RequestBody CategoryNameDTO dto) throws ResponseStatusException {
+    @PostMapping
+    public List<CategoryDTO> addCategory(Principal principal, @RequestBody CategoryNameDTO dto) throws ResponseStatusException {
         String name = dto.getCategoryName();
         if (name == null || name.isBlank()) {
             LOG.warn("Name is null or blank");
@@ -60,8 +59,8 @@ public class CategoryController {
         }
     }
 
-    @PostMapping
-    public List<Category> renameCategory(Principal principal, @RequestBody CategoryDTO dto) throws ResponseStatusException {
+    @PatchMapping
+    public List<CategoryDTO> renameCategory(Principal principal, @RequestBody CategoryDTO dto) throws ResponseStatusException {
         String id = dto.getCategoryID();
         String name = dto.getCategoryName();
         if ((id == null || id.isBlank()) || (name == null || name.isBlank())) {
@@ -73,7 +72,7 @@ public class CategoryController {
     }
 
     @DeleteMapping
-    public List<Category> deleteCategory(Principal principal, @RequestParam String categoryID) throws ResponseStatusException {
+    public List<CategoryDTO> deleteCategory(Principal principal, @RequestParam String categoryID) throws ResponseStatusException {
         if (categoryID == null || categoryID.isBlank()) {
             LOG.warn("ID is null or blank");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);

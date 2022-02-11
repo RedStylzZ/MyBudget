@@ -5,6 +5,7 @@ import com.github.redstylzz.backend.exception.CategoryDoesNotExistException;
 import com.github.redstylzz.backend.model.Category;
 import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.model.TestDataProvider;
+import com.github.redstylzz.backend.model.dto.CategoryDTO;
 import com.github.redstylzz.backend.repository.ICategoryRepository;
 import com.github.redstylzz.backend.repository.IPaymentRepository;
 import org.junit.jupiter.api.AfterAll;
@@ -12,12 +13,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
-import static com.github.redstylzz.backend.model.TestDataProvider.testCategory;
-import static com.github.redstylzz.backend.model.TestDataProvider.testUser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -27,7 +25,8 @@ class CategoryServiceTest {
 
     private final ICategoryRepository repository = mock(ICategoryRepository.class);
     private final IPaymentRepository paymentRepo = mock(IPaymentRepository.class);
-    private final CategoryService underTest = new CategoryService(repository, paymentRepo);
+    private final PaymentService paymentService = mock(PaymentService.class);
+    private final CategoryService underTest = new CategoryService(repository, paymentRepo, paymentService);
     private static final String UUID_STRING = "06f1eb01-cdaf-46e4-a3c8-eff2e4b300dd";
     private static final UUID uuid = UUID.fromString(UUID_STRING);
     private static MockedStatic<UUID> uuidMock;
@@ -56,7 +55,7 @@ class CategoryServiceTest {
         MongoUser user = TestDataProvider.testUser();
         Category category = TestDataProvider.testCategory();
         String categoryName = category.getCategoryName();
-        when(repository.findAllByUserID(anyString())).thenReturn(List.of(category));
+        when(repository.existsByUserIDAndCategoryName(anyString(), anyString())).thenReturn(true);
 
         assertThrows(CategoryAlreadyExistException.class, () ->
                 underTest.addCategory(user, categoryName));
@@ -69,11 +68,11 @@ class CategoryServiceTest {
         category.setCategoryID(UUID_STRING);
         String categoryName = category.getCategoryName();
         when(repository.save(any(Category.class))).thenReturn(null);
-
-        List<Category> wantedList = underTest.addCategory(user, categoryName);
+        when(repository.findAllByUserID(anyString())).thenReturn(List.of(category));
+        List<CategoryDTO> wantedList = underTest.addCategory(user, categoryName);
 
         verify(repository).save(any(Category.class));
-        assertEquals(wantedList, List.of(category));
+        assertEquals(List.of(CategoryDTO.mapCategoryToDTO(category)), wantedList);
     }
 
     @Test
@@ -100,7 +99,7 @@ class CategoryServiceTest {
         when(repository.findByUserIDAndCategoryID(anyString(), anyString())).thenReturn(TestDataProvider.testCategory());
         when(repository.existsByUserIDAndCategoryName(anyString(), anyString())).thenReturn(false);
 
-        List<Category> wantedList = underTest.renameCategory(user, "", "");
+        List<CategoryDTO> wantedList = underTest.renameCategory(user, "", "");
 
         verify(repository).save(any(Category.class));
         verify(repository).findAllByUserID(anyString());
@@ -111,33 +110,11 @@ class CategoryServiceTest {
     void shouldReturnListOnSuccessfulDelete() {
         MongoUser user = TestDataProvider.testUser();
 
-        List<Category> wantedList = underTest.deleteCategory(user, "");
+        List<CategoryDTO> wantedList = underTest.deleteCategory(user, "");
 
         verify(repository).deleteByCategoryID(anyString());
         verify(paymentRepo).deleteAllByUserIDAndCategoryID(anyString(), anyString());
         verify(repository).findAllByUserID(anyString());
         assertEquals(List.of(), wantedList);
-    }
-
-    @Test
-    void shouldSaveCategory() {
-        String userID = testUser().getId();
-        String categoryID = testCategory().getCategoryID();
-        BigDecimal paymentSum = BigDecimal.ZERO;
-        when(repository.findByUserIDAndCategoryID(anyString(), anyString())).thenReturn(testCategory());
-
-        underTest.setCategorySum(userID, categoryID, paymentSum);
-
-        verify(repository).save(any(Category.class));
-    }
-
-    @Test
-    void shouldNotSaveCategory() {
-        String userID = testUser().getId();
-        String categoryID = testCategory().getCategoryID();
-
-        underTest.setCategorySum(userID, categoryID, null);
-
-        verifyNoInteractions(repository);
     }
 }

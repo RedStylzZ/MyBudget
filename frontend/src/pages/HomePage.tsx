@@ -15,7 +15,7 @@ const mapCategoriesToPieChartData = (categories: Category[]) => {
         return {
             id: category.categoryName,
             label: category.categoryName,
-            value: category.paymentSum,
+            value: category.paymentSum
         }
     })
 }
@@ -28,14 +28,16 @@ export default function HomePage() {
     const [payments, setPayments] = useState<Payment[]>([])
 
     useEffect(() => {
-        categoryController.getCategories().then(setCategories)
+        categoryController.getCategories().then((response) => {
+            setCategories(response.filter((category) => !!category.paymentSum))
+        })
         paymentController.getLastPayments().then(setPayments)
     }, [categoryController, paymentController])
 
     return (
         <div className={"homePage"}>
             <div className={"recentPayments"}>
-                <h1>Payments</h1>
+                <h1>Recent Payments</h1>
                 <RecentPayments payments={payments}/>
             </div>
             <div className={"homeCategories"}>
