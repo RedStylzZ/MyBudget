@@ -28,7 +28,7 @@ export default function SchedulePage() {
 
     const onSchedulingDateChange = (event: ChangeEvent<HTMLInputElement>) => setScheduledDate(parseInt(event.target.value))
     const onAmountChange = (event: ChangeEvent<HTMLInputElement>) => setAmount(parseInt(event.target.value))
-    const onDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => setDescription(event.target.value)
+    const onDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => setDescription(event.target.value.trim())
 
     return (
         <div className={"schedulingPage"}>
@@ -40,8 +40,8 @@ export default function SchedulePage() {
                     <input type="number" onChange={onSchedulingDateChange} placeholder={"Scheduling Date"}
                            value={scheduledDate}/>
                     <h2>Payment</h2>
-                    <input type="text" id={"description"} onChange={onDescriptionChange} placeholder={"Description"}/>
-                    <input type="number" id={"amount"} onChange={onAmountChange} placeholder={"Amount"} step={0.01}/>
+                    <input type="text" id={"description"} onChange={onDescriptionChange} value={description} placeholder={"Description"}/>
+                    <input type="number" id={"amount"} onChange={onAmountChange} placeholder={"Amount"} value={amount} step={0.01}/>
                     <input type="submit" value={"Add Series"}/>
                 </form>
                 <SeriesItems series={series}/>
