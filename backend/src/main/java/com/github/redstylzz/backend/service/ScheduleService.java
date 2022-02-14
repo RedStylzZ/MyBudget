@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @EnableScheduling
@@ -24,7 +25,7 @@ public class ScheduleService {
     private final IPaymentSeriesRepository repository;
     private final IPaymentRepository paymentRepository;
 
-    @Scheduled(fixedDelay = 300000L)
+    @Scheduled(fixedDelay = 1L, timeUnit = TimeUnit.DAYS)
     public void addPayment() {
         LOG.info("Adding payments from series");
         List<PaymentSeries> series = repository.getAllByScheduledDate(LocalDateTime.now().getDayOfMonth());
