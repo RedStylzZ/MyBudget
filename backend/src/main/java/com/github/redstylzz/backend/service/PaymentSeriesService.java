@@ -1,5 +1,6 @@
 package com.github.redstylzz.backend.service;
 
+import com.github.redstylzz.backend.exception.SeriesAlreadyExistException;
 import com.github.redstylzz.backend.model.PaymentSeries;
 import com.github.redstylzz.backend.model.dto.PaymentSeriesDTO;
 import com.github.redstylzz.backend.repository.IPaymentSeriesRepository;
@@ -23,11 +24,13 @@ public class PaymentSeriesService {
     }
 
     public List<PaymentSeries> addSeries(String userId, PaymentSeriesDTO dto) {
-        LOG.info("Add series");
+        LOG.info("Adding series");
         PaymentSeries series = PaymentSeries.mapDTOtoSeries(dto, userId);
-
         if (!repository.existsBySeriesId(series.getSeriesId())) {
             repository.save(series);
+        } else {
+            LOG.warn("Series already existent");
+            throw new SeriesAlreadyExistException();
         }
 
         return getSeries(userId);
