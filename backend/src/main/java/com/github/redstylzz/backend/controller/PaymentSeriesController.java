@@ -1,7 +1,6 @@
 package com.github.redstylzz.backend.controller;
 
 import com.github.redstylzz.backend.model.MongoUser;
-import com.github.redstylzz.backend.model.PaymentSeries;
 import com.github.redstylzz.backend.model.dto.PaymentSeriesDTO;
 import com.github.redstylzz.backend.service.MongoUserService;
 import com.github.redstylzz.backend.service.PaymentSeriesService;
@@ -35,14 +34,26 @@ public class PaymentSeriesController {
     }
 
     @GetMapping
-    public List<PaymentSeries> getSeries(Principal principal) {
+    public List<PaymentSeriesDTO> getSeries(Principal principal) {
         MongoUser user = getUser(principal);
         return service.getSeries(user.getId());
     }
 
     @PostMapping
-    public List<PaymentSeries> addSeries(Principal principal, @RequestBody PaymentSeriesDTO dto) {
+    public List<PaymentSeriesDTO> addSeries(Principal principal, @RequestBody PaymentSeriesDTO dto) {
         MongoUser user = getUser(principal);
         return service.addSeries(user.getId(), dto);
+    }
+
+    @DeleteMapping
+    public List<PaymentSeriesDTO> deleteSeries(Principal principal, @RequestParam String seriesId) {
+        MongoUser user = getUser(principal);
+        return service.deleteSeries(user.getId(), seriesId);
+    }
+
+    @PutMapping
+    public List<PaymentSeriesDTO> changeSeries(Principal principal, @RequestBody PaymentSeriesDTO dto) {
+        MongoUser user = getUser(principal);
+        return service.changeSeries(user.getId(), dto);
     }
 }

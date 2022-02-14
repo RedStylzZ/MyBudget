@@ -18,12 +18,12 @@ public class PaymentSeriesService {
 
     private final IPaymentSeriesRepository repository;
 
-    public List<PaymentSeries> getSeries(String userId) {
+    public List<PaymentSeriesDTO> getSeries(String userId) {
         LOG.info("Get series");
-        return repository.getAllByUserId(userId);
+        return repository.getAllByUserId(userId).stream().map(PaymentSeriesDTO::mapSeriesToDTO).toList();
     }
 
-    public List<PaymentSeries> addSeries(String userId, PaymentSeriesDTO dto) {
+    public List<PaymentSeriesDTO> addSeries(String userId, PaymentSeriesDTO dto) {
         LOG.info("Adding series");
         PaymentSeries series = PaymentSeries.mapDTOtoSeries(dto, userId);
         if (!repository.existsBySeriesId(series.getSeriesId())) {
@@ -33,6 +33,20 @@ public class PaymentSeriesService {
             throw new SeriesAlreadyExistException();
         }
 
+        return getSeries(userId);
+    }
+
+    public List<PaymentSeriesDTO> deleteSeries(String userId, String seriesId) {
+        LOG.info("Deleting series");
+        repository.deleteByUserIdAndSeriesId(userId, seriesId);
+        return getSeries(userId);
+    }
+
+    public List<PaymentSeriesDTO> changeSeries(String userId, PaymentSeriesDTO dto) {
+        if (repository.existsByUserIdAndSeriesId(userId, dto.getSeriesId())) {
+            PaymentSeries series = PaymentSeries.mapDTOtoSeries(dto, userId);
+            repository.save(series);
+        }
         return getSeries(userId);
     }
 

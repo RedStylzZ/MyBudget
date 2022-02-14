@@ -13,6 +13,10 @@ public interface IPaymentSeriesRepository extends MongoRepository<PaymentSeries,
 
     List<PaymentSeries> getAllByScheduledDate(int scheduledDate);
 
+    boolean existsByUserIdAndSeriesId(String userId, String seriesId);
+
+    void deleteByUserIdAndSeriesId(String userId, String seriesId);
+
     boolean existsBySeriesId(String seriesId);
 
 }
