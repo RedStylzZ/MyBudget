@@ -1,4 +1,4 @@
-import React, {ChangeEvent, ChangeEventHandler, FormEvent, useContext, useEffect, useMemo, useState} from "react";
+import React, {ChangeEvent, FormEvent, useContext, useEffect, useMemo, useState} from "react";
 import SeriesController from "../controllers/SeriesController";
 import {Series} from "../models/Series";
 import {PaymentDTO} from "../models/Payment";
@@ -55,8 +55,10 @@ export default function SchedulePage() {
                     <input type="number" onChange={onSchedulingDateChange} placeholder={"Scheduling Date"}
                            value={scheduledDate}/>
                     <h2>Payment</h2>
-                    <input type="text" id={"description"} onChange={onDescriptionChange} value={description} placeholder={"Description"}/>
-                    <input type="number" id={"amount"} onChange={onAmountChange} placeholder={"Amount"} value={amount} step={0.01}/><br/>
+                    <input type="text" id={"description"} onChange={onDescriptionChange} value={description}
+                           placeholder={"Description"}/>
+                    <input type="number" id={"amount"} onChange={onAmountChange} placeholder={"Amount"} value={amount}
+                           step={0.01}/><br/>
                     <select name="Category" id="selectCategory" value={categoryID} onChange={onSelectChange}>
                         {
                             categories.map((category, index) =>

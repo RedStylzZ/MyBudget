@@ -27,11 +27,11 @@ export default function RecentPayments(props: { payments: Payment[] }) {
                         <div className={"paymentDateWrap"} key={index}>
                             <h2 key={index}>{dateString}</h2>
                             <div className={"recentPaymentItems"}>
-                            {
-                                value[1].map((payment, paymentIndex) =>
-                                    <RecentPaymentItem payment={payment} key={paymentIndex}/>
-                                )
-                            }
+                                {
+                                    value[1].map((payment, paymentIndex) =>
+                                        <RecentPaymentItem payment={payment} key={paymentIndex}/>
+                                    )
+                                }
                             </div>
                         </div>
                     )
