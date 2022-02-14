@@ -26,13 +26,13 @@ public class ScheduleService {
 
     @Scheduled(fixedDelay = 300000L)
     public void addPayment() {
+        LOG.info("Adding payments from series");
         List<PaymentSeries> series = repository.getAllByScheduledDate(LocalDateTime.now().getDayOfMonth());
         if (!series.isEmpty()) {
             List<Payment> payments = series
                     .stream()
                     .map(s -> Payment.convertDTOtoPayment(s.getPayment(), s.getUserId(), LocalDate.now().atStartOfDay().toInstant(ZoneOffset.UTC)))
                     .toList();
-
             paymentRepository.saveAll(payments);
         }
     }

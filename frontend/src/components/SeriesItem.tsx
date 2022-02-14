@@ -18,8 +18,7 @@ export default function SeriesItem({series}: ISeriesItemProps) {
                 <h3>{series.scheduledDate}</h3>
             </div>
             <div className={"paymentItem"}>
-                <h1>Payment</h1>
-                <h3>{series.payment.description}</h3>
+                <h2>{series.payment.description}</h2>
                 <MonetaryValue amount={series.payment.amount}/>
             </div>
         </div>

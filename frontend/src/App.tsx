@@ -54,9 +54,7 @@ function App() {
                                 />
                                 <Route path={"/series"} element={
                                     <RequireAuth>
-                                        <RequireAdmin>
-                                            <SchedulePage/>
-                                        </RequireAdmin>
+                                        <SchedulePage/>
                                     </RequireAuth>
                                 }
                                 />

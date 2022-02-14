@@ -8,7 +8,7 @@ interface ISeriesProps {
 export default function SeriesItems({series}: ISeriesProps) {
 
     return (
-        <div className={"SeriesItems"}>
+        <div className={"seriesItems"}>
             {
                 series.map((seriesObj, index) =>
                     <SeriesItem series={seriesObj} key={index}/>

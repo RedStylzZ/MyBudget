@@ -8,5 +8,6 @@ export interface Payment {
 
 export interface PaymentDTO {
     description: string;
+    categoryID: string;
     amount: number;
 }
