@@ -1,6 +1,7 @@
 import {Payment} from "./Payment";
 import {Category} from "./Category";
 import User from "./User";
+import {Series} from "./Series";
 
 export interface ILoginController {
     login: (username: string, password: string) => Promise<string>
@@ -30,4 +31,9 @@ export interface ICategoryController {
 export interface IUserController {
     isAdmin: () => Promise<boolean>
     addUser: (user: User) => Promise<boolean>
+}
+
+export interface ISeriesController {
+    getSeries: () => Promise<Series[]>
+    addSeries: (series: Series) => Promise<Series[]>
 }

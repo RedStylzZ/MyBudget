@@ -5,3 +5,8 @@ export interface Payment {
     amount: number;
     payDate: Date;
 }
+
+export interface PaymentDTO {
+    description: string;
+    amount: number;
+}
