@@ -3,12 +3,14 @@ import MonetaryValue from "./MonetaryValue";
 
 interface ISeriesItemProps {
     series: Series
+    deleteSeries: (seriesId?: string) => void
 }
 
-export default function SeriesItem({series}: ISeriesItemProps) {
+export default function SeriesItem({series, deleteSeries}: ISeriesItemProps) {
 
     return (
         <div className={"seriesItemCard"}>
+            <input type="button" onClick={() => deleteSeries(series.seriesId)} value={"Delete"}/>
             <div className={"seriesItem"}>
                 <h2>Start</h2>
                 <h3>{series.startDate || "Infinite"}</h3>

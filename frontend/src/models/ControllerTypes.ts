@@ -36,4 +36,5 @@ export interface IUserController {
 export interface ISeriesController {
     getSeries: () => Promise<Series[]>
     addSeries: (series: Series) => Promise<Series[]>
+    deleteSeries: (seriesId: string) => Promise<Series[]>
 }

@@ -32,6 +32,12 @@ export default function SchedulePage() {
         seriesController.addSeries(seriesObj).then(setSeries)
     }
 
+    const deleteSeries = (seriesId: string | undefined) => {
+        if (seriesId) {
+            seriesController.deleteSeries(seriesId).then(setSeries)
+        }
+    }
+
     const onSchedulingDateChange = (event: ChangeEvent<HTMLInputElement>) => setScheduledDate(parseInt(event.target.value))
     const onAmountChange = (event: ChangeEvent<HTMLInputElement>) => setAmount(parseInt(event.target.value))
     const onDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => setDescription(event.target.value.trim())
@@ -60,7 +66,7 @@ export default function SchedulePage() {
                     </select>
                     <input type="submit" value={"Add Series"}/>
                 </form>
-                <SeriesItems series={series}/>
+                <SeriesItems series={series} deleteSeries={deleteSeries}/>
             </div>
         </div>
     )

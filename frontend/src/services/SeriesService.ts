@@ -11,6 +11,9 @@ export default function SeriesService(config: ITokenConfig | undefined): ISeries
         },
         addSeries: (series: Series) => {
             return axios.post(`/api/series`, series, config).then(response => response.data)
+        },
+        deleteSeries: seriesId => {
+            return axios.delete(`/api/series/?seriesId=${seriesId}`, config).then(response => response.data)
         }
     }
 }

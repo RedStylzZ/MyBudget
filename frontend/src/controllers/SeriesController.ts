@@ -13,6 +13,9 @@ export default function SeriesController(config: ITokenConfig | undefined): ISer
         },
         addSeries: (series: Series) => {
             return service.addSeries(series)
+        },
+        deleteSeries: seriesId => {
+            return service.deleteSeries(seriesId)
         }
     }
 }
