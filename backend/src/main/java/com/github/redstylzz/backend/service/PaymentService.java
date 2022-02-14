@@ -16,7 +16,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -69,7 +68,6 @@ public class PaymentService {
     public List<PaymentDTO> addPayment(String userID, Payment payment) throws CategoryDoesNotExistException {
         if (categoryExistent(userID, payment.getCategoryID())) {
             LOG.debug(payment.getPayDate());
-            payment.setPaymentID(UUID.randomUUID().toString());
             payment.setUserID(userID);
             payment.setSaveDate(Instant.now());
             paymentRepository.save(payment);

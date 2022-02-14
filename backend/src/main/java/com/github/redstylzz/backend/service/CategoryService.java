@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +43,6 @@ public class CategoryService {
 
         if (!categoryRepository.existsByUserIDAndCategoryName(user.getId(), categoryName)) {
             Category category = Category.builder()
-                    .categoryID(UUID.randomUUID().toString())
                     .userID(user.getId())
                     .categoryName(categoryName)
                     .saveDate(LocalDateTime.now())

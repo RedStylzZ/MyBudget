@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +30,6 @@ public class UserService {
         if (isAdmin(admin.getAuthorities())) {
             if (repository.findMongoUserByUsername(user.getUsername()) == null) {
                 MongoUser newUser = MongoUser.builder()
-                        .id(UUID.randomUUID().toString())
                         .username(user.getUsername())
                         .password(new Argon2PasswordEncoder().encode(user.getPassword()))
                         .rights(user.getRights())
