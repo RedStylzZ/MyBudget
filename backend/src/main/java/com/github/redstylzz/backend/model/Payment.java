@@ -11,8 +11,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Data
 @NoArgsConstructor
@@ -29,7 +29,7 @@ public class Payment {
     String description;
     BigDecimal amount;
     Instant saveDate;
-    LocalDateTime payDate;
+    Instant payDate;
 
     public static Payment convertDTOtoPayment(PaymentDTO dto) {
         return Payment.builder()
@@ -37,7 +37,7 @@ public class Payment {
                 .categoryID(dto.getCategoryID())
                 .description(dto.getDescription())
                 .amount(dto.getAmount())
-                .payDate(dto.getPayDate())
+                .payDate(dto.getPayDate().toInstant())
                 .build();
     }
 
@@ -46,7 +46,7 @@ public class Payment {
                 .categoryID(dto.getCategoryID())
                 .description(dto.getDescription())
                 .amount(dto.getAmount())
-                .payDate(dto.getPayDate())
+                .payDate(dto.getPayDate().toInstant())
                 .build();
     }
 
@@ -56,7 +56,7 @@ public class Payment {
                 .categoryID(payment.categoryID)
                 .description(payment.description)
                 .amount(payment.amount)
-                .payDate(payment.payDate)
+                .payDate(ZonedDateTime.ofInstant(payment.payDate, ZoneId.of("GMT+1")))
                 .build();
     }
 }

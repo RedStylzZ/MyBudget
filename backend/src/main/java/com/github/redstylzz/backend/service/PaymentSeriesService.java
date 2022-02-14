@@ -1,6 +1,5 @@
 package com.github.redstylzz.backend.service;
 
-import com.github.redstylzz.backend.controller.PaymentSeriesController;
 import com.github.redstylzz.backend.model.PaymentSeries;
 import com.github.redstylzz.backend.model.dto.PaymentSeriesDTO;
 import com.github.redstylzz.backend.repository.IPaymentSeriesRepository;

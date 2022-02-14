@@ -3,7 +3,7 @@ package com.github.redstylzz.backend.model.dto;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Data
 @NoArgsConstructor
@@ -14,5 +14,5 @@ public class RequestPaymentDTO {
     @NonNull String categoryID;
     @NonNull String description;
     @NonNull BigDecimal amount;
-    @NonNull LocalDateTime payDate;
+    @NonNull ZonedDateTime payDate;
 }
