@@ -3,10 +3,9 @@ import React, {ChangeEvent, FormEvent, useContext, useEffect, useMemo, useState}
 import {DatePicker, LocalizationProvider} from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import {TextField} from "@mui/material";
-import {IPaymentController} from "../models/ControllerTypes";
 import PaymentController from "../controllers/PaymentController";
 import {AuthContext} from "../context/AuthProvider";
-import {Payment} from "../models/Payment";
+import {IPaymentController, Payment} from "../models/Payment";
 import './ChangePaymentPage.scss'
 
 export default function ChangePaymentPage() {

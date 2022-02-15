@@ -7,3 +7,9 @@ export interface Series {
     scheduledDate: number
     payment: PaymentDTO
 }
+
+export interface ISeriesController {
+    getSeries: () => Promise<Series[]>
+    addSeries: (series: Series) => Promise<Series[]>
+    deleteSeries: (seriesId: string) => Promise<Series[]>
+}

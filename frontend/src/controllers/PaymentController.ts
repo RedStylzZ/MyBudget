@@ -1,6 +1,6 @@
-import {IPaymentController} from "../models/ControllerTypes";
 import PaymentService from "../services/PaymentService";
 import {ITokenConfig} from "../models/Connection";
+import {IPaymentController} from "../models/Payment";
 
 export default function PaymentController(config: ITokenConfig | undefined): IPaymentController {
 

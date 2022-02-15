@@ -1,6 +1,6 @@
 import {ITokenConfig} from "../models/Connection";
-import {IUserController} from "../models/ControllerTypes";
 import axios from "axios";
+import {IUserController} from "../models/User";
 
 export default function UserService(config: ITokenConfig | undefined): IUserController {
 

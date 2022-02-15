@@ -1,8 +1,7 @@
 import {ChangeEvent, FormEventHandler, useContext, useState} from "react";
-import {IUserController} from "../models/ControllerTypes";
 import UserController from "../controllers/UserController";
 import {AuthContext} from "../context/AuthProvider";
-import User from "../models/User";
+import User, {IUserController} from "../models/User";
 import './AdminPage.scss'
 
 export default function AdminPage() {

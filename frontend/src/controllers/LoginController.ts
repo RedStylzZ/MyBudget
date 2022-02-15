@@ -1,7 +1,7 @@
 import LoginService from "../services/LoginService";
-import {ILoginController, ILoginService} from "../models/ControllerTypes";
 import {useContext} from "react";
 import {AuthContext} from "../context/AuthProvider";
+import {ILoginController, ILoginService} from "../models/Login";
 
 export const isValidToken = (jwtDecoded?: { exp: number }): boolean =>
     !!jwtDecoded && (jwtDecoded.exp * 1000) > Date.now()

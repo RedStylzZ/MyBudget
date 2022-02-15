@@ -3,3 +3,8 @@ export default interface User {
     password: string
     rights: [string]
 }
+
+export interface IUserController {
+    isAdmin: () => Promise<boolean>
+    addUser: (user: User) => Promise<boolean>
+}

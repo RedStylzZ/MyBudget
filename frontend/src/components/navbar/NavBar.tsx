@@ -18,6 +18,9 @@ export default function NavBar() {
             <Link to={"/series"}>
                 <input type="button" value={"Series"}/>
             </Link>
+            <Link to={"/deposits"}>
+                <input type="button" value={"Deposits"}/>
+            </Link>
             <input type={"button"} value={"Logout"} onClick={() => logout()}/>
 
             <RequireAdmin>

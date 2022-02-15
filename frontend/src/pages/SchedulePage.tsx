@@ -1,13 +1,12 @@
 import React, {ChangeEvent, FormEvent, useContext, useEffect, useMemo, useState} from "react";
 import SeriesController from "../controllers/SeriesController";
-import {Series} from "../models/Series";
+import {ISeriesController, Series} from "../models/Series";
 import {PaymentDTO} from "../models/Payment";
 import SeriesItems from "../components/series/SeriesItems";
-import {ICategoryController, ISeriesController} from "../models/ControllerTypes";
 import {AuthContext} from "../context/AuthProvider";
 import './SchedulingPage.scss'
 import CategoryController from "../controllers/CategoryController";
-import {Category} from "../models/Category";
+import {Category, ICategoryController} from "../models/Category";
 import {DateRangePicker, LocalizationProvider} from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import {Box, TextField} from "@mui/material";

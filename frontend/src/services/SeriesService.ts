@@ -1,6 +1,5 @@
 import axios from "axios";
-import {Series} from "../models/Series";
-import {ISeriesController} from "../models/ControllerTypes";
+import {ISeriesController, Series} from "../models/Series";
 import {ITokenConfig} from "../models/Connection";
 
 export default function SeriesService(config: ITokenConfig | undefined): ISeriesController {

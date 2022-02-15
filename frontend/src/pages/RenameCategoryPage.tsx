@@ -1,9 +1,9 @@
 import {Navigate, useNavigate, useParams} from "react-router-dom";
 import React, {ChangeEvent, FormEvent, useContext, useMemo, useState} from "react";
-import {ICategoryController} from "../models/ControllerTypes";
 import {AuthContext} from "../context/AuthProvider";
 import './ChangePaymentPage.scss'
 import CategoryController from "../controllers/CategoryController";
+import {ICategoryController} from "../models/Category";
 
 export default function RenameCategoryPage() {
     const urlParams = useParams()

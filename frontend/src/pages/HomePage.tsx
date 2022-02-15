@@ -1,12 +1,11 @@
 import './HomePage.scss'
 import {useContext, useEffect, useMemo, useState} from "react";
 import {AuthContext} from "../context/AuthProvider";
-import {ICategoryController, IPaymentController} from "../models/ControllerTypes";
 import CategoryController from "../controllers/CategoryController";
-import {Category} from "../models/Category";
+import {Category, ICategoryController} from "../models/Category";
 import HomeCategories from "../components/categories/HomeCategories";
 import PaymentController from "../controllers/PaymentController";
-import {Payment} from "../models/Payment";
+import {IPaymentController, Payment} from "../models/Payment";
 import RecentPayments from "../components/payments/RecentPayments";
 import PieChart from "../components/PieChart";
 

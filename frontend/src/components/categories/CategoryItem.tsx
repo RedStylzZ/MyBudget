@@ -2,9 +2,8 @@ import {Category, IDeleteCategory} from "../../models/Category";
 import PaymentController from "../../controllers/PaymentController";
 import {ITokenConfig} from "../../models/Connection";
 import {useEffect, useMemo, useState} from "react";
-import {Payment} from "../../models/Payment";
+import {IPaymentController, Payment} from "../../models/Payment";
 import Payments from "../payments/Payments";
-import {IPaymentController} from "../../models/ControllerTypes";
 import MonetaryValue from "../MonetaryValue";
 import {NavigateFunction, useNavigate} from "react-router-dom";
 
