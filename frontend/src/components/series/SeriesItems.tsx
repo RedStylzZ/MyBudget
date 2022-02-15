@@ -1,5 +1,5 @@
 import {Series} from "../../models/Series";
-import SeriesItem from "./SeriesItem";
+import SeriesCard from "./SeriesCard";
 
 interface ISeriesProps {
     series: Series[]
@@ -12,7 +12,7 @@ export default function SeriesItems({series, deleteSeries}: ISeriesProps) {
         <div className={"seriesItems"}>
             {
                 series.map((seriesObj, index) =>
-                    <SeriesItem series={seriesObj} deleteSeries={deleteSeries} key={index}/>
+                    <SeriesCard series={seriesObj} deleteSeries={deleteSeries} key={index}/>
                 )
             }
         </div>

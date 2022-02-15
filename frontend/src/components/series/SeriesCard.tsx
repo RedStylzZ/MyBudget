@@ -7,7 +7,7 @@ interface ISeriesItemProps {
     deleteSeries: (seriesId?: string) => void
 }
 
-export default function SeriesItem({series, deleteSeries}: ISeriesItemProps) {
+export default function SeriesCard({series, deleteSeries}: ISeriesItemProps) {
 
     return (
         <div className={"seriesItemCard"}>
