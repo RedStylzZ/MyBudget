@@ -38,7 +38,7 @@ export default function ChangePaymentPage() {
                 categoryID,
                 description,
                 amount,
-                payDate: new Date(date.toDateString())
+                payDate: new Date(date)
             }
             controller.changePayment(payment).then(() => {
                 navigate("/categories")

@@ -12,6 +12,7 @@ import AdminPage from "./pages/AdminPage";
 import RequireAdmin from "./components/RequireAdmin";
 import DataProvider from "./context/DataProvider";
 import RenameCategoryPage from "./pages/RenameCategoryPage";
+import SchedulePage from "./pages/SchedulePage";
 
 function App() {
     return (
@@ -48,6 +49,12 @@ function App() {
                                         <RequireAdmin>
                                             <AdminPage/>
                                         </RequireAdmin>
+                                    </RequireAuth>
+                                }
+                                />
+                                <Route path={"/series"} element={
+                                    <RequireAuth>
+                                        <SchedulePage/>
                                     </RequireAuth>
                                 }
                                 />
