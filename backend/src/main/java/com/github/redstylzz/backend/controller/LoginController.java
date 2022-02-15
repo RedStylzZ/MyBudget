@@ -3,7 +3,6 @@ package com.github.redstylzz.backend.controller;
 import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.model.dto.LoginDTO;
 import com.github.redstylzz.backend.service.LoginService;
-import com.github.redstylzz.backend.service.MongoUserService;
 import lombok.RequiredArgsConstructor;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
     private static final Log LOG = LogFactory.getLog(LoginController.class);
     private final LoginService service;
-    private final MongoUserService userService;
 
     @PostMapping()
     public String login(@RequestBody LoginDTO dto) {

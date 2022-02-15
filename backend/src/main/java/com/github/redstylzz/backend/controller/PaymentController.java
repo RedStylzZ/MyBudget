@@ -4,17 +4,13 @@ import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.model.Payment;
 import com.github.redstylzz.backend.model.dto.PaymentDTO;
 import com.github.redstylzz.backend.model.dto.RequestPaymentDTO;
-import com.github.redstylzz.backend.service.MongoUserService;
 import com.github.redstylzz.backend.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -24,53 +20,48 @@ public class PaymentController {
     private static final Log LOG = LogFactory.getLog(PaymentController.class);
 
     private final PaymentService service;
-    private final MongoUserService userService;
-
-    private MongoUser getUser(Principal principal) throws ResponseStatusException {
-        try {
-            return userService.getUserByPrincipal(principal);
-        } catch (UsernameNotFoundException e) {
-            LOG.warn("No user found");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No user found");
-        }
-    }
 
     @GetMapping("/")
-    public PaymentDTO getPayment(Principal principal,
+    public PaymentDTO getPayment(UsernamePasswordAuthenticationToken principal,
                                  @RequestParam String categoryID,
                                  @RequestParam String paymentID) {
-        MongoUser user = getUser(principal);
+        MongoUser user = MongoUser.getUser(principal, LOG);
         return service.getPayment(user.getId(), categoryID, paymentID);
     }
 
     @GetMapping("{categoryID}")
-    public List<PaymentDTO> getPayments(Principal principal, @PathVariable String categoryID) {
-        MongoUser user = getUser(principal);
+    public List<PaymentDTO> getPayments(UsernamePasswordAuthenticationToken principal,
+                                        @PathVariable String categoryID) {
+        MongoUser user = MongoUser.getUser(principal, LOG);
         return service.getPayments(user.getId(), categoryID);
     }
 
     @GetMapping
-    public List<PaymentDTO> getLastPayments(Principal principal) {
-        MongoUser user = getUser(principal);
+    public List<PaymentDTO> getLastPayments(UsernamePasswordAuthenticationToken principal) {
+        MongoUser user = MongoUser.getUser(principal, LOG);
         return service.getLastPayments(user.getId());
     }
 
     @PutMapping
-    public List<PaymentDTO> addPayment(Principal principal, @RequestBody RequestPaymentDTO dto) {
-        String userID = getUser(principal).getId();
+    public List<PaymentDTO> addPayment(UsernamePasswordAuthenticationToken principal,
+                                       @RequestBody RequestPaymentDTO dto) {
+        String userID = MongoUser.getUser(principal, LOG).getId();
         Payment payment = Payment.convertDTOtoPayment(dto);
         return service.addPayment(userID, payment);
     }
 
     @DeleteMapping
-    public List<PaymentDTO> deletePayment(Principal principal, @RequestParam String categoryID, @RequestParam String paymentID) {
-        String userID = getUser(principal).getId();
+    public List<PaymentDTO> deletePayment(UsernamePasswordAuthenticationToken principal,
+                                          @RequestParam String categoryID,
+                                          @RequestParam String paymentID) {
+        String userID = MongoUser.getUser(principal, LOG).getId();
         return service.deletePayment(userID, categoryID, paymentID);
     }
 
     @PostMapping
-    public List<PaymentDTO> changePayment(Principal principal, @RequestBody PaymentDTO dto) {
-        String userID = getUser(principal).getId();
+    public List<PaymentDTO> changePayment(UsernamePasswordAuthenticationToken principal,
+                                          @RequestBody PaymentDTO dto) {
+        String userID = MongoUser.getUser(principal, LOG).getId();
         Payment payment = Payment.convertDTOtoPayment(dto);
         return service.changePayment(userID, payment);
     }
