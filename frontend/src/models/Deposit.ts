@@ -6,7 +6,7 @@ export interface IDepositController {
 }
 
 export interface Deposit {
-    depositId: string
+    depositId?: string
     description: string
     amount: number
     depositDate: Date
