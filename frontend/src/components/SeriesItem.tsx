@@ -1,5 +1,6 @@
 import {Series} from "../models/Series";
 import MonetaryValue from "./MonetaryValue";
+import FormatDate from "./FormatDate";
 
 interface ISeriesItemProps {
     series: Series
@@ -13,9 +14,9 @@ export default function SeriesItem({series, deleteSeries}: ISeriesItemProps) {
             <input type="button" onClick={() => deleteSeries(series.seriesId)} value={"Delete"}/>
             <div className={"seriesItem"}>
                 <h2>Start</h2>
-                <h3>{series.startDate || "Infinite"}</h3>
+                <h3>{series.startDate ? <FormatDate date={series.startDate}/> : "Infinite"}</h3>
                 <h2>End</h2>
-                <h3>{series.endDate || "Infinite"}</h3>
+                <h3>{series.endDate ? <FormatDate date={series.endDate}/> : "Infinite"}</h3>
                 <h2>Scheduled Day</h2>
                 <h3>{series.scheduledDate}</h3>
             </div>

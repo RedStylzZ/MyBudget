@@ -8,6 +8,14 @@ import {AuthContext} from "../context/AuthProvider";
 import './SchedulingPage.scss'
 import CategoryController from "../controllers/CategoryController";
 import {Category} from "../models/Category";
+import {DateRangePicker, LocalizationProvider} from "@mui/lab";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import {Box, TextField} from "@mui/material";
+import {DateRange} from "@mui/lab/DateRangePicker/RangeTypes";
+
+interface SelectInput {
+    selectCategory: {value: string}
+}
 
 export default function SchedulePage() {
     const config = useContext(AuthContext).config
@@ -16,7 +24,7 @@ export default function SchedulePage() {
     const [description, setDescription] = useState<string>("")
     const [amount, setAmount] = useState<number>(1)
     const [categories, setCategories] = useState<Category[]>([])
-    const [categoryID, setCategoryID] = useState<string>("")
+    const [rangeValue, setRangeValue] = useState<DateRange<Date>>([null, null])
     const seriesController: ISeriesController = useMemo(() => SeriesController(config), [config])
     const categoryController: ICategoryController = useMemo(() => CategoryController(config), [config])
 
@@ -27,8 +35,14 @@ export default function SchedulePage() {
 
     const addSeries = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
+        const form = event.currentTarget
+        const formElements = form.elements as typeof form.elements & SelectInput
+        const categoryID: string = formElements.selectCategory.value
+
+        if (!categoryID || !categoryID.length) return
+
         const payment: PaymentDTO = {description, amount, categoryID}
-        const seriesObj: Series = {scheduledDate, payment}
+        const seriesObj: Series = {scheduledDate, payment, startDate: rangeValue[0], endDate: rangeValue[1]}
         seriesController.addSeries(seriesObj).then(setSeries)
     }
 
@@ -41,8 +55,6 @@ export default function SchedulePage() {
     const onSchedulingDateChange = (event: ChangeEvent<HTMLInputElement>) => setScheduledDate(parseInt(event.target.value))
     const onAmountChange = (event: ChangeEvent<HTMLInputElement>) => setAmount(parseInt(event.target.value))
     const onDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => setDescription(event.target.value.trim())
-    const onSelectChange = (event: ChangeEvent<HTMLSelectElement>) => setCategoryID(event.target.value)
-
 
     return (
         <div className={"schedulingPage"}>
@@ -59,7 +71,24 @@ export default function SchedulePage() {
                            placeholder={"Description"}/>
                     <input type="number" id={"amount"} onChange={onAmountChange} placeholder={"Amount"} value={amount}
                            step={0.01}/><br/>
-                    <select name="Category" id="selectCategory" value={categoryID} onChange={onSelectChange}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <DateRangePicker
+                            startText="Check-in"
+                            endText="Check-out"
+                            value={rangeValue}
+                            onChange={(newValue) => {
+                                setRangeValue(newValue);
+                            }}
+                            renderInput={(startProps, endProps) => (
+                                <React.Fragment>
+                                    <TextField {...startProps} />
+                                    <Box sx={{mx: 2}}> to </Box>
+                                    <TextField {...endProps} />
+                                </React.Fragment>
+                            )}
+                        />
+                    </LocalizationProvider>
+                    <select name="Category" id="selectCategory">
                         {
                             categories.map((category, index) =>
                                 <option value={category.categoryID} key={index}>{category.categoryName}</option>
