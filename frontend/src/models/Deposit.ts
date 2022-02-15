@@ -1,5 +1,6 @@
 export interface IDepositController {
     getDeposits: () => Promise<Deposit[]>
+    getLatestDeposits: () => Promise<Deposit[]>
     addDeposit: (deposit: Deposit) => Promise<Deposit[]>
     changeDeposit: (deposit: Deposit) => Promise<Deposit[]>
     deleteDeposit: (depositId: string) => Promise<Deposit[]>
