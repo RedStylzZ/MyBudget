@@ -2,7 +2,7 @@ import React, {ChangeEvent, FormEvent, useContext, useEffect, useMemo, useState}
 import SeriesController from "../controllers/SeriesController";
 import {Series} from "../models/Series";
 import {PaymentDTO} from "../models/Payment";
-import SeriesItems from "../components/SeriesItems";
+import SeriesItems from "../components/series/SeriesItems";
 import {ICategoryController, ISeriesController} from "../models/ControllerTypes";
 import {AuthContext} from "../context/AuthProvider";
 import './SchedulingPage.scss'

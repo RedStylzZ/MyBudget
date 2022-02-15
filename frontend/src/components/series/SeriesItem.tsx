@@ -1,6 +1,6 @@
-import {Series} from "../models/Series";
-import MonetaryValue from "./MonetaryValue";
-import FormatDate from "./FormatDate";
+import {Series} from "../../models/Series";
+import MonetaryValue from "../MonetaryValue";
+import FormatDate from "../FormatDate";
 
 interface ISeriesItemProps {
     series: Series

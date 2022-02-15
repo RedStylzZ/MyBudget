@@ -1,7 +1,7 @@
-import {Payment} from "../models/Payment";
-import MonetaryValue from "./MonetaryValue";
+import {Payment} from "../../models/Payment";
+import MonetaryValue from "../MonetaryValue";
 import {useNavigate} from "react-router-dom";
-import FormatDate from "./FormatDate";
+import FormatDate from "../FormatDate";
 
 interface PaymentItemProps {
     payment: Payment

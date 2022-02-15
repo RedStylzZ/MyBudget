@@ -1,4 +1,4 @@
-import {Series} from "../models/Series";
+import {Series} from "../../models/Series";
 import SeriesItem from "./SeriesItem";
 
 interface ISeriesProps {

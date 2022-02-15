@@ -2,7 +2,7 @@ import React from 'react';
 import './App.scss';
 import {HashRouter, Route, Routes} from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/navbar/NavBar";
 import AuthProvider from "./context/AuthProvider";
 import LoginPage from "./pages/LoginPage";
 import RequireAuth from "./components/RequireAuth";

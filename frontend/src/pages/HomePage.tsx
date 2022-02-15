@@ -4,10 +4,10 @@ import {AuthContext} from "../context/AuthProvider";
 import {ICategoryController, IPaymentController} from "../models/ControllerTypes";
 import CategoryController from "../controllers/CategoryController";
 import {Category} from "../models/Category";
-import HomeCategories from "../components/HomeCategories";
+import HomeCategories from "../components/categories/HomeCategories";
 import PaymentController from "../controllers/PaymentController";
 import {Payment} from "../models/Payment";
-import RecentPayments from "../components/RecentPayments";
+import RecentPayments from "../components/payments/RecentPayments";
 import PieChart from "../components/PieChart";
 
 const mapCategoriesToPieChartData = (categories: Category[]) => {

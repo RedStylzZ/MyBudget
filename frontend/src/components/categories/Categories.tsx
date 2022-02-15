@@ -1,6 +1,6 @@
 import CategoryItem from "./CategoryItem";
-import {Category, IDeleteCategory} from "../models/Category";
-import {ITokenConfig} from "../models/Connection";
+import {Category, IDeleteCategory} from "../../models/Category";
+import {ITokenConfig} from "../../models/Connection";
 
 interface CategoriesProps {
     categories: Category[],

@@ -1,8 +1,8 @@
 import './NavBar.scss'
 import {Link} from "react-router-dom";
 import {useContext} from "react";
-import {AuthContext} from "../context/AuthProvider";
-import RequireAdmin from "./RequireAdmin";
+import {AuthContext} from "../../context/AuthProvider";
+import RequireAdmin from "../RequireAdmin";
 
 export default function NavBar() {
     const {logout} = useContext(AuthContext)

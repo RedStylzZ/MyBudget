@@ -1,4 +1,4 @@
-import Categories from "../components/Categories";
+import Categories from "../components/categories/Categories";
 import {ChangeEvent, FormEventHandler, useContext, useEffect, useState} from "react";
 import {ICategoryController} from "../models/ControllerTypes";
 import CategoryController from "../controllers/CategoryController";
