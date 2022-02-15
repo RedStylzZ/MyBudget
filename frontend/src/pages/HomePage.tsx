@@ -8,6 +8,8 @@ import PaymentController from "../controllers/PaymentController";
 import {IPaymentController, Payment} from "../models/Payment";
 import RecentPayments from "../components/payments/RecentPayments";
 import PieChart from "../components/PieChart";
+import {Deposit, IDepositController} from "../models/Deposit";
+import DepositController from "../controllers/DepositController";
 
 const mapCategoriesToPieChartData = (categories: Category[]) => {
     return categories.map(category => {
@@ -23,15 +25,18 @@ export default function HomePage() {
     const config = useContext(AuthContext).config!
     const categoryController: ICategoryController = useMemo(() => CategoryController(config), [config])
     const paymentController: IPaymentController = useMemo(() => PaymentController(config), [config])
+    const depositController: IDepositController = useMemo(() => DepositController(config), [config])
     const [categories, setCategories] = useState<Category[]>([])
     const [payments, setPayments] = useState<Payment[]>([])
+    const [deposits, setDeposits] = useState<Deposit[]>([])
 
     useEffect(() => {
         categoryController.getCategories().then((response) => {
             setCategories(response.filter((category) => !!category.paymentSum))
         })
+        depositController.getDeposits().then(setDeposits)
         paymentController.getLastPayments().then(setPayments)
-    }, [categoryController, paymentController])
+    }, [categoryController, paymentController, depositController])
 
     return (
         <div className={"homePage"}>
@@ -41,6 +46,7 @@ export default function HomePage() {
             </div>
             <div className={"homeCategories"}>
                 <h1>Categories</h1>
+                <h2></h2>
                 <HomeCategories categories={categories}/>
             </div>
             <div className={"pieChart"}>

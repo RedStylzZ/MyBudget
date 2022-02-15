@@ -15,8 +15,7 @@ export default function DepositPage() {
     const [deposits, setDeposits] = useState<Deposit[]>([])
     const [description, setDescription] = useState<string>("")
     const [amount, setAmount] = useState<number>(0)
-    const [depositDate, setDepositDate] = useState<Date>(new Date(Date.now()))
-
+    const [date, setDate] = useState<Date>(new Date(Date.now()))
 
     useEffect(() => {
         controller.getDeposits().then(setDeposits)
@@ -24,7 +23,8 @@ export default function DepositPage() {
 
     const addDeposit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        if (description.length && amount && depositDate) {
+        if (description.length && amount && date) {
+            const depositDate: Date = new Date(date.toDateString())
             controller.addDeposit({description, depositDate, amount}).then(setDeposits)
         }
     }
@@ -53,11 +53,11 @@ export default function DepositPage() {
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                                 label="Pick your date"
-                                value={depositDate}
+                                value={date}
                                 inputFormat={"dd/MM/yyyy"}
                                 onChange={(newValue) => {
                                     if (newValue) {
-                                        setDepositDate(newValue);
+                                        setDate(newValue);
                                     }
                                 }}
                                 renderInput={(params) => <TextField {...params} sx={{

@@ -10,7 +10,7 @@ import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
+import java.time.*;
 import java.util.List;
 
 @Service
@@ -36,6 +36,12 @@ public class DepositService {
 
     public DepositDTO getDeposit(String userId, String depositId) {
         return Deposit.mapDepositToDTO(repository.getByUserIdAndDepositId(userId, depositId));
+    }
+
+    public List<DepositDTO> getLatestDeposits(String userId) {
+        return repository.getAllByUserIdAndDepositDateAfterOrderByDepositDateDesc(userId,
+                LocalDateTime.now().withDayOfMonth(1).minus(Duration.ofDays(1)).toInstant(ZoneOffset.UTC))
+                .stream().map(Deposit::mapDepositToDTO).toList();
     }
 
     public List<DepositDTO> addDeposit(String userId, Deposit deposit) {

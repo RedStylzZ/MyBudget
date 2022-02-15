@@ -7,7 +7,7 @@ export default function DepositController(config: ITokenConfig | undefined): IDe
     const service: IDepositController = DepositService(config)
 
     return {
-        addDeposit: (deposit: Deposit) =>{
+        addDeposit: (deposit: Deposit) => {
             return service.addDeposit(deposit)
         },
         changeDeposit: (deposit: Deposit) => {

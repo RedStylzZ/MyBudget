@@ -13,7 +13,7 @@ import {Box, TextField} from "@mui/material";
 import {DateRange} from "@mui/lab/DateRangePicker/RangeTypes";
 
 interface SelectInput {
-    selectCategory: {value: string}
+    selectCategory: { value: string }
 }
 
 export default function SchedulePage() {
