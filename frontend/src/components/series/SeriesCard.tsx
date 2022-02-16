@@ -1,6 +1,7 @@
 import {Series} from "../../models/Series";
 import MonetaryValue from "../MonetaryValue";
 import FormatDate from "../FormatDate";
+import {Link} from "react-router-dom";
 
 interface ISeriesItemProps {
     series: Series
@@ -11,7 +12,7 @@ export default function SeriesCard({series, deleteSeries}: ISeriesItemProps) {
 
     return (
         <div className={"seriesItemCard"}>
-            <input type="button" onClick={() => deleteSeries(series.seriesId)} value={"Delete"}/>
+            <Link to={"#"}><span onClick={() => deleteSeries(series.seriesId)}>Delete</span></Link>
             <div className={"seriesItem"}>
                 <h2>Start</h2>
                 <h3>{series.startDate ? <FormatDate date={series.startDate}/> : "Infinite"}</h3>
