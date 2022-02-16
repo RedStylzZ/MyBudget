@@ -14,6 +14,7 @@ import DataProvider from "./context/DataProvider";
 import RenameCategoryPage from "./pages/RenameCategoryPage";
 import SchedulePage from "./pages/SchedulePage";
 import DepositPage from "./pages/DepositPage";
+import ChangeDepositPage from "./pages/ChangeDepositPage";
 
 function App() {
     return (
@@ -64,6 +65,11 @@ function App() {
                                         <DepositPage/>
                                     </RequireAuth>
                                 }
+                                />
+                                <Route path={"/deposits/change/:depositId"} element={
+                                    <RequireAuth>
+                                        <ChangeDepositPage/>
+                                    </RequireAuth>}
                                 />
                             </Routes>
                         </div>

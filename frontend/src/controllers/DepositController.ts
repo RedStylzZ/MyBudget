@@ -21,6 +21,9 @@ export default function DepositController(config: ITokenConfig | undefined): IDe
         },
         getLatestDeposits: () => {
             return service.getLatestDeposits()
+        },
+        getDeposit: (depositId: string) => {
+            return service.getDeposit(depositId)
         }
     }
 }

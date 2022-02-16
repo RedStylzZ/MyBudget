@@ -2,5 +2,22 @@
     display: flex;
     flex-direction: column;
     width: 8rem;
-    background: #202124;
+    background: #36393F;
+    gap: .5rem;
+
+    span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        background: #1A1A1A;
+        border-radius: 30px;
+        text-align: center;
+        height: 2rem;
+        margin: .5rem;
+    }
+
+    a {
+        text-decoration: none;
+    }
 }

@@ -19,6 +19,9 @@ export default function DepositService(config: ITokenConfig | undefined): IDepos
         },
         getLatestDeposits: () => {
             return axios.get(`/api/deposit/latest`, config).then(response => response.data)
+        },
+        getDeposit: (depositId: string) => {
+            return axios.get(`/api/deposit/${depositId}`, config).then(response => response.data)
         }
     }
 }

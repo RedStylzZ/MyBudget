@@ -49,7 +49,7 @@ export default function DepositPage() {
                     <input type="text" onChange={onDescriptionChange} value={description}/>
                     <h2>Amount</h2>
                     <input type="number" onChange={onAmountChange} value={amount}/>
-                    <div className={"payDate"}>
+                    <div className={"depositDate"}>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                                 label="Pick your date"
@@ -67,7 +67,7 @@ export default function DepositPage() {
                                         backgroundColor: '#1B1B1B',
                                         opacity: [0.9, 0.8, 0.7],
                                     },
-                                }} id={"payDate"}/>}
+                                }} id={"depositDate"}/>}
                             />
                         </LocalizationProvider>
                     </div>

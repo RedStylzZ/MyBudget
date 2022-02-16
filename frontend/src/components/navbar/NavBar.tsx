@@ -8,28 +8,28 @@ export default function NavBar() {
     const {logout} = useContext(AuthContext)
 
     return (
-        <div className={"navBar"}>
-            <Link to={"/"}>
-                <input type={"button"} value={"Home"}/>
-            </Link>
-            <Link to={"/categories"}>
-                <input type={"button"} value={"Categories"}/>
-            </Link>
-            <Link to={"/series"}>
-                <input type="button" value={"Series"}/>
-            </Link>
-            <Link to={"/deposits"}>
-                <input type="button" value={"Deposits"}/>
-            </Link>
-            <input type={"button"} value={"Logout"} onClick={() => logout()}/>
-
-            <RequireAdmin>
-                <Link to={"/admin"}>
-                    <input type={"button"} value={"Admin Page"}/>
+        <nav className={"navBar"}>
+            <div>
+                <Link to={"/"}>
+                    <span>Home</span>
                 </Link>
-            </RequireAdmin>
+                <Link to={"/categories"}>
+                    <span>Categories</span>
+                </Link>
+                <Link to={"/series"}>
+                    <span>Series</span>
+                </Link>
+                <Link to={"/deposits"}>
+                    <span>Deposits</span>
+                </Link>
+                <span onClick={() => logout()}>Logout</span>
 
-
-        </div>
+                <RequireAdmin>
+                    <Link to={"/admin"}>
+                        <span>AdminPage</span>
+                    </Link>
+                </RequireAdmin>
+            </div>
+        </nav>
     )
 }
