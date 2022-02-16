@@ -22,7 +22,9 @@ export default function NavBar() {
                 <Link to={"/deposits"}>
                     <span>Deposits</span>
                 </Link>
-                <span onClick={() => logout()}>Logout</span>
+                <Link to={"#"}>
+                    <span onClick={() => logout()}>Logout</span>
+                </Link>
 
                 <RequireAdmin>
                     <Link to={"/admin"}>

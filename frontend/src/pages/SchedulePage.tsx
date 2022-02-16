@@ -80,9 +80,9 @@ export default function SchedulePage() {
                             }}
                             renderInput={(startProps, endProps) => (
                                 <React.Fragment>
-                                    <TextField {...startProps} />
+                                    <TextField {...startProps} sx={{color: 'white', border: 'white solid 1px'}}/>
                                     <Box sx={{mx: 2}}> to </Box>
-                                    <TextField {...endProps} />
+                                    <TextField {...endProps} sx={{color: 'white', border: 'white solid 1px'}}/>
                                 </React.Fragment>
                             )}
                         />
