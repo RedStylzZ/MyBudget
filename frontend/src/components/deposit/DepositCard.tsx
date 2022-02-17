@@ -1,7 +1,8 @@
 import {Deposit} from "../../models/Deposit";
 import FormatDate from "../FormatDate";
 import MonetaryValue from "../MonetaryValue";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
+import Button from "../Button";
 
 interface DepositProps {
     deposit: Deposit
@@ -16,9 +17,8 @@ export default function DepositCard({deposit, deleteDeposit}: DepositProps) {
             <h2>{<MonetaryValue amount={deposit.amount}/>}</h2>
             <h2>{<FormatDate date={deposit.depositDate}/>}</h2>
             <div className={"depositButtons"}>
-                <Link to={"#"}><span onClick={() => deleteDeposit(deposit.depositId!)}>Delete</span></Link>
-                <Link to={`/deposits/change/${deposit.depositId}`}><span
-                    onClick={() => deleteDeposit(deposit.depositId!)}>Change</span></Link>
+                <Button onClick={() => deleteDeposit(deposit.depositId!)} value={"Delete"}/>
+                <Link to={`/deposits/change/${deposit.depositId}`}><Button value={"Change"}/></Link>
             </div>
         </div>
     )

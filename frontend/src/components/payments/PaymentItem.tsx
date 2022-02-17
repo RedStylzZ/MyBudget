@@ -18,7 +18,8 @@ export default function PaymentItem({payment, deletePayment, categoryID}: Paymen
             <h2><MonetaryValue amount={payment.amount}/></h2>
             <h3><FormatDate date={payment.payDate}/></h3>
             <Button value={"Delete Payment"} onClick={() => deletePayment(payment.paymentID)}/>
-            <Button value={"Change Payment"} onClick={() => navigate(`/changePayment/${categoryID}/${payment.paymentID}`)}/>
+            <Button value={"Change Payment"}
+                    onClick={() => navigate(`/changePayment/${categoryID}/${payment.paymentID}`)}/>
         </div>
     )
 }

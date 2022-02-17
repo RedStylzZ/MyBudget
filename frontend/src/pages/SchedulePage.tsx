@@ -11,6 +11,7 @@ import {DateRangePicker, LocalizationProvider} from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import {Box, TextField} from "@mui/material";
 import {DateRange} from "@mui/lab/DateRangePicker/RangeTypes";
+import Button from "../components/Button";
 
 interface SelectInput {
     selectCategory: { value: string }
@@ -94,7 +95,7 @@ export default function SchedulePage() {
                             )
                         }
                     </select>
-                    <input type="submit" value={"Add Series"}/>
+                    <Button submit={true} value={"Add Series"}/>
                 </form>
                 <SeriesItems series={series} deleteSeries={deleteSeries}/>
             </div>
