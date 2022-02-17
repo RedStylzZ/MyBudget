@@ -1,9 +1,20 @@
 .navBar {
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 8rem;
-    background: #36393F;
+    background: #1A1A1A;
     gap: .5rem;
+    padding: .5rem;
+
+    div {
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+        .button {
+            width: 100%;
+        }
+    }
 
     a {
         text-decoration: none;

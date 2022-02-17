@@ -4,6 +4,7 @@ import CategoryController from "../controllers/CategoryController";
 import {Category, ICategoryController} from "../models/Category";
 import {AuthContext} from "../context/AuthProvider";
 import './CategoryPage.scss'
+import Button from "../components/Button";
 
 export default function CategoryPage() {
     const config = useContext(AuthContext).config!
@@ -42,7 +43,7 @@ export default function CategoryPage() {
                 <form onSubmit={addCategory} className={"addCategory"}>
                     <input type="text" id="categoryInput" onChange={onCategoryInputChange} placeholder={"Category name"}
                            value={categoryInput}/>
-                    <input type="submit" value={"Add category"}/>
+                    <Button value={"Add category"} submit={true}/>
                 </form>
                 <Categories categories={categories} config={config} deleteCategory={deleteCategory}/>
             </div>

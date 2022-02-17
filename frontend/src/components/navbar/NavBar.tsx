@@ -12,24 +12,24 @@ export default function NavBar() {
         <nav className={"navBar"}>
             <div>
                 <Link to={"/"}>
-                    <Button description={"Home"}/>
+                    <Button value={"Home"}/>
                 </Link>
                 <Link to={"/categories"}>
-                    <Button description={"Categories"}/>
+                    <Button value={"Categories"}/>
                 </Link>
                 <Link to={"/series"}>
-                    <Button description={"Series"}/>
+                    <Button value={"Series"}/>
                 </Link>
                 <Link to={"/deposits"}>
-                    <Button description={"Deposits"}/>
+                    <Button value={"Deposits"}/>
                 </Link>
                 <Link to={"#"}>
-                    <Button description={"Logout"} onClick={logout}/>
+                    <Button value={"Logout"} onClick={logout}/>
                 </Link>
 
                 <RequireAdmin>
                     <Link to={"/admin"}>
-                        <Button description={"Admin Page"}/>
+                        <Button value={"Admin Page"}/>
                     </Link>
                 </RequireAdmin>
             </div>

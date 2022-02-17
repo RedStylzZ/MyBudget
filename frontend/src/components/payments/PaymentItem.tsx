@@ -2,6 +2,7 @@ import {Payment} from "../../models/Payment";
 import MonetaryValue from "../MonetaryValue";
 import {useNavigate} from "react-router-dom";
 import FormatDate from "../FormatDate";
+import Button from "../Button";
 
 interface PaymentItemProps {
     payment: Payment
@@ -16,9 +17,8 @@ export default function PaymentItem({payment, deletePayment, categoryID}: Paymen
             <h1>{payment.description}</h1>
             <h2><MonetaryValue amount={payment.amount}/></h2>
             <h3><FormatDate date={payment.payDate}/></h3>
-            <input type="button" value={"Delete Payment"} onClick={() => deletePayment(payment.paymentID)}/>
-            <input type="button" value={"Change Payment"}
-                   onClick={() => navigate(`/changePayment/${categoryID}/${payment.paymentID}`)}/>
+            <Button value={"Delete Payment"} onClick={() => deletePayment(payment.paymentID)}/>
+            <Button value={"Change Payment"} onClick={() => navigate(`/changePayment/${categoryID}/${payment.paymentID}`)}/>
         </div>
     )
 }
