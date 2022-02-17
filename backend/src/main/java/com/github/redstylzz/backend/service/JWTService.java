@@ -4,8 +4,6 @@ import com.github.redstylzz.backend.model.MongoUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.apache.juli.logging.Log;
-import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +14,6 @@ import java.util.HashMap;
 
 @Service
 public class JWTService {
-    private static final Log LOG = LogFactory.getLog(JWTService.class);
 
     @Value("${secret}")
     private String secret;

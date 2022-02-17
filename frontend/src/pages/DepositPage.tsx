@@ -3,7 +3,7 @@ import React, {ChangeEvent, FormEvent, useContext, useEffect, useMemo, useState}
 import DepositController from "../controllers/DepositController";
 import {ITokenConfig} from "../models/Connection";
 import {AuthContext} from "../context/AuthProvider";
-import Deposits from "../components/deposit/Deposits";
+import DepositsGallery from "../components/deposit/DepositsGallery";
 import './DepositPage.scss'
 import {DatePicker, LocalizationProvider} from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
@@ -74,7 +74,7 @@ export default function DepositPage() {
                     </div>
                     <Button submit={true} value={"Add Deposit"}/>
                 </form>
-                <Deposits deposits={deposits} deleteDeposit={deleteDeposit}/>
+                <DepositsGallery deposits={deposits} deleteDeposit={deleteDeposit}/>
             </div>
         </div>
     )

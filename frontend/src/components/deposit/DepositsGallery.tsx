@@ -6,7 +6,7 @@ interface DepositsProps {
     deleteDeposit: (depositId: string) => void
 }
 
-export default function Deposits({deposits, deleteDeposit}: DepositsProps) {
+export default function DepositsGallery({deposits, deleteDeposit}: DepositsProps) {
 
     return (
         <div className={"deposits"}>

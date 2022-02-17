@@ -24,9 +24,18 @@ public class CategoryController {
     private final CategoryService service;
     private final MongoUserService userService;
 
+    private MongoUser getUser(UsernamePasswordAuthenticationToken principal) throws ResponseStatusException {
+        try {
+            return (MongoUser) principal.getPrincipal();
+        } catch (Exception e) {
+            LOG.warn("No user found");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No user found");
+        }
+    }
+
     @GetMapping
     public List<CategoryDTO> getCategories(UsernamePasswordAuthenticationToken principal) {
-        MongoUser user = MongoUser.getUser(principal, LOG);
+        MongoUser user = getUser(principal);
         return service.getCategories(user);
     }
 
@@ -38,7 +47,7 @@ public class CategoryController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No name given");
         }
 
-        MongoUser user = MongoUser.getUser(principal, LOG);
+        MongoUser user = getUser(principal);
         try {
             return service.addCategory(user, name);
         } catch (CategoryAlreadyExistException e) {

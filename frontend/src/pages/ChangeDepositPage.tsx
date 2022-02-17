@@ -20,20 +20,23 @@ export default function ChangeDepositPage() {
     const [date, setDate] = useState<Date>(new Date(Date.now()))
 
     useEffect(() => {
-        if (depositId === undefined) navigate("/")
-        controller.getDeposit(depositId!).then(deposit => {
-            setDescription(deposit.description)
-            setAmount(deposit.amount)
-            setDate(deposit.depositDate)
-        })
+        if (depositId === undefined) {
+            navigate("/")
+        } else {
+            controller.getDeposit(depositId!).then(deposit => {
+                setDescription(deposit.description)
+                setAmount(deposit.amount)
+                setDate(deposit.depositDate)
+            })
+        }
     }, [controller, depositId, navigate])
 
     const changeDeposit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         if (description.length && amount && date && depositId !== undefined) {
             const depositDate: Date = new Date(date.toDateString())
-            controller.changeDeposit({depositId, description, depositDate, amount})
-            navigate("/deposits")
+            controller.changeDeposit({depositId, description, depositDate, amount}).then(() => navigate("/deposits")
+            )
         }
     }
 

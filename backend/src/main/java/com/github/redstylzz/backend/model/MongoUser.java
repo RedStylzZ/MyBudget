@@ -44,16 +44,6 @@ public class MongoUser implements UserDetails {
                 .build();
     }
 
-    @Transient
-    public static MongoUser getUser(UsernamePasswordAuthenticationToken principal, Log log) throws ResponseStatusException {
-        try {
-            return (MongoUser) principal.getPrincipal();
-        } catch (Exception e) {
-            log.warn("No user found");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No user found");
-        }
-    }
-
     @Override
     @Transient
     public Collection<SimpleGrantedAuthority> getAuthorities() {
