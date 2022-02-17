@@ -12,9 +12,8 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DepositDTO {
+public class DepositCreationDTO {
 
-    String depositId;
     String description;
     BigDecimal amount;
     Instant depositDate;

@@ -2,15 +2,14 @@ package com.github.redstylzz.backend.controller;
 
 import com.github.redstylzz.backend.model.Deposit;
 import com.github.redstylzz.backend.model.MongoUser;
+import com.github.redstylzz.backend.model.dto.DepositCreationDTO;
 import com.github.redstylzz.backend.model.dto.DepositDTO;
 import com.github.redstylzz.backend.service.DepositService;
 import lombok.RequiredArgsConstructor;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class DepositController {
     private static final Log LOG = LogFactory.getLog(DepositController.class);
 
     private final DepositService service;
-    
+
     @GetMapping("/latest")
     public List<DepositDTO> getLatestDeposits(UsernamePasswordAuthenticationToken principal) {
         MongoUser user = MongoUser.getUser(principal, LOG);
@@ -43,7 +42,7 @@ public class DepositController {
     }
 
     @PostMapping
-    public List<DepositDTO> addDeposit(UsernamePasswordAuthenticationToken principal, @RequestBody DepositDTO dto) {
+    public List<DepositDTO> addDeposit(UsernamePasswordAuthenticationToken principal, @RequestBody DepositCreationDTO dto) {
         MongoUser user = getUser(principal, LOG);
         Deposit deposit = Deposit.mapDTOtoDeposit(dto);
         return service.addDeposit(user.getId(), deposit);

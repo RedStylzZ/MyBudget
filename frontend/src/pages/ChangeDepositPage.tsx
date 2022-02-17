@@ -30,7 +30,7 @@ export default function ChangeDepositPage() {
 
     const changeDeposit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        if (description.length && amount && date) {
+        if (description.length && amount && date && depositId !== undefined) {
             const depositDate: Date = new Date(date.toDateString())
             controller.changeDeposit({depositId, description, depositDate, amount})
             navigate("/deposits")

@@ -42,25 +42,9 @@
         align-items: center;
         border-radius: 20px;
         background: #282A36;
+        height: 40%;
         width: 15rem;
         overflow-x: auto;
-
-        a {
-            text-decoration: none;
-        }
-
-        span {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            background: #1A1A1A;
-            border-radius: 30px;
-            text-align: center;
-            height: 2rem;
-            width: 4rem;
-            margin: .5rem;
-        }
 
         .seriesItem {
             display: flex;

@@ -1,5 +1,5 @@
 import DepositService from "../services/DepositService";
-import {Deposit, IDepositController} from "../models/Deposit";
+import {Deposit, DepositCreationDTO, IDepositController} from "../models/Deposit";
 import {ITokenConfig} from "../models/Connection";
 
 export default function DepositController(config: ITokenConfig | undefined): IDepositController {
@@ -7,7 +7,7 @@ export default function DepositController(config: ITokenConfig | undefined): IDe
     const service: IDepositController = DepositService(config)
 
     return {
-        addDeposit: (deposit: Deposit) => {
+        addDeposit: (deposit: DepositCreationDTO) => {
             return service.addDeposit(deposit)
         },
         changeDeposit: (deposit: Deposit) => {
