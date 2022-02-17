@@ -4,6 +4,10 @@
     gap: 1rem;
     width: 100vw;
     overflow: auto;
+
+    .button {
+        margin: .5rem;
+    }
 }
 
 .categoryHeader {
@@ -35,7 +39,6 @@
         .categoryItem {
             display: flex;
             flex-direction: row;
-
         }
 
         .payments {
@@ -44,6 +47,10 @@
             gap: 1rem;
             width: 100%;
             margin-bottom: 1rem;
+
+            .button {
+                margin-top: 0;
+            }
 
             h1, h2, h3 {
                 margin: .5rem;

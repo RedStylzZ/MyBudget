@@ -8,6 +8,7 @@ import './DepositPage.scss'
 import {DatePicker, LocalizationProvider} from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import {TextField} from "@mui/material";
+import Button from "../components/Button";
 
 export default function DepositPage() {
     const config: ITokenConfig | undefined = useContext(AuthContext).config
@@ -71,7 +72,7 @@ export default function DepositPage() {
                             />
                         </LocalizationProvider>
                     </div>
-                    <input type="submit" value={"Add Deposit"}/>
+                    <Button submit={true} value={"Add Deposit"}/>
                 </form>
                 <Deposits deposits={deposits} deleteDeposit={deleteDeposit}/>
             </div>

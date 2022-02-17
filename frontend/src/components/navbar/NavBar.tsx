@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import {useContext} from "react";
 import {AuthContext} from "../../context/AuthProvider";
 import RequireAdmin from "../RequireAdmin";
+import Button from "../Button";
 
 export default function NavBar() {
     const {logout} = useContext(AuthContext)
@@ -11,24 +12,24 @@ export default function NavBar() {
         <nav className={"navBar"}>
             <div>
                 <Link to={"/"}>
-                    <span>Home</span>
+                    <Button value={"Home"}/>
                 </Link>
                 <Link to={"/categories"}>
-                    <span>Categories</span>
+                    <Button value={"Categories"}/>
                 </Link>
                 <Link to={"/series"}>
-                    <span>Series</span>
+                    <Button value={"Series"}/>
                 </Link>
                 <Link to={"/deposits"}>
-                    <span>Deposits</span>
+                    <Button value={"Deposits"}/>
                 </Link>
                 <Link to={"#"}>
-                    <span onClick={() => logout()}>Logout</span>
+                    <Button value={"Logout"} onClick={logout}/>
                 </Link>
 
                 <RequireAdmin>
                     <Link to={"/admin"}>
-                        <span>AdminPage</span>
+                        <Button value={"Admin Page"}/>
                     </Link>
                 </RequireAdmin>
             </div>

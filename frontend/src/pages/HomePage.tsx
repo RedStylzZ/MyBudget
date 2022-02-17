@@ -38,7 +38,7 @@ export default function HomePage() {
         })
         depositController.getLatestDeposits().then((deposits) => {
             if (deposits.length < 1) return
-            const sum: number = deposits.map(deposit => deposit.amount).reduce((a, b) => a+b);
+            const sum: number = deposits.map(deposit => deposit.amount).reduce((a, b) => a + b);
             setDepositSum(sum)
         })
         paymentController.getLastPayments().then(setPayments)
@@ -46,7 +46,7 @@ export default function HomePage() {
 
     useEffect(() => {
         if (categories.length < 1) return
-        const aMoney: number = depositSum - categories.map(category => category.paymentSum).reduce((a, b) => a!+b!)!;
+        const aMoney: number = depositSum - categories.map(category => category.paymentSum).reduce((a, b) => a! + b!)!;
         setAvailableMoney(aMoney)
     }, [categories, depositSum])
 

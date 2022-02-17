@@ -6,6 +6,7 @@ import {IPaymentController, Payment} from "../../models/Payment";
 import Payments from "../payments/Payments";
 import MonetaryValue from "../MonetaryValue";
 import {NavigateFunction, useNavigate} from "react-router-dom";
+import Button from "../Button";
 
 
 interface CategoryItemProps {
@@ -19,9 +20,11 @@ const mapToCategoryItem = (category: Category, categorySum: number, deleteCatego
         <div className={"categoryItem"}>
             <h1>{category.categoryName}</h1>
             <h2><MonetaryValue amount={categorySum}/></h2>
-            <input type="button" value={"Remove"} onClick={() => deleteCategory(category.categoryID)}/>
-            <input type="button" value={"Rename"}
-                   onClick={() => navigate(`/renameCategory/${category.categoryID}/${category.categoryName}`)}/>
+            <div>
+                <Button value={"Remove"} onClick={() => deleteCategory(category.categoryID)}/>
+                <Button value={"Rename"}
+                        onClick={() => navigate(`/renameCategory/${category.categoryID}/${category.categoryName}`)}/>
+            </div>
         </div>
     )
 }

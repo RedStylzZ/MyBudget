@@ -4,6 +4,7 @@ import React, {FormEvent, useState} from "react";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import {DatePicker, LocalizationProvider} from "@mui/lab";
 import {TextField} from "@mui/material";
+import Button from "../Button";
 
 interface PaymentsProps {
     payments: Payment[]
@@ -69,8 +70,7 @@ export default function Payments({payments, categoryID, setPayments, controller}
                         />
                     </LocalizationProvider>
                 </div>
-
-                <input type="submit" value={"Add Payment"}/>
+                <Button value={"Add Payment"} submit={true}/>
             </form>
             {
                 payments.map((payment, index) =>
