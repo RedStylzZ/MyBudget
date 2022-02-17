@@ -1,13 +1,13 @@
 package com.github.redstylzz.backend.model;
 
-import com.github.redstylzz.backend.model.dto.PaymentDTO;
-import com.github.redstylzz.backend.model.dto.PaymentSeriesDTO;
+import com.github.redstylzz.backend.model.dto.DepositDTO;
+import com.github.redstylzz.backend.model.dto.DepositSeriesDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 
@@ -15,26 +15,25 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Document("paymentSeries")
-public class PaymentSeries {
+public class DepositSeries {
 
+    @Id
     String seriesId;
-
     String userId;
     Instant startDate;
     Instant endDate;
-    PaymentDTO payment;
     int scheduledDate;
+    DepositDTO deposit;
 
     @Transient
-    public static PaymentSeries mapDTOtoSeries(PaymentSeriesDTO dto, String userId) {
-        return PaymentSeries.builder()
+    public static DepositSeries mapDTOtoSeries(DepositSeriesDTO dto, String userId) {
+        return DepositSeries.builder()
                 .userId(userId)
                 .seriesId(dto.getSeriesId())
                 .startDate(dto.getStartDate())
                 .endDate(dto.getEndDate())
                 .scheduledDate(dto.getScheduledDate())
-                .payment(dto.getPayment())
+                .deposit(dto.getDeposit())
                 .build();
     }
 }

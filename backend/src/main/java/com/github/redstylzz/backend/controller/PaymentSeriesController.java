@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/series")
+@RequestMapping("/api/series/payment")
 @RequiredArgsConstructor
 public class PaymentSeriesController {
     private static final Log LOG = LogFactory.getLog(PaymentSeriesController.class);
