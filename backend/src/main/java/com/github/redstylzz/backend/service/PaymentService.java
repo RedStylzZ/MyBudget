@@ -41,31 +41,22 @@ public class PaymentService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private List<PaymentDTO> getPaymentAsDTO(String userID, String categoryID) {
+    public Payment getPayment(String userID, String categoryID, String paymentID) {
         return paymentRepository
-                .getAllByUserIDAndCategoryIDOrderByPayDateDesc(userID, categoryID)
-                .stream()
-                .map(Payment::convertPaymentToDTO)
-                .toList();
+                .getByUserIDAndCategoryIDAndPaymentID(userID, categoryID, paymentID);
     }
 
-    public PaymentDTO getPayment(String userID, String categoryID, String paymentID) {
-        return Payment.convertPaymentToDTO(paymentRepository
-                .getByUserIDAndCategoryIDAndPaymentID(userID, categoryID, paymentID));
-    }
-
-    public List<PaymentDTO> getPayments(String userID, String categoryID) {
-        return getPaymentAsDTO(userID, categoryID);
-    }
-
-    public List<PaymentDTO> getLastPayments(String userID) {
+    public List<Payment> getPayments(String userID, String categoryID) {
         return paymentRepository
-                .getAllByUserIDAndPayDateAfterOrderByPayDateDesc(userID, Instant.now().minus(Duration.ofDays(7)))
-                .stream().map(Payment::convertPaymentToDTO)
-                .toList();
+                .getAllByUserIDAndCategoryIDOrderByPayDateDesc(userID, categoryID);
     }
 
-    public List<PaymentDTO> addPayment(String userID, Payment payment) throws CategoryDoesNotExistException {
+    public List<Payment> getLastPayments(String userID) {
+        return paymentRepository
+                .getAllByUserIDAndPayDateAfterOrderByPayDateDesc(userID, Instant.now().minus(Duration.ofDays(7)));
+    }
+
+    public List<Payment> addPayment(String userID, Payment payment) throws CategoryDoesNotExistException {
         if (categoryExistent(userID, payment.getCategoryID())) {
             LOG.debug(payment.getPayDate());
             payment.setUserID(userID);
@@ -75,20 +66,20 @@ public class PaymentService {
         } else {
             throw new CategoryDoesNotExistException();
         }
-        return getPaymentAsDTO(userID, payment.getCategoryID());
+        return getPayments(userID, payment.getCategoryID());
     }
 
-    public List<PaymentDTO> deletePayment(String userID, String categoryID, String paymentID) throws PaymentDoesNotExistException, CategoryDoesNotExistException {
+    public List<Payment> deletePayment(String userID, String categoryID, String paymentID) throws PaymentDoesNotExistException, CategoryDoesNotExistException {
         if (categoryExistent(userID, categoryID)) {
             paymentRepository.deleteByPaymentID(paymentID);
             calculatePaymentSum(userID, categoryID);
         } else {
             throw new CategoryDoesNotExistException();
         }
-        return getPaymentAsDTO(userID, categoryID);
+        return getPayments(userID, categoryID);
     }
 
-    public List<PaymentDTO> changePayment(String userID, Payment payment) throws PaymentDoesNotExistException, CategoryDoesNotExistException {
+    public List<Payment> changePayment(String userID, Payment payment) throws PaymentDoesNotExistException, CategoryDoesNotExistException {
         if (categoryExistent(userID, payment.getCategoryID())) {
             if (paymentExists(payment.getPaymentID())) {
                 payment.setUserID(userID);
@@ -101,6 +92,6 @@ public class PaymentService {
         } else {
             throw new CategoryDoesNotExistException();
         }
-        return getPaymentAsDTO(userID, payment.getCategoryID());
+        return getPayments(userID, payment.getCategoryID());
     }
 }

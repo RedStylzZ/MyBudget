@@ -31,26 +31,30 @@ public class PaymentController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No user found");
         }
     }
+
+    private List<PaymentDTO> getPaymentsAsDTO(List<Payment> payments) {
+        return payments.stream().map(Payment::convertPaymentToDTO).toList();
+    }
     
     @GetMapping("/")
     public PaymentDTO getPayment(UsernamePasswordAuthenticationToken principal,
                                  @RequestParam String categoryID,
                                  @RequestParam String paymentID) {
         MongoUser user = getUser(principal);
-        return service.getPayment(user.getId(), categoryID, paymentID);
+        return Payment.convertPaymentToDTO(service.getPayment(user.getId(), categoryID, paymentID));
     }
 
     @GetMapping("{categoryID}")
     public List<PaymentDTO> getPayments(UsernamePasswordAuthenticationToken principal,
                                         @PathVariable String categoryID) {
         MongoUser user = getUser(principal);
-        return service.getPayments(user.getId(), categoryID);
+        return getPaymentsAsDTO(service.getPayments(user.getId(), categoryID));
     }
 
     @GetMapping
     public List<PaymentDTO> getLastPayments(UsernamePasswordAuthenticationToken principal) {
         MongoUser user = getUser(principal);
-        return service.getLastPayments(user.getId());
+        return getPaymentsAsDTO(service.getLastPayments(user.getId()));
     }
 
     @PutMapping
@@ -58,7 +62,7 @@ public class PaymentController {
                                        @RequestBody RequestPaymentDTO dto) {
         String userID = getUser(principal).getId();
         Payment payment = Payment.convertDTOtoPayment(dto);
-        return service.addPayment(userID, payment);
+        return getPaymentsAsDTO(service.addPayment(userID, payment));
     }
 
     @DeleteMapping
@@ -66,7 +70,7 @@ public class PaymentController {
                                           @RequestParam String categoryID,
                                           @RequestParam String paymentID) {
         String userID = getUser(principal).getId();
-        return service.deletePayment(userID, categoryID, paymentID);
+        return getPaymentsAsDTO(service.deletePayment(userID, categoryID, paymentID));
     }
 
     @PostMapping
@@ -74,7 +78,7 @@ public class PaymentController {
                                           @RequestBody PaymentDTO dto) {
         String userID = getUser(principal).getId();
         Payment payment = Payment.convertDTOtoPayment(dto);
-        return service.changePayment(userID, payment);
+        return getPaymentsAsDTO(service.changePayment(userID, payment));
     }
 
 }
