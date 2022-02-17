@@ -40,8 +40,6 @@ export default function SchedulePage() {
 
     const addSeries = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-
-        console.log(typeName)
         if (typeName === "Payment") {
             const form = event.currentTarget
             const formElements = form.elements as typeof form.elements & SelectInput
@@ -60,9 +58,7 @@ export default function SchedulePage() {
     }
 
     const deleteSeries = (seriesId: string | undefined, type: string) => {
-        console.log(seriesId)
         if (seriesId) {
-            console.log(type)
             if (type === "payment") {
                 seriesController.deletePaymentSeries(seriesId).then(setPaymentSeries)
             } else if (type === "deposit") {
@@ -76,7 +72,6 @@ export default function SchedulePage() {
     const onDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => setDescription(event.target.value.trim())
     const onTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
         setTypeName(event.target.value)
-        console.log(event.target.value)
         document.getElementById("selectCategory")!.hidden = event.target.value !== "Payment";
     }
 

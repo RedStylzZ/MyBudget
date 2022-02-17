@@ -22,8 +22,6 @@ export default function SeriesCard({series, deleteSeries}: ISeriesItemProps) {
         ("deposit" in series && "deposit")
         || ""
 
-    console.log(series)
-
     return (
         <div className={"seriesItemCard"}>
             <Button onClick={() => deleteSeries(series.seriesId, type)} value={"Delete"}/>

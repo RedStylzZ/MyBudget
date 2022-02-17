@@ -24,7 +24,7 @@ public class PaymentSeriesService {
     }
 
     public List<PaymentSeriesDTO> addSeries(String userId, PaymentSeriesDTO dto) {
-        LOG.info("Adding series: " + dto);
+        LOG.info("Adding series");
         PaymentSeries series = PaymentSeries.mapDTOtoSeries(dto, userId);
         LOG.debug(repository.existsBySeriesId(series.getSeriesId()));
         if (series.getSeriesId() == null || !repository.existsBySeriesId(series.getSeriesId())) {
