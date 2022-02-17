@@ -1,10 +1,9 @@
-import {Payment} from "../models/Payment";
+import {IPaymentController, Payment} from "../../models/Payment";
 import PaymentItem from "./PaymentItem";
 import React, {FormEvent, useState} from "react";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import {DatePicker, LocalizationProvider} from "@mui/lab";
 import {TextField} from "@mui/material";
-import {IPaymentController} from "../models/ControllerTypes";
 
 interface PaymentsProps {
     payments: Payment[]

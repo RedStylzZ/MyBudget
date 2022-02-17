@@ -1,4 +1,4 @@
-import {Payment} from "../models/Payment";
+import {Payment} from "../../models/Payment";
 import RecentPaymentItem from "./RecentPaymentItem";
 import moment from "moment/moment";
 

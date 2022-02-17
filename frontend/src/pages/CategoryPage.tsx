@@ -1,22 +1,19 @@
-import Categories from "../components/Categories";
-import {ChangeEvent, FormEventHandler, useContext, useEffect, useState} from "react";
-import {ICategoryController} from "../models/ControllerTypes";
+import Categories from "../components/categories/Categories";
+import {ChangeEvent, FormEventHandler, useContext, useEffect, useMemo, useState} from "react";
 import CategoryController from "../controllers/CategoryController";
-import {Category} from "../models/Category";
+import {Category, ICategoryController} from "../models/Category";
 import {AuthContext} from "../context/AuthProvider";
 import './CategoryPage.scss'
 
 export default function CategoryPage() {
     const config = useContext(AuthContext).config!
-    const controller: ICategoryController = CategoryController(config);
+    const controller: ICategoryController = useMemo(() => CategoryController(config), [config]);
     const [categories, setCategories] = useState<Category[]>([])
     const [categoryInput, setCategoryInput] = useState<string>("")
 
     useEffect(() => {
-        if (!config) return
         controller.getCategories().then(setCategories)
-        //eslint-disable-next-line
-    }, [config])
+    }, [controller])
 
     const addCategory: FormEventHandler<HTMLFormElement> = (event) => {
         event.preventDefault()

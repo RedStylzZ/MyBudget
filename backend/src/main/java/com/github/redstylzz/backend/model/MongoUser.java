@@ -5,11 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.juli.logging.Log;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
 import java.util.List;
@@ -38,6 +42,16 @@ public class MongoUser implements UserDetails {
                 .username(dto.getUsername())
                 .password(dto.getPassword())
                 .build();
+    }
+
+    @Transient
+    public static MongoUser getUser(UsernamePasswordAuthenticationToken principal, Log log) throws ResponseStatusException {
+        try {
+            return (MongoUser) principal.getPrincipal();
+        } catch (Exception e) {
+            log.warn("No user found");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No user found");
+        }
     }
 
     @Override

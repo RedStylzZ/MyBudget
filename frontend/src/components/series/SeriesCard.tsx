@@ -1,13 +1,13 @@
-import {Series} from "../models/Series";
-import MonetaryValue from "./MonetaryValue";
-import FormatDate from "./FormatDate";
+import {Series} from "../../models/Series";
+import MonetaryValue from "../MonetaryValue";
+import FormatDate from "../FormatDate";
 
 interface ISeriesItemProps {
     series: Series
     deleteSeries: (seriesId?: string) => void
 }
 
-export default function SeriesItem({series, deleteSeries}: ISeriesItemProps) {
+export default function SeriesCard({series, deleteSeries}: ISeriesItemProps) {
 
     return (
         <div className={"seriesItemCard"}>

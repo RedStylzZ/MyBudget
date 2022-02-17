@@ -1,5 +1,5 @@
-import {Category} from "../models/Category";
-import MonetaryValue from "./MonetaryValue";
+import {Category} from "../../models/Category";
+import MonetaryValue from "../MonetaryValue";
 
 const mapToCategoryItem = (category: Category) => {
     return (

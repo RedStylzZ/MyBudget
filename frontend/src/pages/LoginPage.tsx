@@ -1,9 +1,9 @@
 import {Navigate, useNavigate} from "react-router-dom";
 import {ChangeEvent, FormEvent, useContext, useState} from "react";
 import LoginController from "../controllers/LoginController";
-import {ILoginController} from "../models/ControllerTypes";
 import {AuthContext} from "../context/AuthProvider";
 import './LoginPage.scss'
+import {ILoginController} from "../models/Login";
 
 export default function LoginPage() {
     const {setJwt} = useContext(AuthContext)

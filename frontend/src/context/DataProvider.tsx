@@ -1,7 +1,7 @@
 import React, {createContext, ReactElement, useContext, useEffect, useMemo, useState} from "react";
 import {AuthContext} from "./AuthProvider";
-import {IUserController} from "../models/ControllerTypes";
 import UserController from "../controllers/UserController";
+import {IUserController} from "../models/User";
 
 export interface IDataContextProps {
     isAdmin?: boolean

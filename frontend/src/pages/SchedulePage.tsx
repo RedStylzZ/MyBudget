@@ -1,20 +1,19 @@
 import React, {ChangeEvent, FormEvent, useContext, useEffect, useMemo, useState} from "react";
 import SeriesController from "../controllers/SeriesController";
-import {Series} from "../models/Series";
+import {ISeriesController, Series} from "../models/Series";
 import {PaymentDTO} from "../models/Payment";
-import SeriesItems from "../components/SeriesItems";
-import {ICategoryController, ISeriesController} from "../models/ControllerTypes";
+import SeriesItems from "../components/series/SeriesItems";
 import {AuthContext} from "../context/AuthProvider";
 import './SchedulingPage.scss'
 import CategoryController from "../controllers/CategoryController";
-import {Category} from "../models/Category";
+import {Category, ICategoryController} from "../models/Category";
 import {DateRangePicker, LocalizationProvider} from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import {Box, TextField} from "@mui/material";
 import {DateRange} from "@mui/lab/DateRangePicker/RangeTypes";
 
 interface SelectInput {
-    selectCategory: {value: string}
+    selectCategory: { value: string }
 }
 
 export default function SchedulePage() {
@@ -81,9 +80,9 @@ export default function SchedulePage() {
                             }}
                             renderInput={(startProps, endProps) => (
                                 <React.Fragment>
-                                    <TextField {...startProps} />
+                                    <TextField {...startProps} sx={{color: 'white', border: 'white solid 1px'}}/>
                                     <Box sx={{mx: 2}}> to </Box>
-                                    <TextField {...endProps} />
+                                    <TextField {...endProps} sx={{color: 'white', border: 'white solid 1px'}}/>
                                 </React.Fragment>
                             )}
                         />

@@ -7,6 +7,6 @@ export const toCurrency = (sum: number) => sum.toLocaleString('de-DE', {style: '
 export default function MonetaryValue(props: IMonetaryValueProps) {
     const {amount} = props
 
-    if (!amount) return null
-    return <>{toCurrency(amount)}</>
+    if (amount === undefined) return null
+    return <>{toCurrency(amount!)}</>
 }

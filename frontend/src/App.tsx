@@ -2,7 +2,7 @@ import React from 'react';
 import './App.scss';
 import {HashRouter, Route, Routes} from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/navbar/NavBar";
 import AuthProvider from "./context/AuthProvider";
 import LoginPage from "./pages/LoginPage";
 import RequireAuth from "./components/RequireAuth";
@@ -13,6 +13,8 @@ import RequireAdmin from "./components/RequireAdmin";
 import DataProvider from "./context/DataProvider";
 import RenameCategoryPage from "./pages/RenameCategoryPage";
 import SchedulePage from "./pages/SchedulePage";
+import DepositPage from "./pages/DepositPage";
+import ChangeDepositPage from "./pages/ChangeDepositPage";
 
 function App() {
     return (
@@ -57,6 +59,17 @@ function App() {
                                         <SchedulePage/>
                                     </RequireAuth>
                                 }
+                                />
+                                <Route path={"/deposits"} element={
+                                    <RequireAuth>
+                                        <DepositPage/>
+                                    </RequireAuth>
+                                }
+                                />
+                                <Route path={"/deposits/change/:depositId"} element={
+                                    <RequireAuth>
+                                        <ChangeDepositPage/>
+                                    </RequireAuth>}
                                 />
                             </Routes>
                         </div>

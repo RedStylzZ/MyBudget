@@ -1,7 +1,6 @@
 import {ITokenConfig} from "../models/Connection";
-import {IUserController} from "../models/ControllerTypes";
 import UserService from "../services/UserService";
-import User from "../models/User";
+import User, {IUserController} from "../models/User";
 
 export default function UserController(config: ITokenConfig | undefined): IUserController {
     const service: IUserController = UserService(config)

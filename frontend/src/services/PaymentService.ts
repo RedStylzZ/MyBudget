@@ -1,6 +1,6 @@
-import {IPaymentController} from "../models/ControllerTypes";
 import axios from "axios";
 import {ITokenConfig} from "../models/Connection";
+import {IPaymentController} from "../models/Payment";
 
 export default function PaymentService(config: ITokenConfig | undefined): IPaymentController {
     return {

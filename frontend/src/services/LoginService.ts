@@ -1,5 +1,5 @@
 import axios from "axios";
-import {ILoginService} from "../models/ControllerTypes";
+import {ILoginService} from "../models/Login";
 
 export default function LoginService(): ILoginService {
     return {

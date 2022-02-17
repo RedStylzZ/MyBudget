@@ -1,6 +1,6 @@
-import {ICategoryController} from "../models/ControllerTypes";
 import axios from "axios";
 import {ITokenConfig} from "../models/Connection";
+import {ICategoryController} from "../models/Category";
 
 export default function CategoryService(config: ITokenConfig | undefined): ICategoryController {
     const URL: string = "/api/category"
