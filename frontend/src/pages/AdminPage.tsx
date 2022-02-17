@@ -3,6 +3,7 @@ import UserController from "../controllers/UserController";
 import {AuthContext} from "../context/AuthProvider";
 import User, {IUserController} from "../models/User";
 import './AdminPage.scss'
+import Button from "../components/Button";
 
 export default function AdminPage() {
     const {config} = useContext(AuthContext)
@@ -59,7 +60,7 @@ export default function AdminPage() {
                         <input type={"radio"} id={"roleADMIN"} name={"role"} onChange={onRoleChange} value={"ADMIN"}/>
                         <label htmlFor="roleADMIN">ADMIN</label>
                     </div>
-                    <input type="submit" value={"Add User"}/>
+                    <Button submit={true} value={"Add User"}/>
                 </form>
             </div>
         </div>
