@@ -1,7 +1,6 @@
 package com.github.redstylzz.backend.repository;
 
 import com.github.redstylzz.backend.model.DepositSeries;
-import com.github.redstylzz.backend.model.PaymentSeries;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

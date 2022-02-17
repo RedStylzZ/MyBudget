@@ -2,11 +2,8 @@ package com.github.redstylzz.backend.service;
 
 import com.github.redstylzz.backend.exception.SeriesAlreadyExistException;
 import com.github.redstylzz.backend.model.DepositSeries;
-import com.github.redstylzz.backend.model.PaymentSeries;
 import com.github.redstylzz.backend.model.dto.DepositSeriesDTO;
-import com.github.redstylzz.backend.model.dto.PaymentSeriesDTO;
 import com.github.redstylzz.backend.repository.IDepositSeriesRepository;
-import com.github.redstylzz.backend.repository.IPaymentSeriesRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
