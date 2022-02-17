@@ -95,7 +95,8 @@ export default function SchedulePage() {
                         <input type={"radio"} id={"typePayment"} name={"type"} onChange={onTypeChange} value={"Payment"}
                                defaultChecked={true}/>
                         <label htmlFor="typePayment">Payment</label>
-                        <input type={"radio"} id={"typeDeposit"} name={"type"} onChange={onTypeChange} value={"Deposit"}/>
+                        <input type={"radio"} id={"typeDeposit"} name={"type"} onChange={onTypeChange}
+                               value={"Deposit"}/>
                         <label htmlFor="typeDeposit">Deposit</label>
                     </div>
                     <input type="text" id={"description"} onChange={onDescriptionChange} value={description}
