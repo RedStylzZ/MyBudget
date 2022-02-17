@@ -24,13 +24,14 @@ public class PaymentSeriesService {
     }
 
     public List<PaymentSeriesDTO> addSeries(String userId, PaymentSeriesDTO dto) {
-        LOG.info("Adding series");
+        LOG.info("Adding series: " + dto);
         PaymentSeries series = PaymentSeries.mapDTOtoSeries(dto, userId);
-        if (!repository.existsBySeriesId(series.getSeriesId())) {
+        LOG.debug(repository.existsBySeriesId(series.getSeriesId()));
+        if (series.getSeriesId() == null || !repository.existsBySeriesId(series.getSeriesId())) {
             repository.save(series);
         } else {
             LOG.warn("Series already existent");
-            throw new SeriesAlreadyExistException();
+            throw new SeriesAlreadyExistException("Series already exists");
         }
 
         return getSeries(userId);

@@ -19,3 +19,8 @@ export interface DepositCreationDTO {
     amount: number
     depositDate: Date
 }
+
+export interface DepositDTO {
+    description: string
+    amount: number
+}

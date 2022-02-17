@@ -1,6 +1,6 @@
 import React, {ChangeEvent, FormEvent, useContext, useEffect, useMemo, useState} from "react";
 import SeriesController from "../controllers/SeriesController";
-import {ISeriesController, Series} from "../models/Series";
+import {DepositSeries, ISeriesController, PaymentSeries} from "../models/Series";
 import {PaymentDTO} from "../models/Payment";
 import SeriesItems from "../components/series/SeriesItems";
 import {AuthContext} from "../context/AuthProvider";
@@ -12,6 +12,7 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import {Box, TextField} from "@mui/material";
 import {DateRange} from "@mui/lab/DateRangePicker/RangeTypes";
 import Button from "../components/Button";
+import {DepositDTO} from "../models/Deposit";
 
 interface SelectInput {
     selectCategory: { value: string }
@@ -19,42 +20,65 @@ interface SelectInput {
 
 export default function SchedulePage() {
     const config = useContext(AuthContext).config
-    const [series, setSeries] = useState<Series[]>([])
     const [scheduledDate, setScheduledDate] = useState<number>(1)
     const [description, setDescription] = useState<string>("")
+    const [typeName, setTypeName] = useState<string>("Payment")
     const [amount, setAmount] = useState<number>(1)
+
+    const [paymentSeries, setPaymentSeries] = useState<PaymentSeries[]>([])
+    const [depositSeries, setDepositSeries] = useState<DepositSeries[]>([])
     const [categories, setCategories] = useState<Category[]>([])
     const [rangeValue, setRangeValue] = useState<DateRange<Date>>([null, null])
     const seriesController: ISeriesController = useMemo(() => SeriesController(config), [config])
     const categoryController: ICategoryController = useMemo(() => CategoryController(config), [config])
 
     useEffect(() => {
-        seriesController.getSeries().then(setSeries)
+        seriesController.getPaymentSeries().then(setPaymentSeries)
+        seriesController.getDepositSeries().then(setDepositSeries)
         categoryController.getCategories().then(setCategories)
     }, [seriesController, categoryController])
 
     const addSeries = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        const form = event.currentTarget
-        const formElements = form.elements as typeof form.elements & SelectInput
-        const categoryID: string = formElements.selectCategory.value
 
-        if (!categoryID || !categoryID.length) return
+        console.log(typeName)
+        if (typeName === "Payment") {
+            const form = event.currentTarget
+            const formElements = form.elements as typeof form.elements & SelectInput
+            const categoryID: string = formElements.selectCategory.value
 
-        const payment: PaymentDTO = {description, amount, categoryID}
-        const seriesObj: Series = {scheduledDate, payment, startDate: rangeValue[0], endDate: rangeValue[1]}
-        seriesController.addSeries(seriesObj).then(setSeries)
+            if (!categoryID || !categoryID.length) return
+
+            const payment: PaymentDTO = {description, amount, categoryID}
+            const seriesObj: PaymentSeries = {scheduledDate, payment, startDate: rangeValue[0], endDate: rangeValue[1]}
+            seriesController.addPaymentSeries(seriesObj).then(setPaymentSeries)
+        } else {
+            const deposit: DepositDTO = {description, amount}
+            const seriesObj: DepositSeries = {scheduledDate, deposit, startDate: rangeValue[0], endDate: rangeValue[1]}
+            seriesController.addDepositSeries(seriesObj).then(setDepositSeries)
+        }
     }
 
-    const deleteSeries = (seriesId: string | undefined) => {
+    const deleteSeries = (seriesId: string | undefined, type: string) => {
+        console.log(seriesId)
         if (seriesId) {
-            seriesController.deleteSeries(seriesId).then(setSeries)
+            console.log(type)
+            if (type === "payment") {
+                seriesController.deletePaymentSeries(seriesId).then(setPaymentSeries)
+            } else if (type === "deposit") {
+                seriesController.deleteDepositSeries(seriesId).then(setDepositSeries)
+            }
         }
     }
 
     const onSchedulingDateChange = (event: ChangeEvent<HTMLInputElement>) => setScheduledDate(parseInt(event.target.value))
     const onAmountChange = (event: ChangeEvent<HTMLInputElement>) => setAmount(parseInt(event.target.value))
     const onDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => setDescription(event.target.value.trim())
+    const onTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setTypeName(event.target.value)
+        console.log(event.target.value)
+        document.getElementById("selectCategory")!.hidden = event.target.value !== "Payment";
+    }
 
     return (
         <div className={"schedulingPage"}>
@@ -66,7 +90,14 @@ export default function SchedulePage() {
                     <h2>Scheduled Day</h2>
                     <input type="number" onChange={onSchedulingDateChange} placeholder={"Scheduling Date"}
                            value={scheduledDate}/>
-                    <h2>Payment</h2>
+                    <h2>{typeName}</h2>
+                    <div className={"roleCheck"}>
+                        <input type={"radio"} id={"typePayment"} name={"type"} onChange={onTypeChange} value={"Payment"}
+                               defaultChecked={true}/>
+                        <label htmlFor="typePayment">Payment</label>
+                        <input type={"radio"} id={"typeDeposit"} name={"type"} onChange={onTypeChange} value={"Deposit"}/>
+                        <label htmlFor="typeDeposit">Deposit</label>
+                    </div>
                     <input type="text" id={"description"} onChange={onDescriptionChange} value={description}
                            placeholder={"Description"}/>
                     <input type="number" id={"amount"} onChange={onAmountChange} placeholder={"Amount"} value={amount}
@@ -97,7 +128,7 @@ export default function SchedulePage() {
                     </select>
                     <Button submit={true} value={"Add Series"}/>
                 </form>
-                <SeriesItems series={series} deleteSeries={deleteSeries}/>
+                <SeriesItems paymentSeries={paymentSeries} depositSeries={depositSeries} deleteSeries={deleteSeries}/>
             </div>
         </div>
     )

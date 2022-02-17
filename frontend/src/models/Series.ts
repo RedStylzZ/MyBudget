@@ -1,6 +1,7 @@
 import {PaymentDTO} from "./Payment";
+import {DepositDTO} from "./Deposit";
 
-export interface Series {
+export interface PaymentSeries {
     seriesId?: string
     startDate?: Date | null
     endDate?: Date | null
@@ -8,8 +9,19 @@ export interface Series {
     payment: PaymentDTO
 }
 
+export interface DepositSeries {
+    seriesId?: string
+    startDate?: Date | null
+    endDate?: Date | null
+    scheduledDate: number
+    deposit: DepositDTO
+}
+
 export interface ISeriesController {
-    getSeries: () => Promise<Series[]>
-    addSeries: (series: Series) => Promise<Series[]>
-    deleteSeries: (seriesId: string) => Promise<Series[]>
+    getPaymentSeries: () => Promise<PaymentSeries[]>
+    addPaymentSeries: (series: PaymentSeries) => Promise<PaymentSeries[]>
+    deletePaymentSeries: (seriesId: string) => Promise<PaymentSeries[]>
+    getDepositSeries: () => Promise<DepositSeries[]>
+    addDepositSeries: (series: DepositSeries) => Promise<DepositSeries[]>
+    deleteDepositSeries: (seriesId: string) => Promise<DepositSeries[]>
 }
