@@ -5,14 +5,14 @@ import org.mockito.MockedStatic;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.Mockito.mockStatic;
 
 public class TestDataProvider {
+    public static String UUID_STRING = "06f1eb01-cdaf-46e4-a3c8-eff2e4b300dd";
+
     public static MongoUser testUser(String id,
                                      String username,
                                      String password,
@@ -57,7 +57,6 @@ public class TestDataProvider {
         return testUserDTO("Tizian", "Turtle", List.of());
     }
 
-
     public static Category testCategory(String id, String userID, String name) {
         return Category.builder()
                 .categoryID(id)
@@ -91,8 +90,6 @@ public class TestDataProvider {
                 .payDate(payDate)
                 .build();
     }
-
-    public static String UUID_STRING = "06f1eb01-cdaf-46e4-a3c8-eff2e4b300dd";
 
     public static void mockUUID() {
         UUID uuid = UUID.fromString(UUID_STRING);

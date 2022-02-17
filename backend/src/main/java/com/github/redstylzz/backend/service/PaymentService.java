@@ -3,7 +3,6 @@ package com.github.redstylzz.backend.service;
 import com.github.redstylzz.backend.exception.CategoryDoesNotExistException;
 import com.github.redstylzz.backend.exception.PaymentDoesNotExistException;
 import com.github.redstylzz.backend.model.Payment;
-import com.github.redstylzz.backend.model.dto.PaymentDTO;
 import com.github.redstylzz.backend.repository.ICategoryRepository;
 import com.github.redstylzz.backend.repository.IPaymentRepository;
 import lombok.RequiredArgsConstructor;

@@ -28,7 +28,7 @@ public class PaymentSeriesController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No user found");
         }
     }
-    
+
     @GetMapping
     public List<PaymentSeriesDTO> getSeries(UsernamePasswordAuthenticationToken principal) {
         MongoUser user = getUser(principal);

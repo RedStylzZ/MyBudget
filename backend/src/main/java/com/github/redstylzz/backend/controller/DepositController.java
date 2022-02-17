@@ -31,7 +31,7 @@ public class DepositController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No user found");
         }
     }
-    
+
     @GetMapping("/latest")
     public List<DepositDTO> getLatestDeposits(UsernamePasswordAuthenticationToken principal) {
         MongoUser user = getUser(principal);

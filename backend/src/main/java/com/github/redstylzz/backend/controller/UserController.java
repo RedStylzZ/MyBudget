@@ -27,7 +27,7 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No user found");
         }
     }
-    
+
     @GetMapping("/admin")
     public boolean isAdmin(UsernamePasswordAuthenticationToken principal) {
         MongoUser user = getUser(principal);

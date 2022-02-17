@@ -5,16 +5,11 @@ import com.github.redstylzz.backend.exception.PaymentDoesNotExistException;
 import com.github.redstylzz.backend.model.Category;
 import com.github.redstylzz.backend.model.Payment;
 import com.github.redstylzz.backend.model.TestDataProvider;
-import com.github.redstylzz.backend.model.dto.PaymentDTO;
 import com.github.redstylzz.backend.repository.ICategoryRepository;
 import com.github.redstylzz.backend.repository.IPaymentRepository;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
 
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -40,7 +35,7 @@ class PaymentServiceTest {
     }
 
     @Test
-    void shouldThrowExceptionIfCategoryDoesNotExist_OnAdd(){
+    void shouldThrowExceptionIfCategoryDoesNotExist_OnAdd() {
         Payment payment = TestDataProvider.testPayment();
         String userID = payment.getUserID();
         when(categoryRepository.existsByUserIDAndCategoryID(anyString(), anyString())).thenReturn(false);
