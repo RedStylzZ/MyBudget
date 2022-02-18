@@ -1,13 +1,14 @@
 .button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     color: white;
     background: #0070BA;
-    border-radius: 30px;
+    border-radius: 10px;
     text-align: center;
-    height: 2rem;
-    margin: 0;
+    padding: .5rem 1rem;
     cursor: pointer;
     border: #0070BA;
+
+    transition: ease background-color 250ms;
+    &:hover {
+        background: #0068ac;
+    }
 }
