@@ -9,6 +9,7 @@ import {DatePicker, LocalizationProvider} from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import {TextField} from "@mui/material";
 import Button from "../components/Button";
+import TextBox from "../components/TextBox";
 
 export default function DepositPage() {
     const config: ITokenConfig | undefined = useContext(AuthContext).config
@@ -45,11 +46,11 @@ export default function DepositPage() {
                 <h1>Deposit Page</h1>
             </div>
             <div className={"depositsField"}>
-                <form onSubmit={addDeposit}>
+                <form onSubmit={addDeposit} className={"addDeposit"}>
                     <h2>Description</h2>
-                    <input type="text" onChange={onDescriptionChange} value={description}/>
+                    <TextBox type="text" onChange={onDescriptionChange} value={description}/>
                     <h2>Amount</h2>
-                    <input type="number" onChange={onAmountChange} value={amount}/>
+                    <TextBox type="number" onChange={onAmountChange} value={amount}/>
                     <div className={"depositDate"}>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker

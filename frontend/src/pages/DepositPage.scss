@@ -21,6 +21,27 @@
         height: 100%;
         overflow-y: auto;
 
+        .addDeposit {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+
+            .depositDate {
+                display: flex;
+                justify-content: center;
+                gap: 1rem;
+                margin: 1rem;
+
+                #depositDate, #depositDate-label {
+                    color: white;
+                }
+
+                svg {
+                    color: white;
+                }
+            }
+        }
+
         .deposits {
             display: flex;
             flex-direction: row;
@@ -39,23 +60,8 @@
 
                 .depositButtons {
                     display: flex;
-
-                    a {
-                        text-decoration: none;
-                    }
-
-                    span {
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        color: white;
-                        background: #1A1A1A;
-                        border-radius: 30px;
-                        text-align: center;
-                        height: 2rem;
-                        width: 4rem;
-                        margin: .5rem;
-                    }
+                    flex-direction: row;
+                    justify-content: space-between;
                 }
             }
         }
