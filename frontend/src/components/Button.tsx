@@ -1,12 +1,12 @@
 import './Button.scss'
 
-interface ButtonProps {
+interface ButtonProps<T, TResult> {
     value?: string
-    onClick?: () => void
+    onClick?: (item: T) => TResult
     submit?: boolean
 }
 
-export default function Button({value, onClick, submit}: ButtonProps) {
+export default function Button({value, onClick, submit}: ButtonProps<any, any>) {
 
     if (submit !== undefined) {
         return (
@@ -15,6 +15,6 @@ export default function Button({value, onClick, submit}: ButtonProps) {
     }
 
     return (
-        <button className={"button"} onClick={() => !(onClick) || onClick() || null}>{value}</button>
+        <button className={"button"} onClick={onClick}>{value}</button>
     )
 }

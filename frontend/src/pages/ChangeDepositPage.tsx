@@ -8,7 +8,7 @@ import {DatePicker, LocalizationProvider} from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import {TextField} from "@mui/material";
 import './ChangeDepositPage.scss'
-import TextBox from "../components/TextBox";
+import InputBox from "../components/InputBox";
 import Button from "../components/Button";
 
 export default function ChangeDepositPage() {
@@ -53,11 +53,11 @@ export default function ChangeDepositPage() {
             <form onSubmit={changeDeposit}>
                 <div>
                     <h2>Description</h2>
-                    <TextBox type="text" onChange={onDescriptionChange} value={description}/>
+                    <InputBox type="text" onChange={onDescriptionChange} value={description}/>
                 </div>
                 <div>
                     <h2>Amount</h2>
-                    <TextBox type="number" onChange={onAmountChange} value={amount}/>
+                    <InputBox type="number" onChange={onAmountChange} value={amount}/>
                 </div>
                 <div className={"depositDate"}>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>

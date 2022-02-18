@@ -4,7 +4,7 @@ import {AuthContext} from "../context/AuthProvider";
 import User, {IUserController} from "../models/User";
 import './AdminPage.scss'
 import Button from "../components/Button";
-import TextBox from "../components/TextBox";
+import InputBox from "../components/InputBox";
 
 export default function AdminPage() {
     const {config} = useContext(AuthContext)
@@ -48,11 +48,11 @@ export default function AdminPage() {
             <div className={"addUserForm"}>
                 <form onSubmit={addUser} className={"addUser"}>
                     <h3>Username</h3>
-                    <TextBox type="text" id="username" onChange={onUsernameChange} placeholder={"Username"}
-                           value={username}/>
+                    <InputBox type="text" id="username" onChange={onUsernameChange} placeholder={"Username"}
+                              value={username}/>
                     <h3>Password</h3>
-                    <TextBox type="password" id="password" onChange={onPasswordChange} placeholder={"Password"}
-                           value={password}/>
+                    <InputBox type="password" id="password" onChange={onPasswordChange} placeholder={"Password"}
+                              value={password}/>
                     <h3>Role</h3>
                     <div className={"roleCheck"}>
                         <input type={"radio"} id={"roleUSER"} name={"role"} onChange={onRoleChange} value={"USER"}

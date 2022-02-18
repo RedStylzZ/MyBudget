@@ -13,7 +13,7 @@ import {Box, TextField} from "@mui/material";
 import {DateRange} from "@mui/lab/DateRangePicker/RangeTypes";
 import Button from "../components/Button";
 import {DepositDTO} from "../models/Deposit";
-import TextBox from "../components/TextBox";
+import InputBox from "../components/InputBox";
 
 interface SelectInput {
     selectCategory: { value: string }
@@ -84,8 +84,8 @@ export default function SchedulePage() {
             <div className={"series"}>
                 <form onSubmit={addSeries} className={"addSeries"}>
                     <h2>Scheduled Day</h2>
-                    <TextBox type="number" onChange={onSchedulingDateChange} placeholder={"Scheduling Date"}
-                           value={scheduledDate}/>
+                    <InputBox type="number" onChange={onSchedulingDateChange} placeholder={"Scheduling Date"}
+                              value={scheduledDate} min={1} max={31}/>
                     <h2>{typeName}</h2>
                     <div className={"roleCheck"}>
                         <input type={"radio"} id={"typePayment"} name={"type"} onChange={onTypeChange} value={"Payment"}
@@ -95,10 +95,10 @@ export default function SchedulePage() {
                                value={"Deposit"}/>
                         <label htmlFor="typeDeposit">Deposit</label>
                     </div>
-                    <TextBox type="text" id={"description"} onChange={onDescriptionChange} value={description}
-                           placeholder={"Description"}/>
-                    <TextBox type="number" id={"amount"} onChange={onAmountChange} placeholder={"Amount"} value={amount}
-                           step={0.01}/><br/>
+                    <InputBox type="text" id={"description"} onChange={onDescriptionChange} value={description}
+                              placeholder={"Description"}/>
+                    <InputBox type="number" id={"amount"} onChange={onAmountChange} placeholder={"Amount"} value={amount}
+                              step={0.01}/><br/>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DateRangePicker
                             startText="Check-in"

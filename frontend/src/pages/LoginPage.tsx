@@ -5,7 +5,7 @@ import {AuthContext} from "../context/AuthProvider";
 import './LoginPage.scss'
 import {ILoginController} from "../models/Login";
 import Button from "../components/Button";
-import TextBox from "../components/TextBox";
+import InputBox from "../components/InputBox";
 
 export default function LoginPage() {
     const {setJwt} = useContext(AuthContext)
@@ -41,9 +41,9 @@ export default function LoginPage() {
             <h1>{"Login"}</h1>
             <form onSubmit={login}>
                 <h2>Username</h2>
-                <TextBox type="text" id={"username"} onChange={onNameChange} value={name}/><br/>
+                <InputBox type="text" id={"username"} onChange={onNameChange} value={name}/><br/>
                 <h2>Password</h2>
-                <TextBox type="password" id={"password"} onChange={onPasswordChange} value={password}/><br/>
+                <InputBox type="password" id={"password"} onChange={onPasswordChange} value={password}/><br/>
                 <Button submit={true} value={"Submit"}/>
             </form>
         </div>

@@ -7,9 +7,11 @@ interface TextBoxProps<T, TResult> {
     id?: string
     step?: number
     onChange?: (item: T) => TResult
+    max?: number
+    min?: number
 }
 
-export default function TextBox({type, value, placeholder, id, onChange, step}: TextBoxProps<any, any>) {
+export default function InputBox({type, value, placeholder, id, onChange, step, max, min}: TextBoxProps<any, any>) {
 
     return (
         <input type={type || "text"}
@@ -19,6 +21,8 @@ export default function TextBox({type, value, placeholder, id, onChange, step}: 
                onChange={onChange}
                value={value}
                step={step}
+               min={min}
+               max={max}
         />
     )
 }

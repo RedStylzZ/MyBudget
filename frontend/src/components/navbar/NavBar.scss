@@ -1,6 +1,7 @@
 .navBar {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
     width: 8rem;
     background: #1A1A1A;
@@ -11,9 +12,10 @@
         display: flex;
         flex-direction: column;
         gap: .5rem;
+        width: 100%;
 
         .button {
-            width: 100%;
+            align-self: stretch;
         }
     }
 
