@@ -25,7 +25,7 @@ public class MongoUserService implements UserDetailsService {
     public MongoUser loadUserByUsername(String username) throws UsernameNotFoundException {
         MongoUser user = repository.findMongoUserByUsername(username);
         if (user == null) {
-            LOG.warn("Could not find user: " + username);
+            LOG.warn("Could not find user");
             throw new UsernameNotFoundException("User not found");
         }
         return user;

@@ -1,5 +1,5 @@
 import SeriesService from "../services/SeriesService";
-import {ISeriesController, Series} from "../models/Series";
+import {ISeriesController, PaymentSeries} from "../models/Series";
 import {ITokenConfig} from "../models/Connection";
 
 export default function SeriesController(config: ITokenConfig | undefined): ISeriesController {
@@ -7,14 +7,23 @@ export default function SeriesController(config: ITokenConfig | undefined): ISer
     const service: ISeriesController = SeriesService(config)
 
     return {
-        getSeries: () => {
-            return service.getSeries()
+        getPaymentSeries: () => {
+            return service.getPaymentSeries()
         },
-        addSeries: (series: Series) => {
-            return service.addSeries(series)
+        addPaymentSeries: (series: PaymentSeries) => {
+            return service.addPaymentSeries(series)
         },
-        deleteSeries: seriesId => {
-            return service.deleteSeries(seriesId)
+        deletePaymentSeries: seriesId => {
+            return service.deletePaymentSeries(seriesId)
+        },
+        getDepositSeries: () => {
+            return service.getDepositSeries()
+        },
+        addDepositSeries: series => {
+            return service.addDepositSeries(series)
+        },
+        deleteDepositSeries: seriesId => {
+            return service.deleteDepositSeries(seriesId)
         }
     }
 }

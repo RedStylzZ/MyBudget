@@ -1,18 +1,30 @@
-import {Series} from "../../models/Series";
+import {DepositSeries, PaymentSeries} from "../../models/Series";
 import MonetaryValue from "../MonetaryValue";
 import FormatDate from "../FormatDate";
 import Button from "../Button";
 
 interface ISeriesItemProps {
-    series: Series
-    deleteSeries: (seriesId?: string) => void
+    series: PaymentSeries | DepositSeries
+    deleteSeries: (seriesId: string | undefined, type: string) => void
 }
 
 export default function SeriesCard({series, deleteSeries}: ISeriesItemProps) {
 
+    const amount: number = ("payment" in series && series.payment.amount) ||
+        ("deposit" in series && series.deposit.amount)
+        || 0
+
+    const description: string = ("payment" in series && series.payment.description) ||
+        ("deposit" in series && series.deposit.description)
+        || ""
+
+    const type: string = ("payment" in series && "payment") ||
+        ("deposit" in series && "deposit")
+        || ""
+
     return (
         <div className={"seriesItemCard"}>
-            <Button onClick={() => deleteSeries(series.seriesId)} value={"Delete"}/>
+            <Button onClick={() => deleteSeries(series.seriesId, type)} value={"Delete"}/>
             <div className={"seriesItem"}>
                 <h2>Start</h2>
                 <h3>{series.startDate ? <FormatDate date={series.startDate}/> : "Infinite"}</h3>
@@ -22,8 +34,8 @@ export default function SeriesCard({series, deleteSeries}: ISeriesItemProps) {
                 <h3>{series.scheduledDate}</h3>
             </div>
             <div className={"paymentItem"}>
-                <h2>{series.payment.description}</h2>
-                <MonetaryValue amount={series.payment.amount}/>
+                <h2>{description}</h2>
+                <MonetaryValue amount={amount}/>
             </div>
         </div>
     )

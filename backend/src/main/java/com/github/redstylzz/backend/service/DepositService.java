@@ -10,7 +10,10 @@ import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
-import java.time.*;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @Service
@@ -30,17 +33,17 @@ public class DepositService {
                 deposit.getDepositDate() != null);
     }
 
-    public List<DepositDTO> getAllDeposits(String userId) {
+    public List<DepositDTO> getAllDepositsFrom(String userId) {
         return getDepositsAsDTO(userId);
     }
 
-    public DepositDTO getDeposit(String userId, String depositId) {
+    public DepositDTO getDepositFrom(String userId, String depositId) {
         return Deposit.mapDepositToDTO(repository.getByUserIdAndDepositId(userId, depositId));
     }
 
     public List<DepositDTO> getLatestDeposits(String userId) {
         return repository.getAllByUserIdAndDepositDateAfterOrderByDepositDateDesc(userId,
-                LocalDateTime.now().withDayOfMonth(1).minus(Duration.ofDays(1)).toInstant(ZoneOffset.UTC))
+                        LocalDateTime.now().withDayOfMonth(1).minus(Duration.ofDays(1)).toInstant(ZoneOffset.UTC))
                 .stream().map(Deposit::mapDepositToDTO).toList();
     }
 
@@ -71,7 +74,7 @@ public class DepositService {
                 repository.save(deposit);
                 return getDepositsAsDTO(userId);
             } else {
-                throw new NullPointerException("Some data is null");
+                throw new NullPointerException("Description, Amount or DepositDate is null");
             }
         } else {
             throw new DepositDoesNotExistException("Deposit does not exist");

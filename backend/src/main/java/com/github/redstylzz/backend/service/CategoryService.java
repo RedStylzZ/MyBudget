@@ -51,7 +51,7 @@ public class CategoryService {
             LOG.info("Added category");
         } else {
             LOG.warn("Category already existent");
-            throw new CategoryAlreadyExistException("A category with this name already exists: " + categoryName);
+            throw new CategoryAlreadyExistException("A category with this name already exists");
         }
         return getAllCategoriesAsDTO(user.getId());
     }
@@ -72,7 +72,7 @@ public class CategoryService {
             }
         } else {
             LOG.warn("Category does not exist");
-            throw new CategoryDoesNotExistException("No category with ID: " + categoryID);
+            throw new CategoryDoesNotExistException("No category with this ID");
         }
         return getAllCategoriesAsDTO(user.getId());
     }

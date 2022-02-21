@@ -1,5 +1,6 @@
 package com.github.redstylzz.backend.model;
 
+import com.github.redstylzz.backend.model.dto.DepositCreationDTO;
 import com.github.redstylzz.backend.model.dto.DepositDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,6 +43,23 @@ public class Deposit {
                 .description(dto.getDescription())
                 .amount(dto.getAmount())
                 .depositDate(dto.getDepositDate())
+                .build();
+    }
+
+    public static Deposit mapDTOtoDeposit(DepositCreationDTO dto) {
+        return Deposit.builder()
+                .description(dto.getDescription())
+                .amount(dto.getAmount())
+                .depositDate(dto.getDepositDate())
+                .build();
+    }
+
+    public static Deposit mapDTOtoDeposit(DepositDTO dto, String userId, Instant depositDate) {
+        return Deposit.builder()
+                .userId(userId)
+                .description(dto.getDescription())
+                .amount(dto.getAmount())
+                .depositDate(depositDate)
                 .build();
     }
 }
