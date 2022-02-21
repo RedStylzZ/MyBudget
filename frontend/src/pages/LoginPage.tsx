@@ -41,9 +41,9 @@ export default function LoginPage() {
             <h1>{"Login"}</h1>
             <form onSubmit={login}>
                 <h2>Username</h2>
-                <InputBox type="text" id={"username"} onChange={onNameChange} value={name}/><br/>
+                <InputBox type="text" id={"username"} onChange={onNameChange} value={name} placeholder={"Username"}/><br/>
                 <h2>Password</h2>
-                <InputBox type="password" id={"password"} onChange={onPasswordChange} value={password}/><br/>
+                <InputBox type="password" id={"password"} onChange={onPasswordChange} value={password} placeholder={"Password"}/><br/>
                 <Button submit={true} value={"Submit"}/>
             </form>
         </div>
