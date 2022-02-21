@@ -73,7 +73,7 @@ export default function DepositPage() {
                             />
                         </LocalizationProvider>
                     </div>
-                    <Button submit={true} value={"Add Deposit"}/>
+                    <Button type={"submit"} value={"Add Deposit"}/>
                 </form>
                 <DepositsGallery deposits={deposits} deleteDeposit={deleteDeposit}/>
             </div>

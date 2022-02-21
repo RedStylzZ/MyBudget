@@ -81,7 +81,7 @@ export default function ChangeDepositPage() {
                         />
                     </LocalizationProvider>
                 </div>
-                <Button submit={true} value={"Add Deposit"}/>
+                <Button type={"submit"} value={"Add Deposit"}/>
             </form>
         </div>
     )

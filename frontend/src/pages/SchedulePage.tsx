@@ -123,7 +123,7 @@ export default function SchedulePage() {
                             )
                         }
                     </select>
-                    <Button submit={true} value={"Add Series"}/>
+                    <Button type={"submit"} value={"Add Series"}/>
                 </form>
                 <SeriesItems paymentSeries={paymentSeries} depositSeries={depositSeries} deleteSeries={deleteSeries}/>
             </div>

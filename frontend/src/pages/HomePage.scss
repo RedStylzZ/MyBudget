@@ -7,14 +7,13 @@
 }
 
 .pieChart {
-    display: flex;
     width: 50%;
     color: black;
 }
 
 .homeCategories, .recentPayments {
     display: flex;
-    border: .5rem solid #1A1A1A;;
+    border: .5rem solid #1A1A1A;
     padding: 0 .5rem;
     align-items: center;
     flex-direction: column;
@@ -25,7 +24,26 @@
     overflow-y: auto;
 
     .categoryItemCard, .recentPaymentItemCard {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-radius: 30px;
+        background: #282A36;
         width: 100%;
+        justify-content: space-between;
+
+        h1 {
+            font-size: 1.7rem;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+        }
+
+        h1, h2 {
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
     }
 
     .paymentDateWrap {
@@ -42,26 +60,47 @@
             width: 100%;
         }
     }
+}
 
-    .categoryItem, .recentPaymentItem {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        border-radius: 30px;
-        background: #282A36;
-        justify-content: space-between;
+.recentPayments {
+    gap: 0;
+}
+
+@media only screen and (max-width: 800px) {
+    .homePage {
+
+        .pieChart {
+            height: 50vh;
+            width: 20%;
+            margin: 0;
+            color: black;
+        }
 
         h1 {
             font-size: 1.7rem;
         }
 
         h2 {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
+        }
+        h3 {
+            font-size: 1rem;
         }
 
-        h1, h2 {
-            margin-left: 1rem;
-            margin-right: 1rem;
+        .categoryItemCard, .recentPaymentItemCard {
+            flex-wrap: wrap;
+
+            h1 {
+                font-size: 1.2rem;
+            }
+
+            h2 {
+                font-size: 1rem;
+            }
+
+            h1, h2 {
+                margin: .3rem 1rem;
+            }
         }
     }
 }

@@ -61,7 +61,7 @@ export default function AdminPage() {
                         <input type={"radio"} id={"roleADMIN"} name={"role"} onChange={onRoleChange} value={"ADMIN"}/>
                         <label htmlFor="roleADMIN">ADMIN</label>
                     </div>
-                    <Button submit={true} value={"Add User"}/>
+                    <Button type={"submit"} value={"Add User"}/>
                 </form>
             </div>
         </div>

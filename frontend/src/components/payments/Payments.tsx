@@ -71,7 +71,7 @@ export default function Payments({payments, categoryID, setPayments, controller}
                         />
                     </LocalizationProvider>
                 </div>
-                <Button value={"Add Payment"} submit={true}/>
+                <Button value={"Add Payment"} type={"submit"}/>
             </form>
             {
                 payments.map((payment, index) =>

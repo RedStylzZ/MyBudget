@@ -1,4 +1,4 @@
-import './TextBox.scss'
+import './InputBox.scss'
 
 interface TextBoxProps<T, TResult> {
     type?: string
