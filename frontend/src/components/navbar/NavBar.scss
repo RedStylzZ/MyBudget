@@ -3,7 +3,8 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    width: 8rem;
+    flex: 0 0 auto;
+    width: 8em;
     background: #1A1A1A;
     gap: .5rem;
     padding: .5rem;
@@ -22,7 +23,4 @@
     a {
         text-decoration: none;
     }
-}
-
-@media only screen and (max-width: 800px) {
 }

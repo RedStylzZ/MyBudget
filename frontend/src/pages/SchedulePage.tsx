@@ -14,6 +14,7 @@ import {DateRange} from "@mui/lab/DateRangePicker/RangeTypes";
 import Button from "../components/Button";
 import {DepositDTO} from "../models/Deposit";
 import InputBox from "../components/InputBox";
+import {DataContext} from "../context/DataProvider";
 
 interface SelectInput {
     selectCategory: { value: string }
@@ -21,6 +22,7 @@ interface SelectInput {
 
 export default function SchedulePage() {
     const config = useContext(AuthContext).config
+    const {setCurrentPage} = useContext(DataContext)
     const [scheduledDate, setScheduledDate] = useState<number>(1)
     const [description, setDescription] = useState<string>("")
     const [typeName, setTypeName] = useState<string>("Payment")
@@ -38,6 +40,10 @@ export default function SchedulePage() {
         seriesController.getDepositSeries().then(setDepositSeries)
         categoryController.getCategories().then(setCategories)
     }, [seriesController, categoryController])
+
+    useEffect(() => {
+        setCurrentPage("Series")
+    }, [setCurrentPage])
 
     const addSeries = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -88,9 +94,6 @@ export default function SchedulePage() {
 
     return (
         <div className={"schedulingPage"}>
-            <div className={"schedulingHeader"}>
-                <h1>Scheduling Page</h1>
-            </div>
             <div className={"series"}>
                 <form onSubmit={addSeries} className={"addSeries"}>
                     <h2>Scheduled Day</h2>

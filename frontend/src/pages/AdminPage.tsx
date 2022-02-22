@@ -1,18 +1,24 @@
-import {ChangeEvent, FormEventHandler, useContext, useState} from "react";
+import {ChangeEvent, FormEventHandler, useContext, useEffect, useState} from "react";
 import UserController from "../controllers/UserController";
 import {AuthContext} from "../context/AuthProvider";
 import User, {IUserController} from "../models/User";
 import './AdminPage.scss'
 import Button from "../components/Button";
 import InputBox from "../components/InputBox";
+import {DataContext} from "../context/DataProvider";
 
 export default function AdminPage() {
     const {config} = useContext(AuthContext)
+    const {setCurrentPage} = useContext(DataContext)
     const [username, setUsername] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [worked, setWorked] = useState<string>("")
     const [role, setRole] = useState<string>("USER")
     const controller: IUserController = UserController(config)
+
+    useEffect(() => {
+        setCurrentPage("Admin Page")
+    }, [setCurrentPage])
 
     const addUser: FormEventHandler<HTMLFormElement> = (event) => {
         event.preventDefault()
