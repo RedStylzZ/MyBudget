@@ -1,37 +1,35 @@
 import './NavBar.scss'
-import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useContext} from "react";
 import {AuthContext} from "../../context/AuthProvider";
 import RequireAdmin from "../RequireAdmin";
-import Button from "../Button";
+import {DataContext} from "../../context/DataProvider";
+import NavButton from "./NavButton";
 
 export default function NavBar() {
     const {logout} = useContext(AuthContext)
+    const {currentPage} = useContext(DataContext)
+    const navigate = useNavigate()
 
     return (
         <nav className={"navBar"}>
-            <div>
-                <Link to={"/"}>
-                    <Button value={"Home"}/>
-                </Link>
-                <Link to={"/categories"}>
-                    <Button value={"Categories"}/>
-                </Link>
-                <Link to={"/series"}>
-                    <Button value={"Series"}/>
-                </Link>
-                <Link to={"/deposits"}>
-                    <Button value={"Deposits"}/>
-                </Link>
-                <Link to={"#"}>
-                    <Button value={"Logout"} onClick={logout}/>
-                </Link>
+            <div className={"navBar-buttons"}>
+                <NavButton icon={<i className="fa-solid fa-house"/>} value={"Home"} onClick={() => navigate("/")}
+                           currentPage={currentPage}/>
+                <NavButton icon={<i className="fa-solid fa-book-open"/>} value={"Categories"}
+                           onClick={() => navigate("/categories")} currentPage={currentPage}/>
+                <NavButton icon={<i className="fa-solid fa-repeat"/>} value={"Series"}
+                           onClick={() => navigate("/series")} currentPage={currentPage}/>
+                <NavButton icon={<i className="fa-solid fa-wallet"/>} value={"Deposits"}
+                           onClick={() => navigate("/deposits")} currentPage={currentPage}/>
+            </div>
 
+            <div className={"navBar-buttons"}>
                 <RequireAdmin>
-                    <Link to={"/admin"}>
-                        <Button value={"Admin Page"}/>
-                    </Link>
+                    <NavButton icon={<i className="fa-solid fa-lock"/>} value={"Admin Page"}
+                               onClick={() => navigate("/admin")} currentPage={currentPage}/>
                 </RequireAdmin>
+                <NavButton icon={<i className="fa-solid fa-right-from-bracket"/>} value={"Logout"} onClick={logout}/>
             </div>
         </nav>
     )

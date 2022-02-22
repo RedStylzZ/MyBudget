@@ -11,6 +11,7 @@ import PieChart from "../components/PieChart";
 import {IDepositController} from "../models/Deposit";
 import DepositController from "../controllers/DepositController";
 import MonetaryValue from "../components/MonetaryValue";
+import {DataContext} from "../context/DataProvider";
 
 const mapCategoriesToPieChartData = (categories: Category[]) => {
     return categories.map(category => {
@@ -24,6 +25,7 @@ const mapCategoriesToPieChartData = (categories: Category[]) => {
 
 export default function HomePage() {
     const config = useContext(AuthContext).config!
+    const {setCurrentPage} = useContext(DataContext)
     const categoryController: ICategoryController = useMemo(() => CategoryController(config), [config])
     const paymentController: IPaymentController = useMemo(() => PaymentController(config), [config])
     const depositController: IDepositController = useMemo(() => DepositController(config), [config])
@@ -49,6 +51,10 @@ export default function HomePage() {
         const aMoney: number = depositSum - categories.map(category => category.paymentSum).reduce((a, b) => a! + b!)!;
         setAvailableMoney(aMoney)
     }, [categories, depositSum])
+
+    useEffect(() => {
+        setCurrentPage("Home")
+    }, [setCurrentPage])
 
     return (
         <div className={"homePage"}>

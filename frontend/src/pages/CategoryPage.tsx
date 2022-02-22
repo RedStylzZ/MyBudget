@@ -5,9 +5,12 @@ import {Category, ICategoryController} from "../models/Category";
 import {AuthContext} from "../context/AuthProvider";
 import './CategoryPage.scss'
 import Button from "../components/Button";
+import InputBox from "../components/InputBox";
+import {DataContext} from "../context/DataProvider";
 
 export default function CategoryPage() {
     const config = useContext(AuthContext).config!
+    const {setCurrentPage} = useContext(DataContext)
     const controller: ICategoryController = useMemo(() => CategoryController(config), [config]);
     const [categories, setCategories] = useState<Category[]>([])
     const [categoryInput, setCategoryInput] = useState<string>("")
@@ -15,6 +18,10 @@ export default function CategoryPage() {
     useEffect(() => {
         controller.getCategories().then(setCategories)
     }, [controller])
+
+    useEffect(() => {
+        setCurrentPage("Categories")
+    }, [setCurrentPage])
 
     const addCategory: FormEventHandler<HTMLFormElement> = (event) => {
         event.preventDefault()
@@ -36,14 +43,10 @@ export default function CategoryPage() {
 
     return (
         <div className={"categoryPage"}>
-            <div className={"categoryHeader"}>
-                <h1>Categories</h1>
-            </div>
             <div className={"categories"}>
                 <form onSubmit={addCategory} className={"addCategory"}>
-                    <input type="text" id="categoryInput" onChange={onCategoryInputChange} placeholder={"Category name"}
-                           value={categoryInput}/>
-                    <Button value={"Add category"} submit={true}/>
+                    <InputBox id={"categoryInput"} onChange={onCategoryInputChange} placeholder={"Category name"}/>
+                    <Button value={"Add category"} type={"submit"}/>
                 </form>
                 <Categories categories={categories} config={config} deleteCategory={deleteCategory}/>
             </div>

@@ -3,12 +3,16 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 100vw;
 
     form {
         display: flex;
         flex-direction: column;
         justify-content: center;
+
+        button {
+            margin: .5rem 0;
+        }
     }
 }
 

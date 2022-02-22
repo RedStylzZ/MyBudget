@@ -1,4 +1,8 @@
-.button {
+.navButton {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     color: white;
     background: #0070BA;
     border-radius: 10px;
@@ -6,6 +10,11 @@
     padding: .3rem .5rem;
     cursor: pointer;
     border: none;
+    gap: .5rem;
+
+    p {
+        margin: 0;
+    }
 
     transition: ease background-color 250ms;
 

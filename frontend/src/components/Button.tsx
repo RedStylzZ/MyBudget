@@ -1,20 +1,17 @@
 import './Button.scss'
 
-interface ButtonProps {
+interface ButtonProps<T, TResult> {
+    type?: "button" | "submit" | "reset"
+    currentPage?: string
     value?: string
-    onClick?: () => void
-    submit?: boolean
+    onClick?: (item: T) => TResult
 }
 
-export default function Button({value, onClick, submit}: ButtonProps) {
+export default function Button({type, value, onClick, currentPage}: ButtonProps<any, any>) {
 
-    if (submit !== undefined) {
-        return (
-            <button type={"submit"} className={"button"}>{value}</button>
-        )
-    }
+    const pageClass: string = currentPage === value ? " highlight" : ""
 
     return (
-        <button className={"button"} onClick={() => !(onClick) || onClick() || null}>{value}</button>
+        <button type={type} className={"button" + pageClass} onClick={onClick}>{value}</button>
     )
 }

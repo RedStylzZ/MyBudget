@@ -13,6 +13,8 @@ import {Box, TextField} from "@mui/material";
 import {DateRange} from "@mui/lab/DateRangePicker/RangeTypes";
 import Button from "../components/Button";
 import {DepositDTO} from "../models/Deposit";
+import InputBox from "../components/InputBox";
+import {DataContext} from "../context/DataProvider";
 
 interface SelectInput {
     selectCategory: { value: string }
@@ -20,6 +22,7 @@ interface SelectInput {
 
 export default function SchedulePage() {
     const config = useContext(AuthContext).config
+    const {setCurrentPage} = useContext(DataContext)
     const [scheduledDate, setScheduledDate] = useState<number>(1)
     const [description, setDescription] = useState<string>("")
     const [typeName, setTypeName] = useState<string>("Payment")
@@ -37,6 +40,10 @@ export default function SchedulePage() {
         seriesController.getDepositSeries().then(setDepositSeries)
         categoryController.getCategories().then(setCategories)
     }, [seriesController, categoryController])
+
+    useEffect(() => {
+        setCurrentPage("Series")
+    }, [setCurrentPage])
 
     const addSeries = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -67,8 +74,18 @@ export default function SchedulePage() {
         }
     }
 
-    const onSchedulingDateChange = (event: ChangeEvent<HTMLInputElement>) => setScheduledDate(parseInt(event.target.value))
-    const onAmountChange = (event: ChangeEvent<HTMLInputElement>) => setAmount(parseInt(event.target.value))
+    const onSchedulingDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const sDate: number = parseInt(event.target.value)
+        if (sDate >= 0 && sDate <= 31) {
+            setScheduledDate(sDate)
+        }
+    }
+    const onAmountChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const _amount: number = parseInt(event.target.value)
+        if (_amount >= 0 || !_amount) {
+            setAmount(_amount)
+        }
+    }
     const onDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => setDescription(event.target.value.trim())
     const onTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
         setTypeName(event.target.value)
@@ -77,14 +94,11 @@ export default function SchedulePage() {
 
     return (
         <div className={"schedulingPage"}>
-            <div className={"schedulingHeader"}>
-                <h1>Scheduling Page</h1>
-            </div>
             <div className={"series"}>
                 <form onSubmit={addSeries} className={"addSeries"}>
                     <h2>Scheduled Day</h2>
-                    <input type="number" onChange={onSchedulingDateChange} placeholder={"Scheduling Date"}
-                           value={scheduledDate}/>
+                    <InputBox type={"number"} onChange={onSchedulingDateChange} placeholder={"Scheduling Date"}
+                              value={scheduledDate} min={1} max={31} step={1}/>
                     <h2>{typeName}</h2>
                     <div className={"roleCheck"}>
                         <input type={"radio"} id={"typePayment"} name={"type"} onChange={onTypeChange} value={"Payment"}
@@ -94,23 +108,23 @@ export default function SchedulePage() {
                                value={"Deposit"}/>
                         <label htmlFor="typeDeposit">Deposit</label>
                     </div>
-                    <input type="text" id={"description"} onChange={onDescriptionChange} value={description}
-                           placeholder={"Description"}/>
-                    <input type="number" id={"amount"} onChange={onAmountChange} placeholder={"Amount"} value={amount}
-                           step={0.01}/><br/>
+                    <InputBox type="text" id={"description"} onChange={onDescriptionChange} value={description}
+                              placeholder={"Description"}/>
+                    <InputBox type={"number"} id={"amount"} onChange={onAmountChange} placeholder={"Amount"}
+                              value={amount}
+                              step={0.01}/>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DateRangePicker
-                            startText="Check-in"
-                            endText="Check-out"
                             value={rangeValue}
+                            inputFormat={"dd/MM/yyyy"}
                             onChange={(newValue) => {
                                 setRangeValue(newValue);
                             }}
                             renderInput={(startProps, endProps) => (
                                 <React.Fragment>
-                                    <TextField {...startProps} sx={{color: 'white', border: 'white solid 1px'}}/>
+                                    <TextField {...startProps}/>
                                     <Box sx={{mx: 2}}> to </Box>
-                                    <TextField {...endProps} sx={{color: 'white', border: 'white solid 1px'}}/>
+                                    <TextField {...endProps}/>
                                 </React.Fragment>
                             )}
                         />
@@ -122,7 +136,7 @@ export default function SchedulePage() {
                             )
                         }
                     </select>
-                    <Button submit={true} value={"Add Series"}/>
+                    <Button type={"submit"} value={"Add Series"}/>
                 </form>
                 <SeriesItems paymentSeries={paymentSeries} depositSeries={depositSeries} deleteSeries={deleteSeries}/>
             </div>

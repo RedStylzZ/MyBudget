@@ -5,6 +5,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import {DatePicker, LocalizationProvider} from "@mui/lab";
 import {TextField} from "@mui/material";
 import Button from "../Button";
+import InputBox from "../InputBox";
 
 interface PaymentsProps {
     payments: Payment[]
@@ -45,9 +46,9 @@ export default function Payments({payments, categoryID, setPayments, controller}
     return (
         <div className={"payments"}>
             <h1>Payments</h1>
-            <form onSubmit={addPayment} className={"addCategoryForm"}>
-                <input type="text" id={"description"} placeholder={"Description"}/>
-                <input type="number" id={"amount"} placeholder={"Amount"} step={0.01}/>
+            <form onSubmit={addPayment} className={"addPaymentForm"}>
+                <InputBox id={"description"} placeholder={"Description"}/>
+                <InputBox type={"number"} id={"amount"} placeholder={"Amount"} step={0.01}/>
                 <div className={"payDate"}>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DatePicker
@@ -70,7 +71,7 @@ export default function Payments({payments, categoryID, setPayments, controller}
                         />
                     </LocalizationProvider>
                 </div>
-                <Button value={"Add Payment"} submit={true}/>
+                <Button value={"Add Payment"} type={"submit"}/>
             </form>
             {
                 payments.map((payment, index) =>

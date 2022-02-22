@@ -5,10 +5,8 @@ export default function RecentPaymentItem(props: { payment: Payment }) {
     const {payment} = props
     return (
         <div className={"recentPaymentItemCard"}>
-            <div className={"recentPaymentItem"}>
-                <h1>{payment.description}</h1>
-                <h2>{<MonetaryValue amount={payment.amount}/>}</h2>
-            </div>
+            <h1>{payment.description}</h1>
+            <h2>{<MonetaryValue amount={payment.amount}/>}</h2>
         </div>
     )
 }

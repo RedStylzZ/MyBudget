@@ -1,17 +1,24 @@
-import {ChangeEvent, FormEventHandler, useContext, useState} from "react";
+import {ChangeEvent, FormEventHandler, useContext, useEffect, useState} from "react";
 import UserController from "../controllers/UserController";
 import {AuthContext} from "../context/AuthProvider";
 import User, {IUserController} from "../models/User";
 import './AdminPage.scss'
 import Button from "../components/Button";
+import InputBox from "../components/InputBox";
+import {DataContext} from "../context/DataProvider";
 
 export default function AdminPage() {
     const {config} = useContext(AuthContext)
+    const {setCurrentPage} = useContext(DataContext)
     const [username, setUsername] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [worked, setWorked] = useState<string>("")
     const [role, setRole] = useState<string>("USER")
     const controller: IUserController = UserController(config)
+
+    useEffect(() => {
+        setCurrentPage("Admin Page")
+    }, [setCurrentPage])
 
     const addUser: FormEventHandler<HTMLFormElement> = (event) => {
         event.preventDefault()
@@ -47,11 +54,11 @@ export default function AdminPage() {
             <div className={"addUserForm"}>
                 <form onSubmit={addUser} className={"addUser"}>
                     <h3>Username</h3>
-                    <input type="text" id="username" onChange={onUsernameChange} placeholder={"Username"}
-                           value={username}/>
+                    <InputBox type="text" id="username" onChange={onUsernameChange} placeholder={"Username"}
+                              value={username}/>
                     <h3>Password</h3>
-                    <input type="password" id="password" onChange={onPasswordChange} placeholder={"Password"}
-                           value={password}/>
+                    <InputBox type="password" id="password" onChange={onPasswordChange} placeholder={"Password"}
+                              value={password}/>
                     <h3>Role</h3>
                     <div className={"roleCheck"}>
                         <input type={"radio"} id={"roleUSER"} name={"role"} onChange={onRoleChange} value={"USER"}
@@ -60,7 +67,7 @@ export default function AdminPage() {
                         <input type={"radio"} id={"roleADMIN"} name={"role"} onChange={onRoleChange} value={"ADMIN"}/>
                         <label htmlFor="roleADMIN">ADMIN</label>
                     </div>
-                    <Button submit={true} value={"Add User"}/>
+                    <Button type={"submit"} value={"Add User"}/>
                 </form>
             </div>
         </div>

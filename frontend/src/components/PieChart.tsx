@@ -11,7 +11,7 @@ const MyResponsivePie = (data: PieChartData[]) => (
         data={data}
         id={"id"}
         valueFormat={value => toCurrency(value)}
-        margin={{top: 40, right: 80, bottom: 80, left: 100}}
+        margin={{top: 10, right: 40, bottom: 80, left: 40}}
         innerRadius={0.5}
         startAngle={0}
         endAngle={360}
@@ -19,7 +19,7 @@ const MyResponsivePie = (data: PieChartData[]) => (
         padAngle={0.7}
         cornerRadius={3}
         theme={{
-            "fontSize": 14
+            "fontSize": 18
         }}
         activeInnerRadiusOffset={5}
         activeOuterRadiusOffset={8}
@@ -37,7 +37,7 @@ const MyResponsivePie = (data: PieChartData[]) => (
         enableArcLabels={true}
         arcLabel={"formattedValue"}
         arcLabelsRadiusOffset={0.5}
-        enableArcLinkLabels={true}
+        enableArcLinkLabels={false}
         arcLinkLabelsDiagonalLength={20}
         arcLinkLabelsStraightLength={24}
         arcLinkLabelsOffset={0}

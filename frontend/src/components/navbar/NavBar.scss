@@ -1,19 +1,22 @@
 .navBar {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    width: 8rem;
+    flex: 0 0 auto;
+    width: 9em;
     background: #1A1A1A;
     gap: .5rem;
     padding: .5rem;
 
-    div {
+    .navBar-buttons {
         display: flex;
         flex-direction: column;
         gap: .5rem;
+        width: 100%;
 
         .button {
-            width: 100%;
+            align-self: stretch;
         }
     }
 
