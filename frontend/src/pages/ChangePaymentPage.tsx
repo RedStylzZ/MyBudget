@@ -57,7 +57,7 @@ export default function ChangePaymentPage() {
                 <h2>Description</h2>
                 <InputBox type="text" id={"description"} onChange={onDescriptionChange} value={description}/>
                 <h2>Amount</h2>
-                <InputBox type="number" id={"amount"} onChange={onAmountChange} value={amount}/>
+                <InputBox type={"number"} id={"amount"} onChange={onAmountChange} value={amount} step={0.01}/>
                 <h2>PayDate</h2>
                 <div className={"payDate"}>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>

@@ -97,8 +97,8 @@ export default function SchedulePage() {
             <div className={"series"}>
                 <form onSubmit={addSeries} className={"addSeries"}>
                     <h2>Scheduled Day</h2>
-                    <InputBox type="number" onChange={onSchedulingDateChange} placeholder={"Scheduling Date"}
-                              value={scheduledDate} min={1} max={31}/>
+                    <InputBox type={"number"} onChange={onSchedulingDateChange} placeholder={"Scheduling Date"}
+                              value={scheduledDate} min={1} max={31} step={1}/>
                     <h2>{typeName}</h2>
                     <div className={"roleCheck"}>
                         <input type={"radio"} id={"typePayment"} name={"type"} onChange={onTypeChange} value={"Payment"}
@@ -110,7 +110,7 @@ export default function SchedulePage() {
                     </div>
                     <InputBox type="text" id={"description"} onChange={onDescriptionChange} value={description}
                               placeholder={"Description"}/>
-                    <InputBox type="number" id={"amount"} onChange={onAmountChange} placeholder={"Amount"}
+                    <InputBox type={"number"} id={"amount"} onChange={onAmountChange} placeholder={"Amount"}
                               value={amount}
                               step={0.01}/>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>

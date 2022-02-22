@@ -43,7 +43,7 @@ export default function DepositPage() {
         }
     }
 
-    const onAmountChange = (event: ChangeEvent<HTMLInputElement>) => setAmount(parseInt(event.target.value))
+    const onAmountChange = (event: ChangeEvent<HTMLInputElement>) => setAmount(parseFloat(event.target.value))
     const onDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => setDescription(event.target.value.trim())
 
     return (
@@ -57,7 +57,7 @@ export default function DepositPage() {
                     </div>
                     <div className={"formWrap"}>
                         <h2>Amount</h2>
-                        <InputBox type="number" onChange={onAmountChange} value={amount} placeholder={"Amount"}/>
+                        <InputBox type={"number"} onChange={onAmountChange} value={amount} placeholder={"Amount"} step={0.01}/>
                     </div>
                     <div className={"depositDate"}>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>

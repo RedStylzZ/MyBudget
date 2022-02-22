@@ -57,7 +57,7 @@ export default function ChangeDepositPage() {
                 </div>
                 <div>
                     <h2>Amount</h2>
-                    <InputBox type="number" onChange={onAmountChange} value={amount}/>
+                    <InputBox type={"number"} onChange={onAmountChange} value={amount} step={0.01}/>
                 </div>
                 <div className={"depositDate"}>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
