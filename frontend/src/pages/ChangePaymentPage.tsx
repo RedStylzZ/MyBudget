@@ -7,6 +7,8 @@ import PaymentController from "../controllers/PaymentController";
 import {AuthContext} from "../context/AuthProvider";
 import {IPaymentController, Payment} from "../models/Payment";
 import './ChangePaymentPage.scss'
+import InputBox from "../components/InputBox";
+import Button from "../components/Button";
 
 export default function ChangePaymentPage() {
     const urlParams = useParams()
@@ -53,9 +55,9 @@ export default function ChangePaymentPage() {
             <h1>Change Payment</h1>
             <form onSubmit={changePayment}>
                 <h2>Description</h2>
-                <input type="text" id={"description"} onChange={onDescriptionChange} value={description}/>
+                <InputBox type="text" id={"description"} onChange={onDescriptionChange} value={description}/>
                 <h2>Amount</h2>
-                <input type="number" id={"amount"} onChange={onAmountChange} value={amount}/>
+                <InputBox type="number" id={"amount"} onChange={onAmountChange} value={amount}/>
                 <h2>PayDate</h2>
                 <div className={"payDate"}>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -79,7 +81,7 @@ export default function ChangePaymentPage() {
                         />
                     </LocalizationProvider>
                 </div>
-                <input type="submit" value={"Change"}/>
+                <Button type="submit" value={"Change"}/>
             </form>
         </div>
     )

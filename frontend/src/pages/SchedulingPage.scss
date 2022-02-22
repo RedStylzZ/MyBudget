@@ -27,6 +27,10 @@
         flex-direction: column;
         gap: .5rem;
         width: 18rem;
+
+        label {
+            color: white;
+        }
     }
 
     .seriesLibrary {
@@ -85,8 +89,4 @@
             }
         }
     }
-}
-
-.MuiInputLabel-root, .MuiOutlinedInput-input {
-    color: white;
 }

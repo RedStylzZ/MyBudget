@@ -4,6 +4,9 @@ import {AuthContext} from "../context/AuthProvider";
 import './ChangePaymentPage.scss'
 import CategoryController from "../controllers/CategoryController";
 import {ICategoryController} from "../models/Category";
+import InputBox from "../components/InputBox";
+import Button from "../components/Button";
+import './RenameCategoryPage.scss'
 
 export default function RenameCategoryPage() {
     const urlParams = useParams()
@@ -29,8 +32,8 @@ export default function RenameCategoryPage() {
             <h1>Change Category</h1>
             <form onSubmit={changeCategory}>
                 <h2>Category name</h2>
-                <input type="text" id={"categoryName"} onChange={onNameChange} value={categoryName}/>
-                <input type="submit" value={"Change"}/>
+                <InputBox type="text" id={"categoryName"} onChange={onNameChange} value={categoryName}/>
+                <Button type="submit" value={"Change"}/>
             </form>
         </div>
     )
