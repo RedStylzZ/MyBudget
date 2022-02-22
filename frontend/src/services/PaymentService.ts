@@ -14,13 +14,13 @@ export default function PaymentService(config: ITokenConfig | undefined): IPayme
             return axios.get("/api/payment", config).then(response => response.data)
         },
         addPayment: payment => {
-            return axios.put("/api/payment", payment, config).then(response => response.data)
+            return axios.post("/api/payment", payment, config).then(response => response.data)
         },
         deletePayment: (categoryID, paymentID) => {
             return axios.delete(`/api/payment/?categoryID=${categoryID}&paymentID=${paymentID}`, config).then(response => response.data)
         },
         changePayment: (payment) => {
-            return axios.post(`/api/payment`, payment, config).then(response => response.data)
+            return axios.put(`/api/payment`, payment, config).then(response => response.data)
         }
     }
 }
