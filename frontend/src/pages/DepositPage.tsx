@@ -50,10 +50,15 @@ export default function DepositPage() {
         <div className={"depositPage"}>
             <div className={"depositsField"}>
                 <form onSubmit={addDeposit} className={"addDeposit"}>
-                    <h2>Description</h2>
-                    <InputBox type="text" onChange={onDescriptionChange} value={description} placeholder={"Description"}/>
-                    <h2>Amount</h2>
-                    <InputBox type="number" onChange={onAmountChange} value={amount} placeholder={"Amount"}/>
+                    <div className={"formWrap"}>
+                        <h2>Description</h2>
+                        <InputBox type="text" onChange={onDescriptionChange} value={description}
+                                  placeholder={"Description"}/>
+                    </div>
+                    <div className={"formWrap"}>
+                        <h2>Amount</h2>
+                        <InputBox type="number" onChange={onAmountChange} value={amount} placeholder={"Amount"}/>
+                    </div>
                     <div className={"depositDate"}>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
