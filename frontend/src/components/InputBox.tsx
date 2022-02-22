@@ -17,7 +17,7 @@ export default function InputBox({type, value, placeholder, id, onChange, step, 
         <input type={type || "text"}
                id={id}
                placeholder={placeholder}
-               className={"textBox"}
+               className={"inputBox"}
                onChange={onChange}
                value={value}
                step={step}
