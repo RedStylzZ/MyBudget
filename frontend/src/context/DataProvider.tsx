@@ -13,7 +13,9 @@ export interface IDataContextProps {
 
 export const DataContext = createContext<IDataContextProps>({
     currentPage: "None",
-    setCurrentPage: () => {}
+    setCurrentPage: () => {
+        return null
+    }
 })
 
 export default function DataProvider({children}: { children: ReactElement<any, any> }) {

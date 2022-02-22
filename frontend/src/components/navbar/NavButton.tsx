@@ -13,9 +13,9 @@ export default function NavButton({icon, value, onClick, currentPage}: NavButton
     const pageClass: string = currentPage === value ? " highlight" : ""
 
     return (
-        <div className={"navButton" + pageClass } onClick={onClick}>
+        <div className={"navButton" + pageClass} onClick={onClick}>
             {icon}
             <p>{value}</p>
         </div>
-)
+    )
 }

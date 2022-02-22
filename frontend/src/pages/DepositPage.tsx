@@ -57,7 +57,8 @@ export default function DepositPage() {
                     </div>
                     <div className={"formWrap"}>
                         <h2>Amount</h2>
-                        <InputBox type={"number"} onChange={onAmountChange} value={amount} placeholder={"Amount"} step={0.01}/>
+                        <InputBox type={"number"} onChange={onAmountChange} value={amount} placeholder={"Amount"}
+                                  step={0.01}/>
                     </div>
                     <div className={"depositDate"}>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>

@@ -11,7 +11,7 @@ const MyResponsivePie = (data: PieChartData[]) => (
         data={data}
         id={"id"}
         valueFormat={value => toCurrency(value)}
-        margin={{ top: 10, right: 40, bottom: 80, left: 40 }}
+        margin={{top: 10, right: 40, bottom: 80, left: 40}}
         innerRadius={0.5}
         startAngle={0}
         endAngle={360}

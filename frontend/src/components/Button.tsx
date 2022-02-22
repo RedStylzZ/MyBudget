@@ -12,6 +12,6 @@ export default function Button({type, value, onClick, currentPage}: ButtonProps<
     const pageClass: string = currentPage === value ? " highlight" : ""
 
     return (
-        <button type={type} className={"button" + pageClass } onClick={onClick}>{value}</button>
+        <button type={type} className={"button" + pageClass} onClick={onClick}>{value}</button>
     )
 }
