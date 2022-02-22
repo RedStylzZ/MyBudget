@@ -68,8 +68,18 @@ export default function SchedulePage() {
         }
     }
 
-    const onSchedulingDateChange = (event: ChangeEvent<HTMLInputElement>) => setScheduledDate(parseInt(event.target.value))
-    const onAmountChange = (event: ChangeEvent<HTMLInputElement>) => setAmount(parseInt(event.target.value))
+    const onSchedulingDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const sDate: number = parseInt(event.target.value)
+        if (sDate >= 0 && sDate <= 31) {
+            setScheduledDate(sDate)
+        }
+    }
+    const onAmountChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const _amount: number = parseInt(event.target.value)
+        if (_amount >= 0 || !_amount) {
+            setAmount(_amount)
+        }
+    }
     const onDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => setDescription(event.target.value.trim())
     const onTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
         setTypeName(event.target.value)
@@ -97,8 +107,9 @@ export default function SchedulePage() {
                     </div>
                     <InputBox type="text" id={"description"} onChange={onDescriptionChange} value={description}
                               placeholder={"Description"}/>
-                    <InputBox type="number" id={"amount"} onChange={onAmountChange} placeholder={"Amount"} value={amount}
-                              step={0.01}/><br/>
+                    <InputBox type="number" id={"amount"} onChange={onAmountChange} placeholder={"Amount"}
+                              value={amount}
+                              step={0.01}/>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DateRangePicker
                             startText="Check-in"
