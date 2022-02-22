@@ -57,7 +57,7 @@ public class PaymentController {
         return getPaymentsAsDTO(service.getLastPayments(user.getId()));
     }
 
-    @PutMapping
+    @PostMapping
     public List<PaymentDTO> addPayment(UsernamePasswordAuthenticationToken principal,
                                        @RequestBody RequestPaymentDTO dto) {
         String userID = getUser(principal).getId();
@@ -73,7 +73,7 @@ public class PaymentController {
         return getPaymentsAsDTO(service.deletePayment(userID, categoryID, paymentID));
     }
 
-    @PostMapping
+    @PutMapping
     public List<PaymentDTO> changePayment(UsernamePasswordAuthenticationToken principal,
                                           @RequestBody PaymentDTO dto) {
         String userID = getUser(principal).getId();
