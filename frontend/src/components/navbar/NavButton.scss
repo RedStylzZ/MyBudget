@@ -1,0 +1,32 @@
+.navButton {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background: #0070BA;
+    border-radius: 10px;
+    text-align: center;
+    padding: .3rem .5rem;
+    cursor: pointer;
+    border: none;
+    gap: .5rem;
+
+    p {
+        margin: 0;
+    }
+
+    transition: ease background-color 250ms;
+    &:hover {
+        background: #005793;
+    }
+}
+
+.highlight {
+    background-color: #bf360c;
+
+    transition: ease background-color 250ms;
+    &:hover {
+        background-color: #ff3d00;
+    }
+}

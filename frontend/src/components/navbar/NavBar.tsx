@@ -3,8 +3,8 @@ import {useNavigate} from "react-router-dom";
 import {useContext} from "react";
 import {AuthContext} from "../../context/AuthProvider";
 import RequireAdmin from "../RequireAdmin";
-import Button from "../Button";
 import {DataContext} from "../../context/DataProvider";
+import NavButton from "./NavButton";
 
 export default function NavBar() {
     const {logout} = useContext(AuthContext)
@@ -13,18 +13,23 @@ export default function NavBar() {
 
     return (
         <nav className={"navBar"}>
-            <div>
-                <Button value={"Home"} onClick={() => navigate("/")} currentPage={currentPage}/>
-                <Button value={"Categories"} onClick={() => navigate("/categories")} currentPage={currentPage}/>
-                <Button value={"Series"} onClick={() => navigate("/series")} currentPage={currentPage}/>
-                <Button value={"Deposits"} onClick={() => navigate("/deposits")} currentPage={currentPage}/>
+            <div className={"navBar-buttons"}>
+                <NavButton icon={<i className="fa-solid fa-house"/>} value={"Home"} onClick={() => navigate("/")}
+                           currentPage={currentPage}/>
+                <NavButton icon={<i className="fa-solid fa-book-open"/>} value={"Categories"}
+                           onClick={() => navigate("/categories")} currentPage={currentPage}/>
+                <NavButton icon={<i className="fa-solid fa-repeat"/>} value={"Series"}
+                           onClick={() => navigate("/series")} currentPage={currentPage}/>
+                <NavButton icon={<i className="fa-solid fa-wallet"/>} value={"Deposits"}
+                           onClick={() => navigate("/deposits")} currentPage={currentPage}/>
             </div>
 
-            <div>
+            <div className={"navBar-buttons"}>
                 <RequireAdmin>
-                    <Button value={"Admin Page"} onClick={() => navigate("/admin")} currentPage={currentPage}/>
+                    <NavButton icon={<i className="fa-solid fa-lock"/>} value={"Admin Page"}
+                               onClick={() => navigate("/admin")} currentPage={currentPage}/>
                 </RequireAdmin>
-                <Button value={"Logout"} onClick={logout}/>
+                <NavButton icon={<i className="fa-solid fa-right-from-bracket"/>} value={"Logout"} onClick={logout}/>
             </div>
         </nav>
     )
