@@ -32,14 +32,6 @@
                 justify-content: center;
                 gap: 1rem;
                 margin: 1rem;
-
-                #depositDate, #depositDate-label {
-                    color: white;
-                }
-
-                svg {
-                    color: white;
-                }
             }
         }
 
@@ -47,6 +39,10 @@
             display: flex;
             flex-direction: row;
             gap: 1rem;
+
+            .button {
+                margin: 0 .5rem;
+            }
 
             .depositCard {
                 display: flex;
@@ -69,17 +65,18 @@
 
         h1, h2 {
             align-self: center;
-            margin: .5rem .5rem 0 1rem;
             font-style: normal;
             font-weight: normal;
         }
 
         h1 {
             font-size: 2rem;
+            margin: 0 0.25rem;
         }
 
         h2 {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
+            margin: .5rem 0;
         }
     }
 }

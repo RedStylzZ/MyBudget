@@ -115,17 +115,16 @@ export default function SchedulePage() {
                               step={0.01}/>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DateRangePicker
-                            startText="Check-in"
-                            endText="Check-out"
                             value={rangeValue}
+                            inputFormat={"dd/MM/yyyy"}
                             onChange={(newValue) => {
                                 setRangeValue(newValue);
                             }}
                             renderInput={(startProps, endProps) => (
                                 <React.Fragment>
-                                    <TextField {...startProps} sx={{color: 'white', border: 'white solid 1px'}}/>
+                                    <TextField {...startProps}/>
                                     <Box sx={{mx: 2}}> to </Box>
-                                    <TextField {...endProps} sx={{color: 'white', border: 'white solid 1px'}}/>
+                                    <TextField {...endProps}/>
                                 </React.Fragment>
                             )}
                         />

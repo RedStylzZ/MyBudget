@@ -71,9 +71,6 @@ export default function DepositPage() {
                                     }
                                 }}
                                 renderInput={(params) => <TextField {...params} sx={{
-                                    color: 'white',
-                                    backgroundColor: '#1A1A1A',
-                                    border: '1px solid white',
                                     '&:hover': {
                                         backgroundColor: '#1B1B1B',
                                         opacity: [0.9, 0.8, 0.7],
