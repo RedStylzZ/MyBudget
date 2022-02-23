@@ -3,7 +3,6 @@ package com.github.redstylzz.backend.service;
 import com.github.redstylzz.backend.exception.DepositAlreadyExistException;
 import com.github.redstylzz.backend.exception.DepositDoesNotExistException;
 import com.github.redstylzz.backend.model.Deposit;
-import com.github.redstylzz.backend.model.dto.DepositDTO;
 import com.github.redstylzz.backend.repository.IDepositRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.juli.logging.Log;
@@ -23,31 +22,26 @@ public class DepositService {
 
     private final IDepositRepository repository;
 
-    private List<DepositDTO> getDepositsAsDTO(String userId) {
-        return repository.getAllByUserId(userId).stream().map(Deposit::mapDepositToDTO).toList();
-    }
-
     private boolean isValidDeposit(Deposit deposit) {
         return (deposit.getDescription() != null &&
                 deposit.getAmount() != null &&
                 deposit.getDepositDate() != null);
     }
 
-    public List<DepositDTO> getAllDepositsFrom(String userId) {
-        return getDepositsAsDTO(userId);
+    public List<Deposit> getDepositsFrom(String userId) {
+        return repository.getAllByUserId(userId);
     }
 
-    public DepositDTO getDepositFrom(String userId, String depositId) {
-        return Deposit.mapDepositToDTO(repository.getByUserIdAndDepositId(userId, depositId));
+    public Deposit getDepositFrom(String userId, String depositId) {
+        return repository.getByUserIdAndDepositId(userId, depositId);
     }
 
-    public List<DepositDTO> getLatestDeposits(String userId) {
+    public List<Deposit> getLatestDeposits(String userId) {
         return repository.getAllByUserIdAndDepositDateAfterOrderByDepositDateDesc(userId,
-                        LocalDateTime.now().withDayOfMonth(1).minus(Duration.ofDays(1)).toInstant(ZoneOffset.UTC))
-                .stream().map(Deposit::mapDepositToDTO).toList();
+                LocalDateTime.now().withDayOfMonth(1).minus(Duration.ofDays(1)).toInstant(ZoneOffset.UTC));
     }
 
-    public List<DepositDTO> addDeposit(String userId, Deposit deposit) {
+    public List<Deposit> addDeposit(String userId, Deposit deposit) {
         LOG.info("Adding deposit");
 
         if (!repository.existsByUserIdAndDepositId(userId, deposit.getDepositId())) {
@@ -62,17 +56,17 @@ public class DepositService {
             throw new DepositAlreadyExistException("ID already existent");
         }
 
-        return getDepositsAsDTO(userId);
+        return getDepositsFrom(userId);
     }
 
-    public List<DepositDTO> changeDeposit(String userId, Deposit deposit) {
+    public List<Deposit> changeDeposit(String userId, Deposit deposit) {
         LOG.info("Changing deposit");
         if (repository.existsByUserIdAndDepositId(userId, deposit.getDepositId())) {
             if (isValidDeposit(deposit)) {
                 deposit.setUserId(userId);
                 deposit.setSaveDate(Instant.now());
                 repository.save(deposit);
-                return getDepositsAsDTO(userId);
+                return getDepositsFrom(userId);
             } else {
                 throw new NullPointerException("Description, Amount or DepositDate is null");
             }
@@ -81,9 +75,9 @@ public class DepositService {
         }
     }
 
-    public List<DepositDTO> deleteDeposit(String userId, String depositId) {
+    public List<Deposit> deleteDeposit(String userId, String depositId) {
         LOG.info("Deleting deposit");
         repository.deleteByUserIdAndDepositId(userId, depositId);
-        return getDepositsAsDTO(userId);
+        return getDepositsFrom(userId);
     }
 }

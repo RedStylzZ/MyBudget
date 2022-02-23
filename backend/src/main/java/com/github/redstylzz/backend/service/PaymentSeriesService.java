@@ -18,15 +18,14 @@ public class PaymentSeriesService {
 
     private final IPaymentSeriesRepository repository;
 
-    public List<PaymentSeriesDTO> getSeries(String userId) {
+    public List<PaymentSeries> getSeries(String userId) {
         LOG.info("Get series");
-        return repository.getAllByUserId(userId).stream().map(PaymentSeriesDTO::mapSeriesToDTO).toList();
+        return repository.getAllByUserId(userId);
     }
 
-    public List<PaymentSeriesDTO> addSeries(String userId, PaymentSeriesDTO dto) {
+    public List<PaymentSeries> addSeries(String userId, PaymentSeriesDTO dto) {
         LOG.info("Adding series");
         PaymentSeries series = PaymentSeries.mapDTOtoSeries(dto, userId);
-        LOG.debug(repository.existsBySeriesId(series.getSeriesId()));
         if (series.getSeriesId() == null || !repository.existsBySeriesId(series.getSeriesId())) {
             repository.save(series);
         } else {
@@ -37,13 +36,13 @@ public class PaymentSeriesService {
         return getSeries(userId);
     }
 
-    public List<PaymentSeriesDTO> deleteSeries(String userId, String seriesId) {
+    public List<PaymentSeries> deleteSeries(String userId, String seriesId) {
         LOG.info("Deleting series");
         repository.deleteByUserIdAndSeriesId(userId, seriesId);
         return getSeries(userId);
     }
 
-    public List<PaymentSeriesDTO> changeSeries(String userId, PaymentSeriesDTO dto) {
+    public List<PaymentSeries> changeSeries(String userId, PaymentSeriesDTO dto) {
         if (repository.existsByUserIdAndSeriesId(userId, dto.getSeriesId())) {
             PaymentSeries series = PaymentSeries.mapDTOtoSeries(dto, userId);
             repository.save(series);

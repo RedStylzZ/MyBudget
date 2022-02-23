@@ -32,41 +32,46 @@ public class DepositController {
         }
     }
 
+    public List<DepositDTO> convertToDTO(List<Deposit> series) {
+        LOG.info("Get series");
+        return series.stream().map(Deposit::mapDepositToDTO).toList();
+    }
+
     @GetMapping("/latest")
     public List<DepositDTO> getLatestDeposits(UsernamePasswordAuthenticationToken principal) {
         MongoUser user = getUser(principal);
-        return service.getLatestDeposits(user.getId());
+        return convertToDTO(service.getLatestDeposits(user.getId()));
     }
 
     @GetMapping("{depositId}")
     public DepositDTO getDeposit(UsernamePasswordAuthenticationToken principal, @PathVariable String depositId) {
         MongoUser user = getUser(principal);
-        return service.getDepositFrom(user.getId(), depositId);
+        return Deposit.mapDepositToDTO(service.getDepositFrom(user.getId(), depositId));
     }
 
     @GetMapping
     public List<DepositDTO> getAllDeposits(UsernamePasswordAuthenticationToken principal) {
         MongoUser user = getUser(principal);
-        return service.getAllDepositsFrom(user.getId());
+        return convertToDTO(service.getDepositsFrom(user.getId()));
     }
 
     @PostMapping
     public List<DepositDTO> addDeposit(UsernamePasswordAuthenticationToken principal, @RequestBody DepositCreationDTO dto) {
         MongoUser user = getUser(principal);
         Deposit deposit = Deposit.mapDTOtoDeposit(dto);
-        return service.addDeposit(user.getId(), deposit);
+        return convertToDTO(service.addDeposit(user.getId(), deposit));
     }
 
     @PutMapping
     public List<DepositDTO> changeDeposit(UsernamePasswordAuthenticationToken principal, @RequestBody DepositDTO dto) {
         MongoUser user = getUser(principal);
         Deposit deposit = Deposit.mapDTOtoDeposit(dto);
-        return service.changeDeposit(user.getId(), deposit);
+        return convertToDTO(service.changeDeposit(user.getId(), deposit));
     }
 
     @DeleteMapping("{depositId}")
     public List<DepositDTO> deleteDeposit(UsernamePasswordAuthenticationToken principal, @PathVariable String depositId) {
         MongoUser user = getUser(principal);
-        return service.deleteDeposit(user.getId(), depositId);
+        return convertToDTO(service.deleteDeposit(user.getId(), depositId));
     }
 }

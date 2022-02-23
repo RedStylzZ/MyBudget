@@ -20,7 +20,6 @@ public class UserService {
     private static final Log LOG = LogFactory.getLog(UserService.class);
     private final IMongoUserRepository repository;
     private final JWTService jwtService;
-    private final MongoUserService mongoUserService;
 
     public boolean isAdmin(Collection<? extends GrantedAuthority> authorities) {
         return authorities.stream().anyMatch(a -> a.getAuthority().equals(MongoUserService.ROLE_ADMIN));
