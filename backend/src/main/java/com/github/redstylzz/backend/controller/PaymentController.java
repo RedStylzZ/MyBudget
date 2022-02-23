@@ -35,7 +35,7 @@ public class PaymentController {
     private List<PaymentDTO> getPaymentsAsDTO(List<Payment> payments) {
         return payments.stream().map(Payment::convertPaymentToDTO).toList();
     }
-    
+
     @GetMapping("/")
     public PaymentDTO getPayment(UsernamePasswordAuthenticationToken principal,
                                  @RequestParam String categoryID,

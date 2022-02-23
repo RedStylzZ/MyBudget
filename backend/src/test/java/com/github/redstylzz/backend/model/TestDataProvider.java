@@ -1,14 +1,10 @@
 package com.github.redstylzz.backend.model;
 
 import com.github.redstylzz.backend.model.dto.*;
-import org.mockito.MockedStatic;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
-
-import static org.mockito.Mockito.mockStatic;
 
 public class TestDataProvider {
     public static MongoUser testUser(String id,

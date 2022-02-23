@@ -3,7 +3,6 @@ package com.github.redstylzz.backend.service;
 import com.github.redstylzz.backend.exception.CategoryDoesNotExistException;
 import com.github.redstylzz.backend.exception.PaymentDoesNotExistException;
 import com.github.redstylzz.backend.model.Category;
-import com.github.redstylzz.backend.model.Deposit;
 import com.github.redstylzz.backend.model.Payment;
 import com.github.redstylzz.backend.model.TestDataProvider;
 import com.github.redstylzz.backend.repository.ICategoryRepository;

@@ -1,9 +1,7 @@
 package com.github.redstylzz.backend.controller;
 
-import com.github.redstylzz.backend.model.DepositSeries;
 import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.model.PaymentSeries;
-import com.github.redstylzz.backend.model.dto.DepositSeriesDTO;
 import com.github.redstylzz.backend.model.dto.PaymentSeriesDTO;
 import com.github.redstylzz.backend.service.PaymentSeriesService;
 import lombok.RequiredArgsConstructor;
