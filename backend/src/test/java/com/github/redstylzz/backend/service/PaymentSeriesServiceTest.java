@@ -72,11 +72,13 @@ class PaymentSeriesServiceTest {
     void shouldChangeSeries() {
         String userId = user.getId();
         PaymentSeriesDTO dto = testPaymentSeriesDTO();
+        List<PaymentSeries> actualSeries = List.of(testPaymentSeries());
         when(paymentSeriesRepository.existsByUserIdAndSeriesId(anyString(), anyString())).thenReturn(true);
+        when(paymentSeriesRepository.getAllByUserId(anyString())).thenReturn(actualSeries);
 
-        underTest.changeSeries(userId, dto);
+        List<PaymentSeries> series = underTest.changeSeries(userId, dto);
 
         verify(paymentSeriesRepository).save(any(PaymentSeries.class));
-        verify(paymentSeriesRepository).getAllByUserId(anyString());
+        assertEquals(actualSeries, series);
     }
 }

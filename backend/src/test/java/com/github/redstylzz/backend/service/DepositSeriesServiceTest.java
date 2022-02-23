@@ -70,12 +70,14 @@ class DepositSeriesServiceTest {
     void shouldChangeSeries() {
         String userId = user.getId();
         DepositSeriesDTO dto = testDepositSeriesDTO();
+        List<DepositSeries> actualSeries = List.of(testDepositSeries());
         when(depositSeriesRepository.existsByUserIdAndSeriesId(anyString(), anyString())).thenReturn(true);
+        when(depositSeriesRepository.getAllByUserId(anyString())).thenReturn(actualSeries);
 
-        underTest.changeSeries(userId, dto);
+        List<DepositSeries> series = underTest.changeSeries(userId, dto);
 
         verify(depositSeriesRepository).save(any(DepositSeries.class));
-        verify(depositSeriesRepository).getAllByUserId(anyString());
+        assertEquals(actualSeries, series);
     }
 
 }
