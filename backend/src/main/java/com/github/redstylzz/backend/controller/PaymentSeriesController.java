@@ -1,6 +1,9 @@
 package com.github.redstylzz.backend.controller;
 
+import com.github.redstylzz.backend.model.DepositSeries;
 import com.github.redstylzz.backend.model.MongoUser;
+import com.github.redstylzz.backend.model.PaymentSeries;
+import com.github.redstylzz.backend.model.dto.DepositSeriesDTO;
 import com.github.redstylzz.backend.model.dto.PaymentSeriesDTO;
 import com.github.redstylzz.backend.service.PaymentSeriesService;
 import lombok.RequiredArgsConstructor;
@@ -29,27 +32,32 @@ public class PaymentSeriesController {
         }
     }
 
+    public List<PaymentSeriesDTO> convertToDTO(List<PaymentSeries> series) {
+        LOG.info("Get series");
+        return series.stream().map(PaymentSeriesDTO::mapSeriesToDTO).toList();
+    }
+
     @GetMapping
     public List<PaymentSeriesDTO> getSeries(UsernamePasswordAuthenticationToken principal) {
         MongoUser user = getUser(principal);
-        return service.getSeries(user.getId());
+        return convertToDTO(service.getSeries(user.getId()));
     }
 
     @PostMapping
     public List<PaymentSeriesDTO> addSeries(UsernamePasswordAuthenticationToken principal, @RequestBody PaymentSeriesDTO dto) {
         MongoUser user = getUser(principal);
-        return service.addSeries(user.getId(), dto);
+        return convertToDTO(service.addSeries(user.getId(), dto));
     }
 
     @DeleteMapping
     public List<PaymentSeriesDTO> deleteSeries(UsernamePasswordAuthenticationToken principal, @RequestParam String seriesId) {
         MongoUser user = getUser(principal);
-        return service.deleteSeries(user.getId(), seriesId);
+        return convertToDTO(service.deleteSeries(user.getId(), seriesId));
     }
 
     @PutMapping
     public List<PaymentSeriesDTO> changeSeries(UsernamePasswordAuthenticationToken principal, @RequestBody PaymentSeriesDTO dto) {
         MongoUser user = getUser(principal);
-        return service.changeSeries(user.getId(), dto);
+        return convertToDTO(service.changeSeries(user.getId(), dto));
     }
 }

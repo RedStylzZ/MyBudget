@@ -3,14 +3,17 @@ package com.github.redstylzz.backend.service;
 import com.github.redstylzz.backend.exception.CategoryDoesNotExistException;
 import com.github.redstylzz.backend.exception.PaymentDoesNotExistException;
 import com.github.redstylzz.backend.model.Category;
+import com.github.redstylzz.backend.model.Deposit;
 import com.github.redstylzz.backend.model.Payment;
 import com.github.redstylzz.backend.model.TestDataProvider;
 import com.github.redstylzz.backend.repository.ICategoryRepository;
 import com.github.redstylzz.backend.repository.IPaymentRepository;
 import org.junit.jupiter.api.Test;
 
+import java.time.Instant;
 import java.util.List;
 
+import static com.github.redstylzz.backend.model.TestDataProvider.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -107,6 +110,30 @@ class PaymentServiceTest {
 
         assertEquals(List.of(actualPayment), underTest.changePayment(userID, actualPayment));
         verify(paymentRepo).save(any(Payment.class));
+    }
+
+    @Test
+    void shouldSpecificPaymentFromUserAndDepositId() {
+        Payment actualPayment = testPayment();
+        String depositId = actualPayment.getPaymentID();
+        String userId = testUser().getId();
+        String categoryId = testCategory().getCategoryID();
+        when(paymentRepo.getByUserIDAndCategoryIDAndPaymentID(anyString(), anyString(), anyString())).thenReturn(actualPayment);
+
+        Payment deposit = underTest.getPayment(userId, depositId, categoryId);
+
+        assertEquals(actualPayment, deposit);
+    }
+
+    @Test
+    void shouldReturnAllDepositsOfCurrentMonthFromUser() {
+        String userId = testUser().getId();
+        List<Payment> actualPayments = List.of(testPayment());
+        when(paymentRepo.getAllByUserIDAndPayDateAfterOrderByPayDateDesc(anyString(), any(Instant.class))).thenReturn(actualPayments);
+
+        List<Payment> deposits = underTest.getLastPayments(userId);
+
+        assertEquals(actualPayments, deposits);
     }
 
 }
