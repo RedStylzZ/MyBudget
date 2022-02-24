@@ -96,7 +96,7 @@ const MyResponsivePie = (data: PieChartData[]) => (
                     {
                         on: 'hover',
                         style: {
-                            itemTextColor: '#000'
+                            itemTextColor: '#656565'
                         }
                     }
                 ]
