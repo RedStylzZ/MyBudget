@@ -9,7 +9,7 @@ import InputBox from "../InputBox";
 
 interface PaymentsProps {
     payments: Payment[]
-    categoryID: string
+    categoryId: string
     setPayments: React.Dispatch<React.SetStateAction<Payment[]>>
     controller: IPaymentController
 }
@@ -20,7 +20,7 @@ interface IPaymentInput {
     payDate: { value: string }
 }
 
-export default function Payments({payments, categoryID, setPayments, controller}: PaymentsProps) {
+export default function Payments({payments, categoryId, setPayments, controller}: PaymentsProps) {
     const [date, setDate] = useState<Date>(new Date(Date.now()))
     if (!Array.isArray(payments)) return null;
 
@@ -29,18 +29,18 @@ export default function Payments({payments, categoryID, setPayments, controller}
         event.preventDefault()
         const form = event.currentTarget
         const formElements = form.elements as typeof form.elements & IPaymentInput
-        const paymentID: string = "";
+        const paymentId: string = "";
         const description: string = formElements.description.value
         const amount: number = formElements.amount.value
         const payDate: Date = new Date(date.toDateString())
         const payment: Payment = {
-            paymentID, categoryID, description, amount, payDate
+            paymentId: paymentId, categoryId: categoryId, description, amount, payDate
         }
         controller.addPayment(payment).then(setPayments)
     }
 
-    const deletePayment = (_categoryID: string) => (paymentID: string) => {
-        controller.deletePayment(_categoryID, paymentID).then(setPayments)
+    const deletePayment = (_categoryId: string) => (paymentId: string) => {
+        controller.deletePayment(_categoryId, paymentId).then(setPayments)
     }
 
     return (
@@ -75,8 +75,8 @@ export default function Payments({payments, categoryID, setPayments, controller}
             </form>
             {
                 payments.map((payment, index) =>
-                    <PaymentItem payment={payment} key={index} deletePayment={deletePayment(categoryID)}
-                                 categoryID={categoryID}/>
+                    <PaymentItem payment={payment} key={index} deletePayment={deletePayment(categoryId)}
+                                 categoryId={categoryId}/>
                 )
             }
         </div>

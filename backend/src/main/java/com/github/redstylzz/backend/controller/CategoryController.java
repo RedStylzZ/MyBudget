@@ -59,7 +59,7 @@ public class CategoryController {
 
     @PatchMapping
     public List<CategoryDTO> renameCategory(UsernamePasswordAuthenticationToken principal, @RequestBody CategoryDTO dto) throws ResponseStatusException {
-        String id = dto.getCategoryID();
+        String id = dto.getCategoryId();
         String name = dto.getCategoryName();
         if (id == null || id.isBlank()) {
             LOG.warn(ID_NOT_GIVEN);
@@ -74,14 +74,14 @@ public class CategoryController {
     }
 
     @DeleteMapping
-    public List<CategoryDTO> deleteCategory(UsernamePasswordAuthenticationToken principal, @RequestParam String categoryID) throws ResponseStatusException {
-        if (categoryID == null || categoryID.isBlank()) {
+    public List<CategoryDTO> deleteCategory(UsernamePasswordAuthenticationToken principal, @RequestParam String categoryId) throws ResponseStatusException {
+        if (categoryId == null || categoryId.isBlank()) {
             LOG.warn(ID_NOT_GIVEN);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ID_NOT_GIVEN);
         }
 
         MongoUser user = userService.getUserByPrincipal(principal);
-        return service.deleteCategory(user, categoryID);
+        return service.deleteCategory(user, categoryId);
     }
 
 

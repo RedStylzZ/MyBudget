@@ -50,11 +50,11 @@ export default function SchedulePage() {
         if (typeName === "Payment") {
             const form = event.currentTarget
             const formElements = form.elements as typeof form.elements & SelectInput
-            const categoryID: string = formElements.selectCategory.value
+            const categoryId: string = formElements.selectCategory.value
 
-            if (!categoryID || !categoryID.length) return
+            if (!categoryId || !categoryId.length) return
 
-            const payment: PaymentDTO = {description, amount, categoryID}
+            const payment: PaymentDTO = {description, amount, categoryId: categoryId}
             const seriesObj: PaymentSeries = {scheduledDate, payment, startDate: rangeValue[0], endDate: rangeValue[1]}
             seriesController.addPaymentSeries(seriesObj).then(setPaymentSeries)
         } else {
@@ -132,7 +132,7 @@ export default function SchedulePage() {
                     <select name="Category" id="selectCategory">
                         {
                             categories.map((category, index) =>
-                                <option value={category.categoryID} key={index}>{category.categoryName}</option>
+                                <option value={category.categoryId} key={index}>{category.categoryName}</option>
                             )
                         }
                     </select>

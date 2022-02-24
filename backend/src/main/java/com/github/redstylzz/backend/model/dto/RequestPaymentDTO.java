@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 public class RequestPaymentDTO {
 
-    @NonNull String categoryID;
+    @NonNull String categoryId;
     @NonNull String description;
     @NonNull BigDecimal amount;
     @NonNull LocalDateTime payDate;

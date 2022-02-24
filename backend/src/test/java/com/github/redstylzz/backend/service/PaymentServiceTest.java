@@ -28,96 +28,96 @@ class PaymentServiceTest {
     void shouldReturnList_OnGet() {
         Category category = TestDataProvider.testCategory();
         Payment actualPayment = TestDataProvider.testPayment();
-        when(paymentRepo.getAllByUserIDAndCategoryIDOrderByPayDateDesc(anyString(), anyString())).thenReturn(List.of(actualPayment));
+        when(paymentRepo.getAllByUserIdAndCategoryIdOrderByPayDateDesc(anyString(), anyString())).thenReturn(List.of(actualPayment));
 
-        List<Payment> payments = underTest.getPayments(category.getUserID(), category.getCategoryID());
+        List<Payment> payments = underTest.getPayments(category.getUserId(), category.getCategoryId());
 
-        verify(paymentRepo).getAllByUserIDAndCategoryIDOrderByPayDateDesc(anyString(), anyString());
+        verify(paymentRepo).getAllByUserIdAndCategoryIdOrderByPayDateDesc(anyString(), anyString());
         assertEquals(List.of(actualPayment), payments);
     }
 
     @Test
     void shouldThrowExceptionIfCategoryDoesNotExist_OnAdd() {
         Payment payment = TestDataProvider.testPayment();
-        String userID = payment.getUserID();
-        when(categoryRepository.existsByUserIDAndCategoryID(anyString(), anyString())).thenReturn(false);
+        String userId = payment.getUserId();
+        when(categoryRepository.existsByUserIdAndCategoryId(anyString(), anyString())).thenReturn(false);
 
-        assertThrows(CategoryDoesNotExistException.class, () -> underTest.addPayment(userID, payment));
+        assertThrows(CategoryDoesNotExistException.class, () -> underTest.addPayment(userId, payment));
     }
 
     @Test
     void shouldReturnListAfterAddingPayment_OnAdd() {
         Payment actualPayment = TestDataProvider.testPayment();
-        String userID = actualPayment.getUserID();
-        when(categoryRepository.existsByUserIDAndCategoryID(anyString(), anyString())).thenReturn(true);
-        when(paymentRepo.getAllByUserIDAndCategoryIDOrderByPayDateDesc(anyString(), anyString())).thenReturn(List.of(actualPayment));
+        String userId = actualPayment.getUserId();
+        when(categoryRepository.existsByUserIdAndCategoryId(anyString(), anyString())).thenReturn(true);
+        when(paymentRepo.getAllByUserIdAndCategoryIdOrderByPayDateDesc(anyString(), anyString())).thenReturn(List.of(actualPayment));
 
-        assertEquals(List.of(actualPayment), underTest.addPayment(userID, actualPayment));
+        assertEquals(List.of(actualPayment), underTest.addPayment(userId, actualPayment));
         verify(paymentRepo).save(any(Payment.class));
     }
 
     @Test
     void shouldThrowExceptionIfCategoryDoesNotExist_OnDelete() {
         Payment actualPayment = TestDataProvider.testPayment();
-        String userID = actualPayment.getUserID();
-        String categoryID = actualPayment.getCategoryID();
-        String paymentID = actualPayment.getPaymentID();
-        when(categoryRepository.existsByUserIDAndCategoryID(anyString(), anyString())).thenReturn(false);
+        String userId = actualPayment.getUserId();
+        String categoryId = actualPayment.getCategoryId();
+        String paymentId = actualPayment.getPaymentId();
+        when(categoryRepository.existsByUserIdAndCategoryId(anyString(), anyString())).thenReturn(false);
 
-        assertThrows(CategoryDoesNotExistException.class, () -> underTest.deletePayment(userID, categoryID, paymentID));
+        assertThrows(CategoryDoesNotExistException.class, () -> underTest.deletePayment(userId, categoryId, paymentId));
     }
 
     @Test
     void shouldReturnListAfterDeletingPayment_OnDelete() {
         Payment actualPayment = TestDataProvider.testPayment();
-        String userID = actualPayment.getUserID();
-        String categoryID = actualPayment.getCategoryID();
-        String paymentID = actualPayment.getPaymentID();
-        when(categoryRepository.existsByUserIDAndCategoryID(anyString(), anyString())).thenReturn(true);
-        when(paymentRepo.getAllByUserIDAndCategoryIDOrderByPayDateDesc(anyString(), anyString())).thenReturn(List.of(actualPayment));
+        String userId = actualPayment.getUserId();
+        String categoryId = actualPayment.getCategoryId();
+        String paymentId = actualPayment.getPaymentId();
+        when(categoryRepository.existsByUserIdAndCategoryId(anyString(), anyString())).thenReturn(true);
+        when(paymentRepo.getAllByUserIdAndCategoryIdOrderByPayDateDesc(anyString(), anyString())).thenReturn(List.of(actualPayment));
 
-        assertEquals(List.of(actualPayment), underTest.deletePayment(userID, categoryID, paymentID));
-        verify(paymentRepo).deleteByPaymentID(anyString());
+        assertEquals(List.of(actualPayment), underTest.deletePayment(userId, categoryId, paymentId));
+        verify(paymentRepo).deleteByPaymentId(anyString());
     }
 
     @Test
     void shouldThrowExceptionIfCategoryDoesNotExist_OnChange() {
         Payment payment = TestDataProvider.testPayment();
-        String userID = payment.getUserID();
-        when(categoryRepository.existsByUserIDAndCategoryID(anyString(), anyString())).thenReturn(false);
+        String userId = payment.getUserId();
+        when(categoryRepository.existsByUserIdAndCategoryId(anyString(), anyString())).thenReturn(false);
 
-        assertThrows(CategoryDoesNotExistException.class, () -> underTest.changePayment(userID, payment));
+        assertThrows(CategoryDoesNotExistException.class, () -> underTest.changePayment(userId, payment));
     }
 
     @Test
     void shouldThrowExceptionIfPaymentDoesNotExist_OnChange() {
         Payment payment = TestDataProvider.testPayment();
-        String userID = payment.getUserID();
-        when(categoryRepository.existsByUserIDAndCategoryID(anyString(), anyString())).thenReturn(true);
-        when(paymentRepo.existsByPaymentID(anyString())).thenReturn(false);
+        String userId = payment.getUserId();
+        when(categoryRepository.existsByUserIdAndCategoryId(anyString(), anyString())).thenReturn(true);
+        when(paymentRepo.existsByPaymentId(anyString())).thenReturn(false);
 
-        assertThrows(PaymentDoesNotExistException.class, () -> underTest.changePayment(userID, payment));
+        assertThrows(PaymentDoesNotExistException.class, () -> underTest.changePayment(userId, payment));
     }
 
     @Test
     void shouldReturnListAfterSuccessfulChangingPayment_OnChange() {
         Payment actualPayment = TestDataProvider.testPayment();
-        String userID = actualPayment.getUserID();
-        when(categoryRepository.existsByUserIDAndCategoryID(anyString(), anyString())).thenReturn(true);
-        when(paymentRepo.getAllByUserIDAndCategoryIDOrderByPayDateDesc(anyString(), anyString())).thenReturn(List.of(actualPayment));
-        when(paymentRepo.existsByPaymentID(anyString())).thenReturn(true);
+        String userId = actualPayment.getUserId();
+        when(categoryRepository.existsByUserIdAndCategoryId(anyString(), anyString())).thenReturn(true);
+        when(paymentRepo.getAllByUserIdAndCategoryIdOrderByPayDateDesc(anyString(), anyString())).thenReturn(List.of(actualPayment));
+        when(paymentRepo.existsByPaymentId(anyString())).thenReturn(true);
 
-        assertEquals(List.of(actualPayment), underTest.changePayment(userID, actualPayment));
+        assertEquals(List.of(actualPayment), underTest.changePayment(userId, actualPayment));
         verify(paymentRepo).save(any(Payment.class));
     }
 
     @Test
     void shouldSpecificPaymentFromUserAndDepositId() {
         Payment actualPayment = testPayment();
-        String depositId = actualPayment.getPaymentID();
+        String depositId = actualPayment.getPaymentId();
         String userId = testUser().getId();
-        String categoryId = testCategory().getCategoryID();
-        when(paymentRepo.getByUserIDAndCategoryIDAndPaymentID(anyString(), anyString(), anyString())).thenReturn(actualPayment);
+        String categoryId = testCategory().getCategoryId();
+        when(paymentRepo.getByUserIdAndCategoryIdAndPaymentId(anyString(), anyString(), anyString())).thenReturn(actualPayment);
 
         Payment deposit = underTest.getPayment(userId, depositId, categoryId);
 
@@ -128,7 +128,7 @@ class PaymentServiceTest {
     void shouldReturnAllDepositsOfCurrentMonthFromUser() {
         String userId = testUser().getId();
         List<Payment> actualPayments = List.of(testPayment());
-        when(paymentRepo.getAllByUserIDAndPayDateAfterOrderByPayDateDesc(anyString(), any(Instant.class))).thenReturn(actualPayments);
+        when(paymentRepo.getAllByUserIdAndPayDateAfterOrderByPayDateDesc(anyString(), any(Instant.class))).thenReturn(actualPayments);
 
         List<Payment> deposits = underTest.getLastPayments(userId);
 

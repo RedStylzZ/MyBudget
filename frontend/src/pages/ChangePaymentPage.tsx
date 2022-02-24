@@ -12,8 +12,8 @@ import Button from "../components/Button";
 
 export default function ChangePaymentPage() {
     const urlParams = useParams()
-    const categoryID = urlParams.categoryID
-    const paymentID = urlParams.paymentID
+    const categoryId = urlParams.categoryId
+    const paymentId = urlParams.paymentId
     const [description, setDescription] = useState<string>("")
     const [amount, setAmount] = useState<number>(0)
     const [date, setDate] = useState<Date>(new Date(Date.now()))
@@ -22,21 +22,21 @@ export default function ChangePaymentPage() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        controller.getPayment(categoryID!, paymentID!).then((response) => {
+        controller.getPayment(categoryId!, paymentId!).then((response) => {
             setDescription(response.description)
             setAmount(response.amount)
             setDate(response.payDate)
         })
-    }, [controller, categoryID, paymentID])
+    }, [controller, categoryId, paymentId])
 
-    if (!categoryID || !paymentID) return <Navigate to="/categories"/>
+    if (!categoryId || !paymentId) return <Navigate to="/categories"/>
 
     const changePayment = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         if ((amount) && (description && description.length) && (date)) {
             const payment: Payment = {
-                paymentID,
-                categoryID,
+                paymentId: paymentId,
+                categoryId: categoryId,
                 description,
                 amount,
                 payDate: new Date(date)

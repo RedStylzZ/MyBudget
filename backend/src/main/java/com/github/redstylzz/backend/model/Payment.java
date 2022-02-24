@@ -23,10 +23,10 @@ import java.time.ZoneOffset;
 public class Payment {
 
     @Id
-    String paymentID;
+    String paymentId;
 
-    String userID;
-    String categoryID;
+    String userId;
+    String categoryId;
     String description;
     BigDecimal amount;
     Instant saveDate;
@@ -34,8 +34,8 @@ public class Payment {
 
     public static Payment convertDTOtoPayment(PaymentDTO dto) {
         return Payment.builder()
-                .paymentID(dto.getPaymentID())
-                .categoryID(dto.getCategoryID())
+                .paymentId(dto.getPaymentId())
+                .categoryId(dto.getCategoryId())
                 .description(dto.getDescription())
                 .amount(dto.getAmount())
                 .payDate(dto.getPayDate().toInstant(ZoneOffset.UTC))
@@ -44,7 +44,7 @@ public class Payment {
 
     public static Payment convertDTOtoPayment(RequestPaymentDTO dto) {
         return Payment.builder()
-                .categoryID(dto.getCategoryID())
+                .categoryId(dto.getCategoryId())
                 .description(dto.getDescription())
                 .amount(dto.getAmount())
                 .payDate(dto.getPayDate().toInstant(ZoneOffset.UTC))
@@ -53,8 +53,8 @@ public class Payment {
 
     public static Payment convertDTOtoPayment(PaymentDTO dto, String userId) {
         return Payment.builder()
-                .userID(userId)
-                .categoryID(dto.getCategoryID())
+                .userId(userId)
+                .categoryId(dto.getCategoryId())
                 .description(dto.getDescription())
                 .amount(dto.getAmount())
                 .payDate(dto.getPayDate().toInstant(ZoneOffset.UTC))
@@ -63,8 +63,8 @@ public class Payment {
 
     public static Payment convertDTOtoPayment(PaymentDTO dto, String userId, Instant payDate) {
         return Payment.builder()
-                .userID(userId)
-                .categoryID(dto.getCategoryID())
+                .userId(userId)
+                .categoryId(dto.getCategoryId())
                 .description(dto.getDescription())
                 .amount(dto.getAmount())
                 .payDate(payDate)
@@ -73,8 +73,8 @@ public class Payment {
 
     public static PaymentDTO convertPaymentToDTO(Payment payment) {
         return PaymentDTO.builder()
-                .paymentID(payment.paymentID)
-                .categoryID(payment.categoryID)
+                .paymentId(payment.paymentId)
+                .categoryId(payment.categoryId)
                 .description(payment.description)
                 .amount(payment.amount)
                 .payDate(LocalDateTime.from(payment.payDate.atZone(ZoneId.of("GMT+1"))))

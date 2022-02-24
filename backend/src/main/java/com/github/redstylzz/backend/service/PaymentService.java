@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @Service
@@ -24,73 +25,73 @@ public class PaymentService {
     private final IPaymentRepository paymentRepository;
     private final ICategoryRepository categoryRepository;
 
-    private boolean categoryExistent(String userID, String categoryID) {
-        return categoryRepository.existsByUserIDAndCategoryID(userID, categoryID);
+    private boolean categoryExistent(String userId, String categoryId) {
+        return categoryRepository.existsByUserIdAndCategoryId(userId, categoryId);
     }
 
-    private boolean paymentExists(String paymentID) {
-        return paymentRepository.existsByPaymentID(paymentID);
+    private boolean paymentExists(String paymentId) {
+        return paymentRepository.existsByPaymentId(paymentId);
     }
 
-    public BigDecimal calculatePaymentSum(String userID, String categoryID) {
+    public BigDecimal calculatePaymentSum(String userId, String categoryId) {
         List<Payment> payments = paymentRepository
-                .getAllByUserIDAndCategoryIDAndPayDateAfterOrderByPayDateDesc(userID, categoryID, LocalDateTime.now().withDayOfMonth(1).minus(Duration.ofDays(1)));
+                .getAllByUserIdAndCategoryIdAndPayDateAfterOrderByPayDateDesc(userId, categoryId, LocalDateTime.now().withDayOfMonth(1).minus(Duration.ofDays(1)).toInstant(ZoneOffset.UTC));
         return payments.stream()
                 .map(Payment::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public Payment getPayment(String userID, String categoryID, String paymentID) {
+    public Payment getPayment(String userId, String categoryId, String paymentId) {
         return paymentRepository
-                .getByUserIDAndCategoryIDAndPaymentID(userID, categoryID, paymentID);
+                .getByUserIdAndCategoryIdAndPaymentId(userId, categoryId, paymentId);
     }
 
-    public List<Payment> getPayments(String userID, String categoryID) {
+    public List<Payment> getPayments(String userId, String categoryId) {
         return paymentRepository
-                .getAllByUserIDAndCategoryIDOrderByPayDateDesc(userID, categoryID);
+                .getAllByUserIdAndCategoryIdOrderByPayDateDesc(userId, categoryId);
     }
 
-    public List<Payment> getLastPayments(String userID) {
+    public List<Payment> getLastPayments(String userId) {
         return paymentRepository
-                .getAllByUserIDAndPayDateAfterOrderByPayDateDesc(userID, Instant.now().minus(Duration.ofDays(7)));
+                .getAllByUserIdAndPayDateAfterOrderByPayDateDesc(userId, Instant.now().minus(Duration.ofDays(7)));
     }
 
-    public List<Payment> addPayment(String userID, Payment payment) throws CategoryDoesNotExistException {
-        if (categoryExistent(userID, payment.getCategoryID())) {
+    public List<Payment> addPayment(String userId, Payment payment) throws CategoryDoesNotExistException {
+        if (categoryExistent(userId, payment.getCategoryId())) {
             LOG.debug(payment.getPayDate());
-            payment.setUserID(userID);
+            payment.setUserId(userId);
             payment.setSaveDate(Instant.now());
             paymentRepository.save(payment);
-            calculatePaymentSum(userID, payment.getCategoryID());
+            calculatePaymentSum(userId, payment.getCategoryId());
         } else {
             throw new CategoryDoesNotExistException();
         }
-        return getPayments(userID, payment.getCategoryID());
+        return getPayments(userId, payment.getCategoryId());
     }
 
-    public List<Payment> deletePayment(String userID, String categoryID, String paymentID) throws PaymentDoesNotExistException, CategoryDoesNotExistException {
-        if (categoryExistent(userID, categoryID)) {
-            paymentRepository.deleteByPaymentID(paymentID);
-            calculatePaymentSum(userID, categoryID);
+    public List<Payment> deletePayment(String userId, String categoryId, String paymentId) throws PaymentDoesNotExistException, CategoryDoesNotExistException {
+        if (categoryExistent(userId, categoryId)) {
+            paymentRepository.deleteByPaymentId(paymentId);
+            calculatePaymentSum(userId, categoryId);
         } else {
             throw new CategoryDoesNotExistException();
         }
-        return getPayments(userID, categoryID);
+        return getPayments(userId, categoryId);
     }
 
-    public List<Payment> changePayment(String userID, Payment payment) throws PaymentDoesNotExistException, CategoryDoesNotExistException {
-        if (categoryExistent(userID, payment.getCategoryID())) {
-            if (paymentExists(payment.getPaymentID())) {
-                payment.setUserID(userID);
+    public List<Payment> changePayment(String userId, Payment payment) throws PaymentDoesNotExistException, CategoryDoesNotExistException {
+        if (categoryExistent(userId, payment.getCategoryId())) {
+            if (paymentExists(payment.getPaymentId())) {
+                payment.setUserId(userId);
                 payment.setSaveDate(Instant.now());
                 paymentRepository.save(payment);
-                calculatePaymentSum(userID, payment.getCategoryID());
+                calculatePaymentSum(userId, payment.getCategoryId());
             } else {
                 throw new PaymentDoesNotExistException();
             }
         } else {
             throw new CategoryDoesNotExistException();
         }
-        return getPayments(userID, payment.getCategoryID());
+        return getPayments(userId, payment.getCategoryId());
     }
 }

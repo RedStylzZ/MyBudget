@@ -38,17 +38,17 @@ public class PaymentController {
 
     @GetMapping("/")
     public PaymentDTO getPayment(UsernamePasswordAuthenticationToken principal,
-                                 @RequestParam String categoryID,
-                                 @RequestParam String paymentID) {
+                                 @RequestParam String categoryId,
+                                 @RequestParam String paymentId) {
         MongoUser user = getUser(principal);
-        return Payment.convertPaymentToDTO(service.getPayment(user.getId(), categoryID, paymentID));
+        return Payment.convertPaymentToDTO(service.getPayment(user.getId(), categoryId, paymentId));
     }
 
-    @GetMapping("{categoryID}")
+    @GetMapping("{categoryId}")
     public List<PaymentDTO> getPayments(UsernamePasswordAuthenticationToken principal,
-                                        @PathVariable String categoryID) {
+                                        @PathVariable String categoryId) {
         MongoUser user = getUser(principal);
-        return getPaymentsAsDTO(service.getPayments(user.getId(), categoryID));
+        return getPaymentsAsDTO(service.getPayments(user.getId(), categoryId));
     }
 
     @GetMapping
@@ -60,25 +60,25 @@ public class PaymentController {
     @PostMapping
     public List<PaymentDTO> addPayment(UsernamePasswordAuthenticationToken principal,
                                        @RequestBody RequestPaymentDTO dto) {
-        String userID = getUser(principal).getId();
+        String userId = getUser(principal).getId();
         Payment payment = Payment.convertDTOtoPayment(dto);
-        return getPaymentsAsDTO(service.addPayment(userID, payment));
+        return getPaymentsAsDTO(service.addPayment(userId, payment));
     }
 
     @DeleteMapping
     public List<PaymentDTO> deletePayment(UsernamePasswordAuthenticationToken principal,
-                                          @RequestParam String categoryID,
-                                          @RequestParam String paymentID) {
-        String userID = getUser(principal).getId();
-        return getPaymentsAsDTO(service.deletePayment(userID, categoryID, paymentID));
+                                          @RequestParam String categoryId,
+                                          @RequestParam String paymentId) {
+        String userId = getUser(principal).getId();
+        return getPaymentsAsDTO(service.deletePayment(userId, categoryId, paymentId));
     }
 
     @PutMapping
     public List<PaymentDTO> changePayment(UsernamePasswordAuthenticationToken principal,
                                           @RequestBody PaymentDTO dto) {
-        String userID = getUser(principal).getId();
+        String userId = getUser(principal).getId();
         Payment payment = Payment.convertDTOtoPayment(dto);
-        return getPaymentsAsDTO(service.changePayment(userID, payment));
+        return getPaymentsAsDTO(service.changePayment(userId, payment));
     }
 
 }

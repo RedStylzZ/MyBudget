@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryPaymentInputDTO {
-    String categoryID;
-    String paymentID;
+    String categoryId;
+    String paymentId;
 }

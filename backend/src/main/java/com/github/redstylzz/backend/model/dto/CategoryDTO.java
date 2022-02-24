@@ -15,13 +15,13 @@ import java.math.BigDecimal;
 @Builder
 public class CategoryDTO {
     String categoryName;
-    String categoryID;
+    String categoryId;
     BigDecimal paymentSum;
 
     @Transient
     public static CategoryDTO mapCategoryToDTO(Category category) {
         return CategoryDTO.builder()
-                .categoryID(category.getCategoryID())
+                .categoryId(category.getCategoryId())
                 .categoryName(category.getCategoryName())
                 .build();
     }

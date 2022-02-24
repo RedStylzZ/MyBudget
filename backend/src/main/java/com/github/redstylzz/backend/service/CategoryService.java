@@ -24,12 +24,12 @@ public class CategoryService {
     private final IPaymentRepository paymentRepo;
     private final PaymentService paymentService;
 
-    private List<CategoryDTO> getAllCategoriesAsDTO(String userID) {
-        List<CategoryDTO> dto = categoryRepository.findAllByUserID(userID)
+    private List<CategoryDTO> getAllCategoriesAsDTO(String userId) {
+        List<CategoryDTO> dto = categoryRepository.findAllByUserId(userId)
                 .stream()
                 .map(CategoryDTO::mapCategoryToDTO)
                 .toList();
-        dto.forEach(categoryDTO -> categoryDTO.setPaymentSum(paymentService.calculatePaymentSum(userID, categoryDTO.getCategoryID())));
+        dto.forEach(categoryDTO -> categoryDTO.setPaymentSum(paymentService.calculatePaymentSum(userId, categoryDTO.getCategoryId())));
         return dto;
     }
 
@@ -41,9 +41,9 @@ public class CategoryService {
     public List<CategoryDTO> addCategory(MongoUser user, String categoryName) throws CategoryAlreadyExistException {
         LOG.info("Adding category");
 
-        if (!categoryRepository.existsByUserIDAndCategoryName(user.getId(), categoryName)) {
+        if (!categoryRepository.existsByUserIdAndCategoryName(user.getId(), categoryName)) {
             Category category = Category.builder()
-                    .userID(user.getId())
+                    .userId(user.getId())
                     .categoryName(categoryName)
                     .saveDate(LocalDateTime.now())
                     .build();
@@ -56,31 +56,31 @@ public class CategoryService {
         return getAllCategoriesAsDTO(user.getId());
     }
 
-    public List<CategoryDTO> renameCategory(MongoUser user, String categoryID, String name) throws CategoryAlreadyExistException, CategoryDoesNotExistException {
+    public List<CategoryDTO> renameCategory(MongoUser user, String categoryId, String name) throws CategoryAlreadyExistException, CategoryDoesNotExistException {
         LOG.info("Renaming category");
-        Category category = categoryRepository.findByUserIDAndCategoryID(user.getId(), categoryID);
+        Category category = categoryRepository.findByUserIdAndCategoryId(user.getId(), categoryId);
 
         if (category != null) {
-            if (!categoryRepository.existsByUserIDAndCategoryName(user.getId(), name)) {
+            if (!categoryRepository.existsByUserIdAndCategoryName(user.getId(), name)) {
                 category.setCategoryName(name);
                 category.setSaveDate(LocalDateTime.now());
                 categoryRepository.save(category);
-                LOG.info("Renamed category with ID");
+                LOG.info("Renamed category with Id");
             } else {
                 LOG.warn("A category with this name already exists");
                 throw new CategoryAlreadyExistException("A category with this name already exists");
             }
         } else {
             LOG.warn("Category does not exist");
-            throw new CategoryDoesNotExistException("No category with this ID");
+            throw new CategoryDoesNotExistException("No category with this Id");
         }
         return getAllCategoriesAsDTO(user.getId());
     }
 
-    public List<CategoryDTO> deleteCategory(MongoUser user, String categoryID) {
+    public List<CategoryDTO> deleteCategory(MongoUser user, String categoryId) {
         LOG.debug("Deleting category");
-        categoryRepository.deleteByCategoryID(categoryID);
-        paymentRepo.deleteAllByUserIDAndCategoryID(user.getId(), categoryID);
+        categoryRepository.deleteByCategoryId(categoryId);
+        paymentRepo.deleteAllByUserIdAndCategoryId(user.getId(), categoryId);
         return getAllCategoriesAsDTO(user.getId());
     }
 

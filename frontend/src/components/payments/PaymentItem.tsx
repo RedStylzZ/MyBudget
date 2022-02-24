@@ -6,20 +6,20 @@ import Button from "../Button";
 
 interface PaymentItemProps {
     payment: Payment
-    deletePayment: (paymentID: string) => void
-    categoryID: string
+    deletePayment: (paymentId: string) => void
+    categoryId: string
 }
 
-export default function PaymentItem({payment, deletePayment, categoryID}: PaymentItemProps) {
+export default function PaymentItem({payment, deletePayment, categoryId}: PaymentItemProps) {
     const navigate = useNavigate()
     return (
-        <div className={"paymentItem"} id={payment.paymentID}>
+        <div className={"paymentItem"} id={payment.paymentId}>
             <h1>{payment.description}</h1>
             <h2><MonetaryValue amount={payment.amount}/></h2>
             <h3><FormatDate date={payment.payDate}/></h3>
-            <Button value={"Delete Payment"} onClick={() => deletePayment(payment.paymentID)}/>
+            <Button value={"Delete Payment"} onClick={() => deletePayment(payment.paymentId)}/>
             <Button value={"Change Payment"}
-                    onClick={() => navigate(`/changePayment/${categoryID}/${payment.paymentID}`)}/>
+                    onClick={() => navigate(`/changePayment/${categoryId}/${payment.paymentId}`)}/>
         </div>
     )
 }

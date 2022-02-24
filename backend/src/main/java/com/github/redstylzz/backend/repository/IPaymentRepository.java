@@ -9,18 +9,18 @@ import java.util.List;
 
 public interface IPaymentRepository extends MongoRepository<Payment, String> {
 
-    List<Payment> getAllByUserIDAndCategoryIDOrderByPayDateDesc(String userID, String categoryID);
+    List<Payment> getAllByUserIdAndCategoryIdOrderByPayDateDesc(String userId, String categoryId);
 
-    List<Payment> getAllByUserIDAndPayDateAfterOrderByPayDateDesc(String userID, Instant date);
+    List<Payment> getAllByUserIdAndPayDateAfterOrderByPayDateDesc(String userId, Instant date);
 
-    List<Payment> getAllByUserIDAndCategoryIDAndPayDateAfterOrderByPayDateDesc(String userID, String categoryID, LocalDateTime date);
+    List<Payment> getAllByUserIdAndCategoryIdAndPayDateAfterOrderByPayDateDesc(String userId, String categoryId, Instant date);
 
-    Payment getByUserIDAndCategoryIDAndPaymentID(String userID, String categoryID, String paymentID);
+    Payment getByUserIdAndCategoryIdAndPaymentId(String userId, String categoryId, String paymentId);
 
-    boolean existsByPaymentID(String paymentID);
+    boolean existsByPaymentId(String paymentId);
 
-    void deleteByPaymentID(String paymentID);
+    void deleteByPaymentId(String paymentId);
 
-    void deleteAllByUserIDAndCategoryID(String userID, String categoryID);
+    void deleteAllByUserIdAndCategoryId(String userId, String categoryId);
 
 }

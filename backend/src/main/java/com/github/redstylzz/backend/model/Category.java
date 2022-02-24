@@ -17,9 +17,9 @@ import java.time.LocalDateTime;
 public class Category {
 
     @Id
-    String categoryID;
+    String categoryId;
 
-    String userID;
+    String userId;
     String categoryName;
     LocalDateTime saveDate;
 }
