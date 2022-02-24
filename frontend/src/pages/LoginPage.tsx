@@ -6,6 +6,7 @@ import './LoginPage.scss'
 import {ILoginController} from "../models/Login";
 import Button from "../components/Button";
 import InputBox from "../components/InputBox";
+import {Alert} from "@mui/material";
 
 export default function LoginPage() {
     const {setJwt} = useContext(AuthContext)
@@ -13,6 +14,7 @@ export default function LoginPage() {
     const navigate = useNavigate()
     const [name, setName] = useState<string>("")
     const [password, setPassword] = useState<string>("")
+    const [loginError, setLoginError] = useState<boolean>(false);
 
     const login = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -25,7 +27,7 @@ export default function LoginPage() {
                     setJwt(newToken)
                     navigate("/")
                 })
-                .catch(console.error)
+                .catch(() => setLoginError(true))
         }
     }
 
@@ -40,6 +42,8 @@ export default function LoginPage() {
         <div className={"loginPage"}>
             <h1>{"Login"}</h1>
             <form onSubmit={login}>
+                {loginError ?
+                    <Alert severity={"error"} onClick={() => setLoginError(false)}>Invalid credentials</Alert> : null}
                 <h2>Username</h2>
                 <InputBox type="text" id={"username"} onChange={onNameChange} value={name}
                           placeholder={"Username"}/>

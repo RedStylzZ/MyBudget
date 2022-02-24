@@ -7,10 +7,11 @@ import DepositsGallery from "../components/deposit/DepositsGallery";
 import './DepositPage.scss'
 import {DatePicker, LocalizationProvider} from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import {TextField} from "@mui/material";
+import {Alert, TextField} from "@mui/material";
 import Button from "../components/Button";
 import InputBox from "../components/InputBox";
 import {DataContext} from "../context/DataProvider";
+import {errors} from "../models/Constants";
 
 export default function DepositPage() {
     const config: ITokenConfig | undefined = useContext(AuthContext).config
@@ -20,6 +21,8 @@ export default function DepositPage() {
     const [description, setDescription] = useState<string>("")
     const [amount, setAmount] = useState<number>(0)
     const [date, setDate] = useState<Date>(new Date(Date.now()))
+    const [descriptionError, setDescriptionError] = useState<boolean>(false)
+    const [amountError, setAmountError] = useState<boolean>(false)
 
     useEffect(() => {
         controller.getDeposits().then(setDeposits)
@@ -31,7 +34,15 @@ export default function DepositPage() {
 
     const addDeposit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        if (description.length && amount && date) {
+        if (!description) {
+            setDescriptionError(true)
+            return
+        }
+        if (!amount) {
+            setAmountError(true)
+            return
+        }
+        if (date) {
             const depositDate: Date = new Date(date.toDateString())
             controller.addDeposit({description, depositDate, amount}).then(setDeposits)
         }
@@ -52,11 +63,15 @@ export default function DepositPage() {
                 <form onSubmit={addDeposit} className={"addDeposit"}>
                     <div className={"formWrap"}>
                         <h2>Description</h2>
+                        {descriptionError ? <Alert severity={"error"}
+                                                   onClick={() => setDescriptionError(false)}>{errors.description}</Alert> : null}
                         <InputBox type="text" onChange={onDescriptionChange} value={description}
                                   placeholder={"Description"}/>
                     </div>
                     <div className={"formWrap"}>
                         <h2>Amount</h2>
+                        {amountError ? <Alert severity={"error"}
+                                              onClick={() => setAmountError(false)}>{errors.amount}</Alert> : null}
                         <InputBox type={"number"} onChange={onAmountChange} value={amount} placeholder={"Amount"}
                                   step={0.01}/>
                     </div>

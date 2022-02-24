@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,23 +16,19 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import static com.github.redstylzz.backend.model.TestDataProvider.testUser;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class LoginControllerTest {
 
+    private final WebClient webClient = WebClient.create();
     @LocalServerPort
     private int port;
-
     @MockBean
     private IMongoUserRepository mongoUserRepository;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    private final WebClient webClient = WebClient.create();
 
     @Test
     void shouldReturnTokenOnSuccessfulLogin() {
@@ -43,7 +38,7 @@ class LoginControllerTest {
         when(mongoUserRepository.findMongoUserByUsername("Test")).thenReturn(user);
 
         ResponseEntity<String> login = webClient.post()
-                .uri("http://localhost:"+port+"/auth/login")
+                .uri("http://localhost:" + port + "/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(loginData)
                 .retrieve()
@@ -60,7 +55,7 @@ class LoginControllerTest {
         LoginDTO loginData = new LoginDTO("Test", "TestPassword");
 
         ResponseEntity<String> login = webClient.post()
-                .uri("http://localhost:"+port+"/auth/login")
+                .uri("http://localhost:" + port + "/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(loginData)
                 .retrieve()

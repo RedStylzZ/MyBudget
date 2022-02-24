@@ -6,19 +6,29 @@ import './AdminPage.scss'
 import Button from "../components/Button";
 import InputBox from "../components/InputBox";
 import {DataContext} from "../context/DataProvider";
+import {Alert} from "@mui/material";
 
 export default function AdminPage() {
     const {config} = useContext(AuthContext)
     const {setCurrentPage} = useContext(DataContext)
     const [username, setUsername] = useState<string>("")
     const [password, setPassword] = useState<string>("")
-    const [worked, setWorked] = useState<string>("")
+    const [worked, setWorked] = useState<boolean | undefined>(undefined)
+    const [alertComp, setAlertComp] = useState<JSX.Element>(<></>)
     const [role, setRole] = useState<string>("USER")
     const controller: IUserController = UserController(config)
 
     useEffect(() => {
         setCurrentPage("Admin Page")
     }, [setCurrentPage])
+
+    useEffect(() => {
+        if (worked === true) {
+            setAlertComp(<Alert severity={"success"}>Successfully added User</Alert>)
+        } else if (worked === false) {
+            setAlertComp(<Alert severity={"error"}>Could not add User</Alert>)
+        }
+    }, [worked])
 
     const addUser: FormEventHandler<HTMLFormElement> = (event) => {
         event.preventDefault()
@@ -30,8 +40,7 @@ export default function AdminPage() {
                 rights: [role]
             }
             controller.addUser(user).then(response => {
-                const status: string = response ? "Successfully added user" : "Failed to add user"
-                setWorked(status)
+                setWorked(response)
             })
         }
     }
@@ -49,7 +58,7 @@ export default function AdminPage() {
         <div className={"adminPage"}>
             <div className={"adminPageHeader"}>
                 <h1>Admin Page</h1>
-                <h2>{worked}</h2>
+                {alertComp}
             </div>
             <div className={"addUserForm"}>
                 <form onSubmit={addUser} className={"addUser"}>
