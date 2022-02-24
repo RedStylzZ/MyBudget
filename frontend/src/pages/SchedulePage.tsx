@@ -9,7 +9,7 @@ import CategoryController from "../controllers/CategoryController";
 import {Category, ICategoryController} from "../models/Category";
 import {DateRangePicker, LocalizationProvider} from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import {Box, TextField} from "@mui/material";
+import {Alert, Box, TextField} from "@mui/material";
 import {DateRange} from "@mui/lab/DateRangePicker/RangeTypes";
 import Button from "../components/Button";
 import {DepositDTO} from "../models/Deposit";
@@ -27,6 +27,8 @@ export default function SchedulePage() {
     const [description, setDescription] = useState<string>("")
     const [typeName, setTypeName] = useState<string>("Payment")
     const [amount, setAmount] = useState<number>(1)
+    const [categoryError, setCategoryError] = useState<boolean>(false)
+    const error = {category: "You have to provide a category"}
 
     const [paymentSeries, setPaymentSeries] = useState<PaymentSeries[]>([])
     const [depositSeries, setDepositSeries] = useState<DepositSeries[]>([])
@@ -52,7 +54,10 @@ export default function SchedulePage() {
             const formElements = form.elements as typeof form.elements & SelectInput
             const categoryId: string = formElements.selectCategory.value
 
-            if (!categoryId || !categoryId.length) return
+            if (!categoryId || !categoryId.length) {
+                setCategoryError(true)
+                return
+            }
 
             const payment: PaymentDTO = {description, amount, categoryId: categoryId}
             const seriesObj: PaymentSeries = {scheduledDate, payment, startDate: rangeValue[0], endDate: rangeValue[1]}
@@ -129,6 +134,8 @@ export default function SchedulePage() {
                             )}
                         />
                     </LocalizationProvider>
+
+                    {categoryError ? <Alert severity={"error"} onClick={() => setCategoryError(false)}>{error.category}</Alert> : null}
                     <select name="Category" id="selectCategory">
                         {
                             categories.map((category, index) =>
