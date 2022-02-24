@@ -38,9 +38,9 @@ class LoginControllerTest {
     @Test
     void shouldReturnTokenOnSuccessfulLogin() {
         MongoUser user = testUser();
+        LoginDTO loginData = new LoginDTO(user.getUsername(), user.getPassword());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         when(mongoUserRepository.findMongoUserByUsername("Test")).thenReturn(user);
-        LoginDTO loginData = new LoginDTO("Test", "TestPassword");
 
         ResponseEntity<String> login = webClient.post()
                 .uri("http://localhost:"+port+"/auth/login")
@@ -71,7 +71,6 @@ class LoginControllerTest {
 
         assert login != null;
         assertEquals(HttpStatus.FORBIDDEN, login.getStatusCode());
-        System.out.println(login.getStatusCode());
     }
 
 
