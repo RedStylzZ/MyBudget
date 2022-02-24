@@ -15,7 +15,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
     private static final Log LOG = LogFactory.getLog(ExceptionHandler.class);
 
     @org.springframework.web.bind.annotation.ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<ApiError> handleNoSuchElementException(NoSuchElementException ex){
+    public ResponseEntity<ApiError> handleNoSuchElementException(NoSuchElementException ex) {
         LOG.error("Resource not found!", ex);
 
         ApiError apiError = new ApiError("Resource not found!", ex.getMessage());
@@ -24,7 +24,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ApiError> handleIllegalArgumentException(IllegalArgumentException ex){
+    public ResponseEntity<ApiError> handleIllegalArgumentException(IllegalArgumentException ex) {
         LOG.error("Given input is not processable!", ex);
 
         ApiError apiError = new ApiError("Given input is not processable!", ex.getMessage());
@@ -33,7 +33,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<ApiError> handleBadCredentialsException(BadCredentialsException ex){
+    public ResponseEntity<ApiError> handleBadCredentialsException(BadCredentialsException ex) {
         LOG.error("Invalid credentials", ex);
 
         ApiError apiError = new ApiError("Invalid credentials", ex.getMessage());
@@ -42,7 +42,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(Throwable.class)
-    public ResponseEntity<ApiError> handleUnknownException(Throwable ex){
+    public ResponseEntity<ApiError> handleUnknownException(Throwable ex) {
         LOG.error("Unknown Error!", ex);
 
         ApiError apiError = new ApiError("Unknown Error", ex.getMessage());
