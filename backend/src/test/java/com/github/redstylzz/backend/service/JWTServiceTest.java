@@ -21,7 +21,7 @@ import static org.mockito.Mockito.mockStatic;
 class JWTServiceTest {
 
     private static final MockedStatic<Date> staticDate = mockStatic(Date.class);
-    private final String actualToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUaXppYW4iLCJleHAiOjAsImlhdCI6MH0.9z7Q2p6ZlLAuABX-2fE_ouij1YjhsIAWnewZ4D2blks";
+    private final String actualToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUZXN0IiwiZXhwIjowLCJpYXQiOjB9.9o_lZ1UCyd3l-kwbjtQLFRunqZouMK7J0DiZSp2dFQo";
     @Autowired
     private JWTService underTest;
     private MongoUser user;
