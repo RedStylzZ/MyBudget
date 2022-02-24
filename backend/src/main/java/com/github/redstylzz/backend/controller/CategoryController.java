@@ -21,6 +21,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryController {
     private static final Log LOG = LogFactory.getLog(CategoryController.class);
+    private static final String ID_NOT_GIVEN = "Id is not given";
+    private static final String NAME_NOT_GIVEN = "Name is not given";
     private final CategoryService service;
     private final MongoUserService userService;
 
@@ -43,8 +45,8 @@ public class CategoryController {
     public List<CategoryDTO> addCategory(UsernamePasswordAuthenticationToken principal, @RequestBody CategoryNameDTO dto) throws ResponseStatusException {
         String name = dto.getCategoryName();
         if (name == null || name.isBlank()) {
-            LOG.warn("Name is null or blank");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No name given");
+            LOG.warn(NAME_NOT_GIVEN);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, NAME_NOT_GIVEN);
         }
 
         MongoUser user = getUser(principal);
@@ -59,9 +61,13 @@ public class CategoryController {
     public List<CategoryDTO> renameCategory(UsernamePasswordAuthenticationToken principal, @RequestBody CategoryDTO dto) throws ResponseStatusException {
         String id = dto.getCategoryID();
         String name = dto.getCategoryName();
-        if ((id == null || id.isBlank()) || (name == null || name.isBlank())) {
-            LOG.warn("ID or name is null or blank");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        if (id == null || id.isBlank()) {
+            LOG.warn(ID_NOT_GIVEN);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ID_NOT_GIVEN);
+        }
+        if (name == null || name.isBlank()) {
+            LOG.warn(NAME_NOT_GIVEN);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, NAME_NOT_GIVEN);
         }
         MongoUser user = userService.getUserByPrincipal(principal);
         return service.renameCategory(user, id, name);
@@ -70,8 +76,8 @@ public class CategoryController {
     @DeleteMapping
     public List<CategoryDTO> deleteCategory(UsernamePasswordAuthenticationToken principal, @RequestParam String categoryID) throws ResponseStatusException {
         if (categoryID == null || categoryID.isBlank()) {
-            LOG.warn("ID is null or blank");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            LOG.warn(ID_NOT_GIVEN);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ID_NOT_GIVEN);
         }
 
         MongoUser user = userService.getUserByPrincipal(principal);
