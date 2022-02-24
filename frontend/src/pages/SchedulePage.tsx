@@ -122,7 +122,8 @@ export default function SchedulePage() {
             <div className={"series"}>
                 <form onSubmit={addSeries} className={"addSeries"}>
                     <h2>Scheduled Day</h2>
-                    {scheduledError ? <Alert severity={"error"} onClick={() => setScheduledError(false)}>{errors.description}</Alert> : null}
+                    {scheduledError ? <Alert severity={"error"}
+                                             onClick={() => setScheduledError(false)}>{errors.description}</Alert> : null}
                     <InputBox type={"number"} onChange={onSchedulingDateChange} placeholder={"Scheduling Date"}
                               value={scheduledDate} min={1} max={31} step={1}/>
                     <h2>{typeName}</h2>
@@ -134,10 +135,12 @@ export default function SchedulePage() {
                                value={"Deposit"}/>
                         <label htmlFor="typeDeposit">Deposit</label>
                     </div>
-                    {descriptionError ? <Alert severity={"error"} onClick={() => setDescriptionError(false)}>{errors.description}</Alert> : null}
+                    {descriptionError ? <Alert severity={"error"}
+                                               onClick={() => setDescriptionError(false)}>{errors.description}</Alert> : null}
                     <InputBox type="text" id={"description"} onChange={onDescriptionChange} value={description}
                               placeholder={"Description"}/>
-                    {amountError ? <Alert severity={"error"} onClick={() => setAmountError(false)}>{errors.amount}</Alert> : null}
+                    {amountError ?
+                        <Alert severity={"error"} onClick={() => setAmountError(false)}>{errors.amount}</Alert> : null}
                     <InputBox type={"number"} id={"amount"} onChange={onAmountChange} placeholder={"Amount"}
                               value={amount}
                               step={0.01}/>
@@ -158,7 +161,8 @@ export default function SchedulePage() {
                         />
                     </LocalizationProvider>
 
-                    {categoryError ? <Alert severity={"error"} onClick={() => setCategoryError(false)}>{errors.category}</Alert> : null}
+                    {categoryError ? <Alert severity={"error"}
+                                            onClick={() => setCategoryError(false)}>{errors.category}</Alert> : null}
                     <select name="Category" id="selectCategory">
                         {
                             categories.map((category, index) =>

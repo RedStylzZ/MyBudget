@@ -63,13 +63,15 @@ export default function DepositPage() {
                 <form onSubmit={addDeposit} className={"addDeposit"}>
                     <div className={"formWrap"}>
                         <h2>Description</h2>
-                        {descriptionError ? <Alert severity={"error"} onClick={() => setDescriptionError(false)}>{errors.description}</Alert> : null}
+                        {descriptionError ? <Alert severity={"error"}
+                                                   onClick={() => setDescriptionError(false)}>{errors.description}</Alert> : null}
                         <InputBox type="text" onChange={onDescriptionChange} value={description}
                                   placeholder={"Description"}/>
                     </div>
                     <div className={"formWrap"}>
                         <h2>Amount</h2>
-                        {amountError ? <Alert severity={"error"} onClick={() => setAmountError(false)}>{errors.amount}</Alert> : null}
+                        {amountError ? <Alert severity={"error"}
+                                              onClick={() => setAmountError(false)}>{errors.amount}</Alert> : null}
                         <InputBox type={"number"} onChange={onAmountChange} value={amount} placeholder={"Amount"}
                                   step={0.01}/>
                     </div>

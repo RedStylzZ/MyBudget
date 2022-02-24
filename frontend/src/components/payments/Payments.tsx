@@ -61,8 +61,10 @@ export default function Payments({payments, categoryId, setPayments, controller}
         <div className={"payments"}>
             <h1>Payments</h1>
             <form onSubmit={addPayment} className={"addPaymentForm"}>
-                {descriptionError ? <Alert severity={"error"} onClick={() => setDescriptionError(false)}>{errors.description}</Alert> : null}
-                {amountError ? <Alert severity={"error"} onClick={() => setAmountError(false)}>{errors.amount}</Alert> : null}
+                {descriptionError ? <Alert severity={"error"}
+                                           onClick={() => setDescriptionError(false)}>{errors.description}</Alert> : null}
+                {amountError ?
+                    <Alert severity={"error"} onClick={() => setAmountError(false)}>{errors.amount}</Alert> : null}
                 <InputBox id={"description"} placeholder={"Description"}/>
                 <InputBox type={"number"} id={"amount"} placeholder={"Amount"} step={0.01}/>
                 <div className={"payDate"}>

@@ -42,7 +42,8 @@ export default function LoginPage() {
         <div className={"loginPage"}>
             <h1>{"Login"}</h1>
             <form onSubmit={login}>
-                {loginError ? <Alert severity={"error"} onClick={() => setLoginError(false)}>Invalid credentials</Alert> : null}
+                {loginError ?
+                    <Alert severity={"error"} onClick={() => setLoginError(false)}>Invalid credentials</Alert> : null}
                 <h2>Username</h2>
                 <InputBox type="text" id={"username"} onChange={onNameChange} value={name}
                           placeholder={"Username"}/>
