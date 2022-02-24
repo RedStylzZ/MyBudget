@@ -6,10 +6,12 @@ import com.github.redstylzz.backend.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("auth/login")
@@ -26,8 +28,8 @@ public class LoginController {
             return service.login(mongoUser);
         } catch (Exception e) {
             LOG.error("Failed to login user", e);
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Wrong Credentials");
         }
-        return null;
     }
 
 

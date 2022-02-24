@@ -30,8 +30,8 @@ public class TestDataProvider {
 
     public static MongoUser testUser() {
         return testUser("24",
-                "Tizian",
-                "Turtle",
+                "Test",
+                "TestPassword",
                 List.of(),
                 true,
                 true,
@@ -48,7 +48,7 @@ public class TestDataProvider {
     }
 
     public static MongoUserDTO testUserDTO() {
-        return testUserDTO("Tizian", "Turtle", List.of());
+        return testUserDTO("Test", "TestPassword", List.of());
     }
 
     public static Category testCategory(String id, String userID, String name) {
@@ -60,7 +60,7 @@ public class TestDataProvider {
     }
 
     public static Category testCategory() {
-        return testCategory("44", "24", "Tizian");
+        return testCategory("44", "24", "Test");
     }
 
     public static Payment testPayment() {
