@@ -13,6 +13,8 @@ import java.security.Principal;
 @Service
 public class MongoUserService implements UserDetailsService {
     public static final String ROLE_ADMIN = "ADMIN";
+    public static final String USER_NOT_FOUND = "User not found";
+    public static final String PRINCIPAL_IS_NULL = "Principal is null";
     private static final Log LOG = LogFactory.getLog(MongoUserService.class);
     private final IMongoUserRepository repository;
 
@@ -25,8 +27,8 @@ public class MongoUserService implements UserDetailsService {
     public MongoUser loadUserByUsername(String username) throws UsernameNotFoundException {
         MongoUser user = repository.findMongoUserByUsername(username);
         if (user == null) {
-            LOG.warn("Could not find user");
-            throw new UsernameNotFoundException("User not found");
+            LOG.warn(USER_NOT_FOUND);
+            throw new UsernameNotFoundException(USER_NOT_FOUND);
         }
         return user;
     }
@@ -35,7 +37,7 @@ public class MongoUserService implements UserDetailsService {
         if (principal != null) {
             return loadUserByUsername(principal.getName());
         }
-        LOG.warn("Principal is null");
-        throw new UsernameNotFoundException("Principal is null");
+        LOG.warn(PRINCIPAL_IS_NULL);
+        throw new UsernameNotFoundException(PRINCIPAL_IS_NULL);
     }
 }

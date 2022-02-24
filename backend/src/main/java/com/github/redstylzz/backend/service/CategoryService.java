@@ -19,7 +19,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryService {
     private static final Log LOG = LogFactory.getLog(CategoryService.class);
-
+    private static final String CATEGORY_ALREADY_EXISTS = "Category already exists";
+    private static final String CATEGORY_DOES_NOT_EXISTS = "Category does not exists";
     private final ICategoryRepository categoryRepository;
     private final IPaymentRepository paymentRepo;
     private final PaymentService paymentService;
@@ -50,8 +51,8 @@ public class CategoryService {
             categoryRepository.save(category);
             LOG.info("Added category");
         } else {
-            LOG.warn("Category already existent");
-            throw new CategoryAlreadyExistException("A category with this name already exists");
+            LOG.warn(CATEGORY_ALREADY_EXISTS);
+            throw new CategoryAlreadyExistException();
         }
         return getAllCategoriesAsDTO(user.getId());
     }
@@ -65,14 +66,14 @@ public class CategoryService {
                 category.setCategoryName(name);
                 category.setSaveDate(LocalDateTime.now());
                 categoryRepository.save(category);
-                LOG.info("Renamed category with Id");
+                LOG.info("Successfully Renamed category");
             } else {
-                LOG.warn("A category with this name already exists");
-                throw new CategoryAlreadyExistException("A category with this name already exists");
+                LOG.warn(CATEGORY_ALREADY_EXISTS);
+                throw new CategoryAlreadyExistException();
             }
         } else {
-            LOG.warn("Category does not exist");
-            throw new CategoryDoesNotExistException("No category with this Id");
+            LOG.warn(CATEGORY_DOES_NOT_EXISTS);
+            throw new CategoryDoesNotExistException(CATEGORY_DOES_NOT_EXISTS);
         }
         return getAllCategoriesAsDTO(user.getId());
     }

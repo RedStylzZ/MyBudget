@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DepositService {
     private static final Log LOG = LogFactory.getLog(DepositService.class);
-
+    private static final String INVALID_DEPOSIT = "Description, Amount or DepositDate is not given";
     private final IDepositRepository repository;
 
     private boolean isValidDeposit(Deposit deposit) {
@@ -50,7 +50,7 @@ public class DepositService {
                 deposit.setSaveDate(Instant.now());
                 repository.save(deposit);
             } else {
-                throw new NullPointerException("Some data is null");
+                throw new NullPointerException(INVALID_DEPOSIT);
             }
         } else {
             throw new DepositAlreadyExistException("ID already existent");
@@ -68,7 +68,7 @@ public class DepositService {
                 repository.save(deposit);
                 return getDepositsFrom(userId);
             } else {
-                throw new NullPointerException("Description, Amount or DepositDate is null");
+                throw new NullPointerException(INVALID_DEPOSIT);
             }
         } else {
             throw new DepositDoesNotExistException("Deposit does not exist");

@@ -6,6 +6,6 @@ public class SeriesAlreadyExistException extends RuntimeException {
     }
 
     public SeriesAlreadyExistException() {
-        super();
+        super("Series already existent");
     }
 }
