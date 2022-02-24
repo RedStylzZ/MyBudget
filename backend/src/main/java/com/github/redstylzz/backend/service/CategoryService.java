@@ -88,5 +88,4 @@ public class CategoryService {
         return getAllCategoriesAsDTO(user.getId());
     }
 
-
 }
