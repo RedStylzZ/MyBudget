@@ -3,9 +3,10 @@ import PaymentItem from "./PaymentItem";
 import React, {FormEvent, useState} from "react";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import {DatePicker, LocalizationProvider} from "@mui/lab";
-import {TextField} from "@mui/material";
+import {Alert, TextField} from "@mui/material";
 import Button from "../Button";
 import InputBox from "../InputBox";
+import {errors} from "../../models/Constants";
 
 interface PaymentsProps {
     payments: Payment[]
@@ -22,6 +23,9 @@ interface IPaymentInput {
 
 export default function Payments({payments, categoryId, setPayments, controller}: PaymentsProps) {
     const [date, setDate] = useState<Date>(new Date(Date.now()))
+    const [descriptionError, setDescriptionError] = useState<boolean>(false)
+    const [amountError, setAmountError] = useState<boolean>(false)
+
     if (!Array.isArray(payments)) return null;
 
 
@@ -32,6 +36,16 @@ export default function Payments({payments, categoryId, setPayments, controller}
         const paymentId: string = "";
         const description: string = formElements.description.value
         const amount: number = formElements.amount.value
+
+        if (!description) {
+            setDescriptionError(true)
+            return
+        }
+        if (!amount) {
+            setAmountError(true)
+            return
+        }
+
         const payDate: Date = new Date(date.toDateString())
         const payment: Payment = {
             paymentId: paymentId, categoryId: categoryId, description, amount, payDate
@@ -47,6 +61,8 @@ export default function Payments({payments, categoryId, setPayments, controller}
         <div className={"payments"}>
             <h1>Payments</h1>
             <form onSubmit={addPayment} className={"addPaymentForm"}>
+                {descriptionError ? <Alert severity={"error"} onClick={() => setDescriptionError(false)}>{errors.description}</Alert> : null}
+                {amountError ? <Alert severity={"error"} onClick={() => setAmountError(false)}>{errors.amount}</Alert> : null}
                 <InputBox id={"description"} placeholder={"Description"}/>
                 <InputBox type={"number"} id={"amount"} placeholder={"Amount"} step={0.01}/>
                 <div className={"payDate"}>

@@ -15,6 +15,7 @@ import Button from "../components/Button";
 import {DepositDTO} from "../models/Deposit";
 import InputBox from "../components/InputBox";
 import {DataContext} from "../context/DataProvider";
+import {errors} from "../models/Constants";
 
 interface SelectInput {
     selectCategory: { value: string }
@@ -28,7 +29,10 @@ export default function SchedulePage() {
     const [typeName, setTypeName] = useState<string>("Payment")
     const [amount, setAmount] = useState<number>(1)
     const [categoryError, setCategoryError] = useState<boolean>(false)
-    const error = {category: "You have to provide a category"}
+    const [descriptionError, setDescriptionError] = useState<boolean>(false)
+    const [amountError, setAmountError] = useState<boolean>(false)
+    const [scheduledError, setScheduledError] = useState<boolean>(false)
+
 
     const [paymentSeries, setPaymentSeries] = useState<PaymentSeries[]>([])
     const [depositSeries, setDepositSeries] = useState<DepositSeries[]>([])
@@ -49,6 +53,20 @@ export default function SchedulePage() {
 
     const addSeries = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
+
+        if (!scheduledDate) {
+            setScheduledError(true)
+            return
+        }
+        if (!description) {
+            setDescriptionError(true)
+            return
+        }
+        if (!amount) {
+            setAmountError(true)
+            return
+        }
+
         if (typeName === "Payment") {
             const form = event.currentTarget
             const formElements = form.elements as typeof form.elements & SelectInput
@@ -86,9 +104,11 @@ export default function SchedulePage() {
         }
     }
     const onAmountChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const _amount: number = parseInt(event.target.value)
-        if (_amount >= 0 || !_amount) {
-            setAmount(_amount)
+        if (event.target.value) {
+            const _amount: number = parseInt(event.target.value)
+            if (_amount >= 0 || !_amount) {
+                setAmount(_amount)
+            }
         }
     }
     const onDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => setDescription(event.target.value.trim())
@@ -102,6 +122,7 @@ export default function SchedulePage() {
             <div className={"series"}>
                 <form onSubmit={addSeries} className={"addSeries"}>
                     <h2>Scheduled Day</h2>
+                    {scheduledError ? <Alert severity={"error"} onClick={() => setScheduledError(false)}>{errors.description}</Alert> : null}
                     <InputBox type={"number"} onChange={onSchedulingDateChange} placeholder={"Scheduling Date"}
                               value={scheduledDate} min={1} max={31} step={1}/>
                     <h2>{typeName}</h2>
@@ -113,8 +134,10 @@ export default function SchedulePage() {
                                value={"Deposit"}/>
                         <label htmlFor="typeDeposit">Deposit</label>
                     </div>
+                    {descriptionError ? <Alert severity={"error"} onClick={() => setDescriptionError(false)}>{errors.description}</Alert> : null}
                     <InputBox type="text" id={"description"} onChange={onDescriptionChange} value={description}
                               placeholder={"Description"}/>
+                    {amountError ? <Alert severity={"error"} onClick={() => setAmountError(false)}>{errors.amount}</Alert> : null}
                     <InputBox type={"number"} id={"amount"} onChange={onAmountChange} placeholder={"Amount"}
                               value={amount}
                               step={0.01}/>
@@ -135,7 +158,7 @@ export default function SchedulePage() {
                         />
                     </LocalizationProvider>
 
-                    {categoryError ? <Alert severity={"error"} onClick={() => setCategoryError(false)}>{error.category}</Alert> : null}
+                    {categoryError ? <Alert severity={"error"} onClick={() => setCategoryError(false)}>{errors.category}</Alert> : null}
                     <select name="Category" id="selectCategory">
                         {
                             categories.map((category, index) =>
