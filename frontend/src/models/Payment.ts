@@ -1,6 +1,6 @@
 export interface Payment {
-    paymentID: string;
-    categoryID: string;
+    paymentId: string;
+    categoryId: string;
     description: string;
     amount: number;
     payDate: Date;
@@ -8,15 +8,15 @@ export interface Payment {
 
 export interface PaymentDTO {
     description: string;
-    categoryID: string;
+    categoryId: string;
     amount: number;
 }
 
 export interface IPaymentController {
-    getPayment: (categoryID: string, paymentID: string) => Promise<Payment>
-    getPayments: (categoryID: string) => Promise<Payment[]>
+    getPayment: (categoryId: string, paymentId: string) => Promise<Payment>
+    getPayments: (categoryId: string) => Promise<Payment[]>
     getLastPayments: () => Promise<Payment[]>
     addPayment: (payment: Payment) => Promise<Payment[]>
-    deletePayment: (categoryID: string, paymentID: string) => Promise<Payment[]>
+    deletePayment: (categoryId: string, paymentId: string) => Promise<Payment[]>
     changePayment: (payment: Payment) => Promise<Payment[]>
 }

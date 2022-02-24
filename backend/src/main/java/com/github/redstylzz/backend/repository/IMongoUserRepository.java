@@ -8,6 +8,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IMongoUserRepository extends MongoRepository<MongoUser, String> {
     MongoUser findMongoUserByUsername(String username) throws UsernameNotFoundException;
-
-    MongoUser findMongoUserById(String id);
 }

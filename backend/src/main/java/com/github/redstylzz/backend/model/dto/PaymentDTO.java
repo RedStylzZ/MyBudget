@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 @Builder
 public class PaymentDTO {
 
-    String paymentID;
-    String categoryID;
+    String paymentId;
+    String categoryId;
     String description;
     BigDecimal amount;
     LocalDateTime payDate;

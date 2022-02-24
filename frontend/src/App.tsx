@@ -46,12 +46,12 @@ function App() {
                                             <CategoryPage/>
                                         </RequireAuth>}
                                     />
-                                    <Route path={"/changePayment/:categoryID/:paymentID"} element={
+                                    <Route path={"/changePayment/:categoryId/:paymentId"} element={
                                         <RequireAuth>
                                             <ChangePaymentPage/>
                                         </RequireAuth>}
                                     />
-                                    <Route path={"/renameCategory/:categoryID/:categoryName"} element={
+                                    <Route path={"/renameCategory/:categoryId/:categoryName"} element={
                                         <RequireAuth>
                                             <RenameCategoryPage/>
                                         </RequireAuth>}

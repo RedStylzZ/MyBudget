@@ -7,6 +7,7 @@ import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.model.dto.CategoryDTO;
 import com.github.redstylzz.backend.repository.ICategoryRepository;
 import com.github.redstylzz.backend.repository.IPaymentRepository;
+import com.github.redstylzz.backend.repository.IPaymentSeriesRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
@@ -19,17 +20,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryService {
     private static final Log LOG = LogFactory.getLog(CategoryService.class);
-
+    private static final String CATEGORY_ALREADY_EXISTS = "Category already exists";
+    private static final String CATEGORY_DOES_NOT_EXISTS = "Category does not exists";
     private final ICategoryRepository categoryRepository;
     private final IPaymentRepository paymentRepo;
+    private final IPaymentSeriesRepository paymentSeriesRepository;
     private final PaymentService paymentService;
 
-    private List<CategoryDTO> getAllCategoriesAsDTO(String userID) {
-        List<CategoryDTO> dto = categoryRepository.findAllByUserID(userID)
+    private List<CategoryDTO> getAllCategoriesAsDTO(String userId) {
+        List<CategoryDTO> dto = categoryRepository.findAllByUserId(userId)
                 .stream()
                 .map(CategoryDTO::mapCategoryToDTO)
                 .toList();
-        dto.forEach(categoryDTO -> categoryDTO.setPaymentSum(paymentService.calculatePaymentSum(userID, categoryDTO.getCategoryID())));
+        dto.forEach(categoryDTO -> categoryDTO.setPaymentSum(paymentService.calculatePaymentSum(userId, categoryDTO.getCategoryId())));
         return dto;
     }
 
@@ -41,48 +44,48 @@ public class CategoryService {
     public List<CategoryDTO> addCategory(MongoUser user, String categoryName) throws CategoryAlreadyExistException {
         LOG.info("Adding category");
 
-        if (!categoryRepository.existsByUserIDAndCategoryName(user.getId(), categoryName)) {
+        if (!categoryRepository.existsByUserIdAndCategoryName(user.getId(), categoryName)) {
             Category category = Category.builder()
-                    .userID(user.getId())
+                    .userId(user.getId())
                     .categoryName(categoryName)
                     .saveDate(LocalDateTime.now())
                     .build();
             categoryRepository.save(category);
             LOG.info("Added category");
         } else {
-            LOG.warn("Category already existent");
-            throw new CategoryAlreadyExistException("A category with this name already exists");
+            LOG.warn(CATEGORY_ALREADY_EXISTS);
+            throw new CategoryAlreadyExistException();
         }
         return getAllCategoriesAsDTO(user.getId());
     }
 
-    public List<CategoryDTO> renameCategory(MongoUser user, String categoryID, String name) throws CategoryAlreadyExistException, CategoryDoesNotExistException {
+    public List<CategoryDTO> renameCategory(MongoUser user, String categoryId, String name) throws CategoryAlreadyExistException, CategoryDoesNotExistException {
         LOG.info("Renaming category");
-        Category category = categoryRepository.findByUserIDAndCategoryID(user.getId(), categoryID);
+        Category category = categoryRepository.findByUserIdAndCategoryId(user.getId(), categoryId);
 
         if (category != null) {
-            if (!categoryRepository.existsByUserIDAndCategoryName(user.getId(), name)) {
+            if (!categoryRepository.existsByUserIdAndCategoryName(user.getId(), name)) {
                 category.setCategoryName(name);
                 category.setSaveDate(LocalDateTime.now());
                 categoryRepository.save(category);
-                LOG.info("Renamed category with ID");
+                LOG.info("Successfully Renamed category");
             } else {
-                LOG.warn("A category with this name already exists");
-                throw new CategoryAlreadyExistException("A category with this name already exists");
+                LOG.warn(CATEGORY_ALREADY_EXISTS);
+                throw new CategoryAlreadyExistException();
             }
         } else {
-            LOG.warn("Category does not exist");
-            throw new CategoryDoesNotExistException("No category with this ID");
+            LOG.warn(CATEGORY_DOES_NOT_EXISTS);
+            throw new CategoryDoesNotExistException(CATEGORY_DOES_NOT_EXISTS);
         }
         return getAllCategoriesAsDTO(user.getId());
     }
 
-    public List<CategoryDTO> deleteCategory(MongoUser user, String categoryID) {
+    public List<CategoryDTO> deleteCategory(MongoUser user, String categoryId) {
         LOG.debug("Deleting category");
-        categoryRepository.deleteByCategoryID(categoryID);
-        paymentRepo.deleteAllByUserIDAndCategoryID(user.getId(), categoryID);
+        categoryRepository.deleteByCategoryId(categoryId);
+        paymentRepo.deleteAllByUserIdAndCategoryId(user.getId(), categoryId);
+        paymentSeriesRepository.deleteAllByUserIdAndPayment_CategoryId(user.getId(), categoryId);
         return getAllCategoriesAsDTO(user.getId());
     }
-
 
 }

@@ -10,18 +10,18 @@ import './RenameCategoryPage.scss'
 
 export default function RenameCategoryPage() {
     const urlParams = useParams()
-    const categoryID = urlParams.categoryID
+    const categoryId = urlParams.categoryId
     const [categoryName, setCategoryName] = useState<string | undefined>(urlParams.categoryName)
     const config = useContext(AuthContext).config
     const controller: ICategoryController = useMemo(() => CategoryController(config), [config])
     const navigate = useNavigate()
 
-    if (!categoryID || !categoryName) return <Navigate to="/categories"/>
+    if (!categoryId || !categoryName) return <Navigate to="/categories"/>
 
     const changeCategory = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         if (categoryName && categoryName.length) {
-            controller.renameCategory({categoryID, categoryName}).then(() => navigate("/categories"))
+            controller.renameCategory({categoryId, categoryName}).then(() => navigate("/categories"))
         }
     }
 

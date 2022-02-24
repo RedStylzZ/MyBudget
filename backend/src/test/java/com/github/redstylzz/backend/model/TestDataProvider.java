@@ -30,8 +30,8 @@ public class TestDataProvider {
 
     public static MongoUser testUser() {
         return testUser("24",
-                "Tizian",
-                "Turtle",
+                "Test",
+                "TestPassword",
                 List.of(),
                 true,
                 true,
@@ -48,36 +48,36 @@ public class TestDataProvider {
     }
 
     public static MongoUserDTO testUserDTO() {
-        return testUserDTO("Tizian", "Turtle", List.of());
+        return testUserDTO("Test", "TestPassword", List.of());
     }
 
-    public static Category testCategory(String id, String userID, String name) {
+    public static Category testCategory(String id, String userId, String name) {
         return Category.builder()
-                .categoryID(id)
-                .userID(userID)
+                .categoryId(id)
+                .userId(userId)
                 .categoryName(name)
                 .build();
     }
 
     public static Category testCategory() {
-        return testCategory("44", "24", "Tizian");
+        return testCategory("44", "24", "Test");
     }
 
     public static Payment testPayment() {
         return testPayment("36", "24", "44", "PayPal", new BigDecimal("10.0"), Instant.EPOCH, Instant.EPOCH);
     }
 
-    public static Payment testPayment(String paymentID,
-                                      String userID,
-                                      String categoryID,
+    public static Payment testPayment(String paymentId,
+                                      String userId,
+                                      String categoryId,
                                       String description,
                                       BigDecimal amount,
                                       Instant saveDate,
                                       Instant payDate) {
         return Payment.builder()
-                .paymentID(paymentID)
-                .userID(userID)
-                .categoryID(categoryID)
+                .paymentId(paymentId)
+                .userId(userId)
+                .categoryId(categoryId)
                 .description(description)
                 .amount(amount)
                 .saveDate(saveDate)

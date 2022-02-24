@@ -33,9 +33,9 @@ export default function CategoryPage() {
         setCategoryInput("")
     }
 
-    const deleteCategory = (categoryID: string) => {
-        if (!categoryID && categoryID.length <= 1) return
-        controller.deleteCategory(categoryID).then(setCategories)
+    const deleteCategory = (categoryId: string) => {
+        if (!categoryId && categoryId.length <= 1) return
+        controller.deleteCategory(categoryId).then(setCategories)
     }
 
     const onCategoryInputChange = (event: ChangeEvent<HTMLInputElement>) =>

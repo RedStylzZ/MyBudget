@@ -14,7 +14,7 @@ export default function HomeCategoryItem(props: { category: Category }) {
     const {category} = props
 
     return (
-        <div className={"categoryItemCard"} id={category.categoryID}>
+        <div className={"categoryItemCard"} id={category.categoryId}>
             {mapToCategoryItem(category)}
         </div>
     )

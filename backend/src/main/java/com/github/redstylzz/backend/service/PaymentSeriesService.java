@@ -1,6 +1,7 @@
 package com.github.redstylzz.backend.service;
 
 import com.github.redstylzz.backend.exception.SeriesAlreadyExistException;
+import com.github.redstylzz.backend.exception.SeriesDoesNotExistException;
 import com.github.redstylzz.backend.model.PaymentSeries;
 import com.github.redstylzz.backend.model.dto.PaymentSeriesDTO;
 import com.github.redstylzz.backend.repository.IPaymentSeriesRepository;
@@ -15,7 +16,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PaymentSeriesService {
     private static final Log LOG = LogFactory.getLog(PaymentSeriesService.class);
-
+    private static final String SERIES_DOES_NOT_EXIST = "Series does not exist";
+    private static final String SERIES_ALREADY_EXIST = "Series already exist";
     private final IPaymentSeriesRepository repository;
 
     public List<PaymentSeries> getSeries(String userId) {
@@ -29,10 +31,10 @@ public class PaymentSeriesService {
         if (series.getSeriesId() == null || !repository.existsBySeriesId(series.getSeriesId())) {
             repository.save(series);
         } else {
-            LOG.warn("Series already existent");
-            throw new SeriesAlreadyExistException("Series already exists");
+            LOG.warn(SERIES_ALREADY_EXIST);
+            throw new SeriesAlreadyExistException();
         }
-
+        LOG.info("Successfully added series");
         return getSeries(userId);
     }
 
@@ -43,10 +45,15 @@ public class PaymentSeriesService {
     }
 
     public List<PaymentSeries> changeSeries(String userId, PaymentSeriesDTO dto) {
+        LOG.info("Changing series");
         if (repository.existsByUserIdAndSeriesId(userId, dto.getSeriesId())) {
             PaymentSeries series = PaymentSeries.mapDTOtoSeries(dto, userId);
             repository.save(series);
+        } else {
+            LOG.warn(SERIES_DOES_NOT_EXIST);
+            throw new SeriesDoesNotExistException();
         }
+        LOG.info("Successfully changed series");
         return getSeries(userId);
     }
 

@@ -9,14 +9,14 @@ import java.util.List;
 @Repository
 public interface ICategoryRepository extends MongoRepository<Category, String> {
 
-    List<Category> findAllByUserID(String userID);
+    List<Category> findAllByUserId(String userId);
 
-    Category findByUserIDAndCategoryID(String userID, String categoryID);
+    Category findByUserIdAndCategoryId(String userId, String categoryId);
 
-    void deleteByCategoryID(String categoryID);
+    void deleteByCategoryId(String categoryId);
 
-    boolean existsByUserIDAndCategoryName(String userID, String categoryName);
+    boolean existsByUserIdAndCategoryName(String userId, String categoryName);
 
-    boolean existsByUserIDAndCategoryID(String userID, String categoryID);
+    boolean existsByUserIdAndCategoryId(String userId, String categoryId);
 
 }

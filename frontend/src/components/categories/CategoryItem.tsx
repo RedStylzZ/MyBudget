@@ -21,9 +21,9 @@ const mapToCategoryItem = (category: Category, categorySum: number, deleteCatego
             <h1>{category.categoryName}</h1>
             <h2><MonetaryValue amount={categorySum}/></h2>
             <div>
-                <Button value={"Remove"} onClick={() => deleteCategory(category.categoryID)}/>
+                <Button value={"Remove"} onClick={() => deleteCategory(category.categoryId)}/>
                 <Button value={"Rename"}
-                        onClick={() => navigate(`/renameCategory/${category.categoryID}/${category.categoryName}`)}/>
+                        onClick={() => navigate(`/renameCategory/${category.categoryId}/${category.categoryName}`)}/>
             </div>
         </div>
     )
@@ -41,19 +41,19 @@ export default function CategoryItem({category, config, deleteCategory}: Categor
     const navigate = useNavigate()
 
     useEffect(() => {
-        controller.getPayments(category.categoryID).then((response) => {
+        controller.getPayments(category.categoryId).then((response) => {
             setPayments(response)
         })
-    }, [category.categoryID, controller])
+    }, [category.categoryId, controller])
 
     useEffect(() => {
         setCategorySum(calcCategorySum(payments))
     }, [payments])
 
     return (
-        <div className={"categoryItemCard"} id={category.categoryID}>
+        <div className={"categoryItemCard"} id={category.categoryId}>
             {mapToCategoryItem(category, categorySum, deleteCategory, navigate)}
-            <Payments payments={payments} categoryID={category.categoryID} setPayments={setPayments}
+            <Payments payments={payments} categoryId={category.categoryId} setPayments={setPayments}
                       controller={controller}/>
         </div>
     )

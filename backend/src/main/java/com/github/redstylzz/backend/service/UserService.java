@@ -18,6 +18,8 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class UserService {
     private static final Log LOG = LogFactory.getLog(UserService.class);
+    private static final String USER_ALREADY_EXISTS = "User already exists";
+    private static final String NOT_ADMIN = "User is not Admin";
     private final IMongoUserRepository repository;
     private final JWTService jwtService;
 
@@ -42,10 +44,10 @@ public class UserService {
                 LOG.info("Added new User");
                 return jwtService.createToken(newUser);
             }
-            LOG.warn("User already exists");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User with this name already exists");
+            LOG.warn(USER_ALREADY_EXISTS);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, USER_ALREADY_EXISTS);
         }
-        LOG.warn("User does not have admin role");
-        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Not admin");
+        LOG.warn(NOT_ADMIN);
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN, NOT_ADMIN);
     }
 }
