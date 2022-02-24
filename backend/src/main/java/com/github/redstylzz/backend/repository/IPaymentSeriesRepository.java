@@ -17,6 +17,8 @@ public interface IPaymentSeriesRepository extends MongoRepository<PaymentSeries,
 
     void deleteByUserIdAndSeriesId(String userId, String seriesId);
 
+    void deleteAllByUserIdAndPayment_CategoryId(String userId, String categoryId);
+
     boolean existsBySeriesId(String seriesId);
 
 }

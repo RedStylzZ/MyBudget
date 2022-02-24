@@ -7,6 +7,7 @@ import com.github.redstylzz.backend.model.MongoUser;
 import com.github.redstylzz.backend.model.dto.CategoryDTO;
 import com.github.redstylzz.backend.repository.ICategoryRepository;
 import com.github.redstylzz.backend.repository.IPaymentRepository;
+import com.github.redstylzz.backend.repository.IPaymentSeriesRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
@@ -23,6 +24,7 @@ public class CategoryService {
     private static final String CATEGORY_DOES_NOT_EXISTS = "Category does not exists";
     private final ICategoryRepository categoryRepository;
     private final IPaymentRepository paymentRepo;
+    private final IPaymentSeriesRepository paymentSeriesRepository;
     private final PaymentService paymentService;
 
     private List<CategoryDTO> getAllCategoriesAsDTO(String userId) {
@@ -82,6 +84,7 @@ public class CategoryService {
         LOG.debug("Deleting category");
         categoryRepository.deleteByCategoryId(categoryId);
         paymentRepo.deleteAllByUserIdAndCategoryId(user.getId(), categoryId);
+        paymentSeriesRepository.deleteAllByUserIdAndPayment_CategoryId(user.getId(), categoryId);
         return getAllCategoriesAsDTO(user.getId());
     }
 
